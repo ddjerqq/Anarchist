@@ -29,10 +29,10 @@ class Economy(commands.Cog):
             await ctx.reply(embed=embed)
             return
         embed = discord.Embed(color=0xFF0000)
-        bank = database[str(member.id)]["bank"]
-        wallet = database[str(member.id)]["wallet"]
+        bank = database[member.id]["bank"]
+        wallet = database[member.id]["wallet"]
         embed.add_field(
-            name=f"{database[str(member.id)]['name']}'s balance",
+            name=f"{database[member.id]['name']}'s balance",
             value=f"**bank  :** {bank}\n**wallet:** {wallet}",
         )
         await ctx.send(embed=embed)
