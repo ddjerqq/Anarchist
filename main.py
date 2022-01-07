@@ -15,15 +15,17 @@ from itertools import cycle
 from utils import *
 from tokens import TOKEN
 from database import Database
-
-# ~~~~~~~~~~~~~~~~~~~~~~~
+#~~~~~~~~~~~~~~~~~~~~~~~
 
 # globals
 PREFIX = "!"
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix=PREFIX, intents=intents)
-if not Database.__is_instance: database = Database(verbose=True)
-# ~~~~~~~~~~~~~~~~~~~~~~~
+
+#if not Database._is_instance:
+#    database = Database(verbose=True)
+database = Database(verbose=True)
+#~~~~~~~~~~~~~~~~~~~~~~~
 
 # tasks
 @tasks.loop(seconds=10)
@@ -91,11 +93,9 @@ def load_extensions() -> None:
         if filename.endswith(".py"):
             client.load_extension(f"cogs.{filename[:-3]}")
 
-
 def main():
     load_extensions()
     client.run(TOKEN)
-
 
 if __name__ == "__main__":
     try:

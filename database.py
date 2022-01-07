@@ -18,7 +18,7 @@ class Database:
     __file_name = "data\\anarchist.json"
     __csv_name  = "data\\anarchist.csv"
 
-    __is_instance = False
+    _is_instance = False
 
     # utils
     def log(self, message: str) -> None:
@@ -27,7 +27,7 @@ class Database:
 
     #create the database
     def __init__(self, *, verbose: bool = False):
-        Database.__is_instance = True
+        Database._is_instance = True
         print("INIT ON DB")
         #data
         self.verbose = verbose

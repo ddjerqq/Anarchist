@@ -1,8 +1,8 @@
 import discord
 from discord.ext import commands
 
-from bot import database
-from bot import PREFIX
+from main import PREFIX
+from main import database
 
 class Crime(commands.Cog):
     def __init__(self, client: discord.Client):

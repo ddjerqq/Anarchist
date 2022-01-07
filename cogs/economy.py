@@ -3,8 +3,8 @@ from discord.ext import commands
 
 import time
 
-from bot import PREFIX
-from bot import database
+from main import PREFIX
+from main import database
 
 from utils import *
 
@@ -18,24 +18,22 @@ class Economy(commands.Cog):
     #    something idk
 
     # Command
-    @commands.command()
-    async def bal(self, ctx: commands.Context, id: str = None):
-        if id == None:
-            embed = discord.Embed( color=0xff0000 )
-            bank   = database[ctx.author.id]['bank']
-            wallet = database[ctx.author.id]['wallet']
-            embed.add_field( name = f"{database[ctx.author.id]['name']}'s balance", value = f"**bank  :** {bank}\n**wallet:** {wallet}" )
-        else:
-            #get id from mention, if mention
-            if id.startswith("<@!"): id = int( id.split("!")[1].split(">")[0] )
-            embed = discord.Embed(color=0xff0000 )
-            if id in database:
-                bank   = database[id]['bank']
-                wallet = database[id]['wallet']
-                embed.add_field( name = f"{database[id]['name']}'s balance", value = f"**bank  :** {bank}\n**wallet:** {wallet}" )
-            else:
-                embed.add_field( name="Error", value="could not find user by id" )
-        
+    @commands.command(name="balance", aliases=["bal"])
+    async def bal(self, ctx: commands.Context, member: discord.Member = None):
+        if not member:
+            member = ctx.author
+        if member.id not in database:
+            embed = discord.Embed(color=0xFF0000)
+            embed.add_field(name="Error", value="could not find user by id")
+            await ctx.reply(embed=embed)
+            return
+        embed = discord.Embed(color=0xFF0000)
+        bank = database[int(member.id)]["bank"]
+        wallet = database[int(member.id)]["wallet"]
+        embed.add_field(
+            name=f"{database[int(member.id)]['name']}'s balance",
+            value=f"**bank  :** {bank}\n**wallet:** {wallet}",
+        )
         await ctx.send(embed=embed)
 
     @commands.command()
