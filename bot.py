@@ -25,7 +25,7 @@ database = Database(verbose=True)
 #tasks
 @tasks.loop( seconds = 10 )
 async def change_status():
-    statuses = cycle( [f"{PREFIX}help", "My prefix is {PREFIX}"] )
+    statuses = cycle( [f"{PREFIX}help", "My prefix is {PREFIX}", "rob anyone anytime 😈"] )
     await client.change_presence( activity = discord.Game( next(statuses) ) )
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -51,8 +51,15 @@ async def on_ready():
     ok("Bot is online")
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# embed = discord.Embed( color = 0xff0000 )
+# embed.add_field( name = "bank account", value = "bank money", inline = False )
+# embed.add_field( name = "wallet account", value = "wallet money", inline = False )
+# await ctx.send( embed = embed )
+
 #commands
-# TODO help command
+@client.command(name="getusers")
+async def getuser(ctx: commands.Context, id: str) -> None:
+    await ctx.send(database[int(id)])
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 def load_extensions() -> None:

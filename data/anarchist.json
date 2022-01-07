@@ -5,9 +5,9 @@
             "name": "ddjerqq",
             "id": 725773984808960050,
             "bank": 0,
-            "wallet": 0,
+            "wallet": 20,
             "items": [],
-            "last_work_time": 1641561124.0812626
+            "last_work_time": 1641590995.3396745
         },
         {
             "_signup_time": 1641561124.0812626,
@@ -908,6 +908,24 @@
             "wallet": 0,
             "items": [],
             "last_work_time": 1641562270.6533556
+        },
+        {
+            "_signup_time": 1641573964.8666172,
+            "name": "badrijani rick",
+            "id": 711973930377805844,
+            "bank": 0.0,
+            "wallet": 0.0,
+            "items": [],
+            "last_work_time": 1641573964.8666172
+        },
+        {
+            "_signup_time": 1641573965.1606221,
+            "name": "Luna\ud83c\udf19\ud83d\udca4",
+            "id": 923600698967461898,
+            "bank": 0.0,
+            "wallet": 0.0,
+            "items": [],
+            "last_work_time": 1641573965.1606221
         }
     ]
 }

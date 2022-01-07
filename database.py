@@ -57,7 +57,7 @@ class Database:
             json.dump( {"users" : self.users}, data_file, indent=4 )
             self.log("database saved")
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
+
     #db public
     def close(self) -> None:
         self._save()
@@ -75,15 +75,13 @@ class Database:
         if amount == "max":
             tmp_user["wallet"] -= tmp_user["wallet"]
             self[id] = tmp_user
-            self._save()
             return 1
         else:
-            if tmp_user["wallet"] + amount < 0:
+            if tmp_user["wallet"] + amount < -0.1:
                 return 0
             else:
                 tmp_user["wallet"] += amount
                 self[id] = tmp_user
-                self._save()
                 return 1
 
     def money_bank(self, id: int, amount: float | str) -> int:
@@ -98,15 +96,13 @@ class Database:
         if amount == "max":
             tmp_user["bank"] -= tmp_user["bank"]
             self[id] = tmp_user
-            self._save()
             return 1
         else:
-            if tmp_user["bank"] + amount < 0:
+            if tmp_user["bank"] + amount < -0.1:
                 return 0
             else:
                 tmp_user["bank"] += amount
                 self[id] = tmp_user
-                self._save()
                 return 1
 
     def generate_csv(self) -> None:
