@@ -63,7 +63,7 @@ async def on_ready():
 # embed.add_field( name = "wallet account", value = "wallet money", inline = False )
 # await ctx.send( embed = embed )
 
-#commands
+# commands
 @client.command(name="getusers")
 async def getuser(ctx: commands.Context, id: str) -> None:
     await ctx.send(database[int(id)])
