@@ -35,6 +35,7 @@ class Economy(commands.Cog):
     @commands.command()
     async def work(self, ctx: commands.Context):
         id = ctx.author.id
+
         if time.time() - database[id]["last_work_time"] >= 60.0:
             database.money_wallet(id, 10)
             tmp_user = database[id]
@@ -42,7 +43,7 @@ class Economy(commands.Cog):
             database[id] = tmp_user
             await ctx.send("> you worked and earned 10 coins")
         else:
-            await ctx.send(f"> you worked in the past minute, you have to wait { round(time.time() - float(database[id]['last_work_time']) ) }")            
+            await ctx.send(f"> you worked in the past minute, you have to wait { round( 60 - ( time.time() - database[id]['last_work_time']) ) } seconds")
     #------------------------------------------------------------------------------
 
     @commands.command()
