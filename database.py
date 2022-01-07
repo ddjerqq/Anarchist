@@ -63,6 +63,52 @@ class Database:
         self._save()
         self.log("closing database")
 
+    def money_wallet(self, id: int, amount: float | str) -> int:
+        """
+            do stuff on wallet \n
+            id: the id of the user
+            amount: do "max" to get -all money\n
+            returns: 1 on success, 0 on failure
+        """
+        tmp_user = self[id]
+
+        if amount == "max":
+            tmp_user["wallet"] -= tmp_user["wallet"]
+            self[id] = tmp_user
+            self._save()
+            return 1
+        else:
+            if tmp_user["wallet"] + amount < 0:
+                return 0
+            else:
+                tmp_user["wallet"] += amount
+                self[id] = tmp_user
+                self._save()
+                return 1
+
+    def money_bank(self, id: int, amount: float | str) -> int:
+        """
+            do stuff on bank \n
+            id: the id of the user
+            amount: do "max" to get -all money\n
+            returns: 1 on success, 0 on failure
+        """
+        tmp_user = self[id]
+
+        if amount == "max":
+            tmp_user["bank"] -= tmp_user["bank"]
+            self[id] = tmp_user
+            self._save()
+            return 1
+        else:
+            if tmp_user["bank"] + amount < 0:
+                return 0
+            else:
+                tmp_user["bank"] += amount
+                self[id] = tmp_user
+                self._save()
+                return 1
+
     def generate_csv(self) -> None:
         """
             generate csv of data.

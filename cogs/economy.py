@@ -36,57 +36,44 @@ class Economy(commands.Cog):
     async def work(self, ctx: commands.Context):
         id = ctx.author.id
         if time.time() - database[id]["last_work_time"] >= 60.0:
+            database.money_wallet(id, 10)
             tmp_user = database[id]
-            tmp_user["wallet"] += 10
             tmp_user["last_work_time"] = time.time()
             database[id] = tmp_user
-            database._save() #TODO maybe we dont need to save this here
             await ctx.send("> you worked and earned 10 coins")
         else:
             await ctx.send(f"> you worked in the past minute, you have to wait { round(time.time() - float(database[id]['last_work_time']) ) }")            
     #------------------------------------------------------------------------------
 
-    #FIXME
     @commands.command()
     async def withdraw(self, ctx: commands.Context, amount: int):
         """
             withdraw any amount of money from your bank to you wallet
         """
-        if ctx.author.id in database:
-            if database.check_bank(ctx.author.id, amount):
-                database.money(ctx.author.id, -amount, bank=True)
-                database.money(ctx.author.id, amount, bank=False)
-                await ctx.send(f"> withdrew {amount}")
-            else:
-                await ctx.send(f"> you do not have enough funds")
+        if database.money_wallet(ctx.author.id, -amount):
+            database.money_bank(ctx.author.id, amount)
+            await ctx.send(f"> withdrew {amount}")
         else:
-            await ctx.send(f"> you are not registered, register with {PREFIX}register")
-        database.save()
+            await ctx.send(f"> you do not have enough funds")
     
     @withdraw.error
     async def withdraw_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send("> missing required argument: amount\n> please specify the amount you want to withdraw")
+            await ctx.send("> missing required argument: amount\n> please specify the amount you want to withdraw from your wallet to your bank")
         else:
             await ctx.send(error)
     #------------------------------------------------------------------------------
 
-    #FIXME
     @commands.command()
     async def deposit(self, ctx: commands.Context, amount: int):
         """
             deposit money from your wallet to your bank account to keep it safe.
         """
-        if ctx.author.id in database:
-            if database.check_wallet(ctx.author.id, amount):
-                database.money(ctx.author.id, amount,  bank=True)
-                database.money(ctx.author.id, -amount, bank=False)
-                await ctx.send(f"> depositted {amount}")
-            else:
-                await ctx.send(f"> you do not have enough funds")
+        if database.money_wallet(ctx.author.id, -amount):
+            database.money_bank(ctx.author.id, amount)
+            await ctx.send(f"> depositted {amount} to your bank account")
         else:
-            await ctx.send(f"> you are not registered, register with {PREFIX}register")
-        database.save()
+            await ctx.send(f"> you do not have enough funds")
 
     @deposit.error
     async def deposit_error(self, ctx, error):

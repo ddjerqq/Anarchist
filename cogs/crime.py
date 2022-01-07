@@ -14,48 +14,30 @@ class Crime(commands.Cog):
     #    something idk
 
     # Command
-    #FIXME
     @commands.command()
     async def rob(self, ctx: commands.Context, id: str):
-        id = id.split("!")[1].split(">")[0]
+        
+        if "!" in id:
+            #if someone mentioned someone using the ID
+            id = id.split("!")[1].split(">")[0]
+        else:
+            pass
 
         if id in database:
             amount = database[id]["wallet"]
-            database.money(id, -amount, bank=False)
-            database.money(ctx.author.id, amount, bank=False)
+            database.money_wallet(id, -amount)
+            database.money_wallet(ctx.author.id, amount)
             await ctx.send(f"> you successfully robbed <@!{id}> and stole {amount}")
         else:
-            await ctx.send(f"> could not find user")
+            await ctx.send(f"> could not find user with id {id}")
 
     @rob.error
     async def rob_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send("> missing required argument: id\n> who are you robbing dumbass>?")
+            await ctx.send("> missing required argument: id\n> who are you robbing dumbass?")
         else:
             await ctx.send(error)
     #----------------------------------------------------------------
-    
-    #FIXME
-    @commands.command()
-    async def kill(self, ctx: commands.Context, id: str):
-        id = id.split("!")[1].split(">")[0]
-
-        if id in database:
-            wallet = database[id]["wallet"]
-            bank   = database[id]["bank"]
-            database.money(id, -wallet, bank=False)
-            database.money(id, -bank,   bank=True)
-            await ctx.send(f"> you successfully killed <@!{id}> their money has been reset, \nbut.. why.. would you, ever, do that..??")
-        else:
-            await ctx.send(f"> could not find user")
-    
-    @kill.error
-    async def kill_error(self, ctx, error):
-        if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send("> missing required argument: id\n> who are you killing dumbass>?")
-        else:
-            await ctx.send(error)
-    #------------------------------------------------------------------------------
 
 def setup(client):
     client.add_cog(Crime(client))
