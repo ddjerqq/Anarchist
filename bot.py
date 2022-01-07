@@ -28,17 +28,11 @@ database = Database(verbose=True)
 # tasks
 @tasks.loop(seconds=10)
 async def change_status():
-<<<<<<< HEAD
-    statuses = cycle( [f"{PREFIX}help", "My prefix is {PREFIX}", "rob anyone anytime 😈"] )
-    await client.change_presence( activity = discord.Game( next(statuses) ) )
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-=======
-    statuses = cycle([f"{PREFIX}help", "My prefix is {PREFIX}"])
+    statuses = cycle([f"{PREFIX}help", "My prefix is {PREFIX}", "rob anyone anytime 😈"])
     await client.change_presence(activity=discord.Game(next(statuses)))
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>>>>> 275151373ad3b6da0da45ca26469938c83dde23c
 
 # events
 @client.event
@@ -64,18 +58,20 @@ async def on_ready():
     change_status.start()  # start loops
     ok("Bot is online")
 
-<<<<<<< HEAD
+
 # embed = discord.Embed( color = 0xff0000 )
 # embed.add_field( name = "bank account", value = "bank money", inline = False )
 # embed.add_field( name = "wallet account", value = "wallet money", inline = False )
 # await ctx.send( embed = embed )
 
-#commands
+# commands
 @client.command(name="getusers")
 async def getuser(ctx: commands.Context, id: str) -> None:
     await ctx.send(database[int(id)])
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-=======
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -100,7 +96,6 @@ client.help_command = MyHelpCommand()
 
 # DO NOT CHANGE OR REMOVE THE ABOVE FOR THE EMBEDDED HELP COMMAND
 
->>>>>>> 275151373ad3b6da0da45ca26469938c83dde23c
 
 def load_extensions() -> None:
     """
