@@ -18,21 +18,18 @@ class Database:
     __file_name = "data\\anarchist.json"
     __csv_name  = "data\\anarchist.csv"
 
-    _is_instance = False
-
     # utils
     def log(self, message: str) -> None:
         if self.verbose: rgb("[*] " + str(message).replace("[*]", ""), 0, 255, 255, newline=True)
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     #create the database
     def __init__(self, *, verbose: bool = False):
-        Database._is_instance = True
-        print("INIT ON DB")
         #data
         self.verbose = verbose
         self.users   = []
         self._init_db()
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     #db private
     def _init_db(self) -> None:
@@ -133,17 +130,15 @@ class Database:
 
         # create a user
         tmp_user = {
-            "_signup_time"   : time.time(),
-            "name"           : name,
-            "id"             : id,
-            "bank"           : 0.0,
-            "wallet"         : 0.0,
-            "items"          : [],
-            "last_work_time" : time.time()
+            "name"   : name,
+            "id"     : id,
+            "bank"   : 0.0,
+            "wallet" : 0.0,
+            "items"  : [],
         }
         self.users.append(tmp_user)
         self.log(f"added {name} {id}")
-        self._save()
+        # self._save()
         return 0
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -183,8 +178,11 @@ class Database:
     def __enter__(self):
         return self
     def __exit__(self, exc_type, exc_value, exc_tb):
-        error("exception type", exc_type)
-        error("exception value", exc_value)
-        error("exception traceback", exc_tb)
+        if not exc_type == None:
+            error(exc_type)
+        if not exc_value == None:
+            error(exc_value)
+        if not exc_tb == None:
+            error(exc_tb)
         self.close()
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
