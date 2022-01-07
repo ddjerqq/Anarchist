@@ -19,31 +19,22 @@ class Economy(commands.Cog):
     #    something idk
 
     # Command
-    @commands.command()
-    async def bal(self, ctx: commands.Context, id: str = None):
-        if id == None:
+    @commands.command(name="balance", aliases=["bal"])
+    async def bal(self, ctx: commands.Context, member: discord.Member = None):
+        if not member:
+            member = ctx.author
+        if member.id not in database:
             embed = discord.Embed(color=0xFF0000)
-            bank = database[ctx.author.id]["bank"]
-            wallet = database[ctx.author.id]["wallet"]
-            embed.add_field(
-                name=f"{database[ctx.author.id]['name']}'s balance",
-                value=f"**bank  :** {bank}\n**wallet:** {wallet}",
-            )
-        else:
-            # get id from mention, if mention
-            if id.startswith("<@!"):
-                id = int(id.split("!")[1].split(">")[0])
-            embed = discord.Embed(color=0xFF0000)
-            if id in database:
-                bank = database[id]["bank"]
-                wallet = database[id]["wallet"]
-                embed.add_field(
-                    name=f"{database[id]['name']}'s balance",
-                    value=f"**bank  :** {bank}\n**wallet:** {wallet}",
-                )
-            else:
-                embed.add_field(name="Error", value="could not find user by id")
-
+            embed.add_field(name="Error", value="could not find user by id")
+            await ctx.reply(embed=embed)
+            return
+        embed = discord.Embed(color=0xFF0000)
+        bank = database[str(member.id)]["bank"]
+        wallet = database[str(member.id)]["wallet"]
+        embed.add_field(
+            name=f"{database[str(member.id)]['name']}'s balance",
+            value=f"**bank  :** {bank}\n**wallet:** {wallet}",
+        )
         await ctx.send(embed=embed)
 
     @commands.command(name="work")
