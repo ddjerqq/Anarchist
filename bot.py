@@ -22,7 +22,7 @@ from database import Database
 PREFIX = "!"
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix=PREFIX, intents=intents)
-database = Database(verbose=True)
+if not Database.__is_instance: database = Database(verbose=True)
 # ~~~~~~~~~~~~~~~~~~~~~~~
 
 # tasks
