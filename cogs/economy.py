@@ -3,8 +3,8 @@ from discord.ext import commands
 
 import time
 
-from bot import PREFIX
-from bot import database
+from main import PREFIX
+from main import database
 
 from utils import *
 
@@ -38,7 +38,7 @@ class Economy(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name="work")
-    @commands.cooldown(1, 30, commands.BucketType.User)
+    @commands.cooldown(1, 30, commands.BucketType.user)
     async def work(self, ctx: commands.Context):
         id = ctx.author.id
         database.money_wallet(id, 10)
@@ -50,13 +50,21 @@ class Economy(commands.Cog):
 
     # ------------------------------------------------------------------------------
 
-    @commands.command()
-    async def withdraw(self, ctx: commands.Context, amount) -> None:
+    @commands.command(name="withdraw", aliases=["with"])
+    async def withdraw(self, ctx: commands.Context, amount=None) -> None:
         """
         withdraw any amount of money from your bank to you wallet
         """
+        if not amount:
+            await ctx.reply("what you tryna take out? air?")
+            return
+
+        if amount.lower() == "max" or amount.lower() == "all":
+            amount = database[ctx.author.id]["bank"]
+
         if amount == "max":
             bank = database[ctx.author.id]["bank"]
+
             if database.money_bank(ctx.author.id, -bank) == 1:
                 database.money_wallet(ctx.author.id, bank)
                 await ctx.send(f"> you withdrew {bank} from your bank account.")
@@ -71,15 +79,6 @@ class Economy(commands.Cog):
                 database.money_wallet(ctx.author.id, amount)
                 await ctx.send(f"> you withdrew {bank} from your bank account.")
         database._save()
-
-    @withdraw.error
-    async def withdraw_error(self, ctx, error):
-        if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send(
-                "> missing required argument: amount\n> please specify the amount you want to withdraw from your wallet to your bank"
-            )
-        else:
-            await ctx.send(error)
 
     # ------------------------------------------------------------------------------
 

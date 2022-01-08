@@ -4,6 +4,7 @@ from discord.ext import commands
 from bot import database
 from bot import PREFIX
 
+
 class Crime(commands.Cog):
     def __init__(self, client: discord.Client):
         self.client = client
@@ -14,30 +15,22 @@ class Crime(commands.Cog):
     #    something idk
 
     # Command
-    @commands.command()
-    async def rob(self, ctx: commands.Context, id: str):
-        
-        if "!" in id:
-            #if someone mentioned someone using the ID
-            id = id.split("!")[1].split(">")[0]
-        else:
-            pass
+    @commands.command(name="rob")
+    async def rob(self, ctx: commands.Context, member: discord.Member = None):
 
-        if id in database:
-            amount = database[id]["wallet"]
-            database.money_wallet(id, -amount)
-            database.money_wallet(ctx.author.id, amount)
-            await ctx.send(f"> you successfully robbed <@!{id}> and stole {amount}")
-        else:
-            await ctx.send(f"> could not find user with id {id}")
+        if not member:
+            await ctx.reply("who you tryna rob? the air?")
+            return
+        if member.id not in database:
+            await ctx.send(f"> could not find user with id {member.id}")
+            return
+        amount = database[member.id]["wallet"]
+        database.money_wallet(member.id, -amount)
+        database.money_wallet(ctx.author.id, amount)
+        await ctx.send(f"> you successfully robbed {member.mention} and stole {amount}")
 
-    @rob.error
-    async def rob_error(self, ctx, error):
-        if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send("> missing required argument: id\n> who are you robbing dumbass?")
-        else:
-            await ctx.send(error)
-    #----------------------------------------------------------------
+    # ----------------------------------------------------------------
+
 
 def setup(client):
     client.add_cog(Crime(client))

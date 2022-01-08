@@ -923,9 +923,9 @@
             "name": "Luna\ud83c\udf19\ud83d\udca4",
             "id": 923600698967461898,
             "bank": 0.0,
-            "wallet": 0.0,
+            "wallet": 10.0,
             "items": [],
-            "last_work_time": 1641573965.1606221
+            "last_work_time": 1641600848.2317836
         }
     ]
 }
