@@ -12,11 +12,11 @@ class DatabaseException(Exception):
 
 class Database:
     """
-        super database
-        ~~~~~~~~~~~~~~
-        
-        stores: user dictionaries inside json
+super database
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         \n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n
+        \nstores: user dictionaries inside json
         
         \nGet started
         >>> database = Database()
@@ -48,7 +48,7 @@ class Database:
         ... {"name": "Foo",  "wallet": 0.0, "bank": 200.0}
         ... ...
     """
-
+    
     # static fields, this means the following data is a property of the Database class,
     # not a database object
     # to access these we do Database.__file_name not db.__file_name
