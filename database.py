@@ -12,9 +12,41 @@ class DatabaseException(Exception):
 
 class Database:
     """
-    super database.           \n
-    stores: User              \n
-    >>> database = Database() \n
+        super database
+        ~~~~~~~~~~~~~~
+        
+        stores: user dictionaries inside json
+        \n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n
+        
+        \nGet started
+        >>> database = Database()
+        ... #or do
+        >>> with Database(verbose=True) as db:
+        ...   db.add_user(id, user_name)
+        \n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n
+        
+        \nfeatures:
+        \n__contains__ implementation:
+        >>> if user_id in db:
+        >>> ...
+
+        \n__getitem__ / __setitem__ implementation:
+        >>> db[user_id]
+        >>> db[user_id] = new_user
+
+        \n__iter__ implementation:
+        >>> for user in db:
+        ...   print(user["id"])
+        \n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n
+
+        \nextras:
+        >>> len(db) #get amount of users in db
+        ... 101
+
+        >>> str(db) #get every user dictionary in the db, all on new lines
+        ... {"name": "John", "wallet": 6.9, "bank": 420.0}
+        ... {"name": "Foo",  "wallet": 0.0, "bank": 200.0}
+        ... ...
     """
 
     # static fields, this means the following data is a property of the Database class,
@@ -215,7 +247,7 @@ class Database:
             Returns:
                 str: just gives you a string representation
         """
-        return str([user for user in self.users])
+        return str([user + "\n" for user in self.users])
 
     def __iter__(self):
         """
