@@ -5,14 +5,16 @@ import time
 
 from utils import *
 
+
 class DatabaseException(Exception):
     pass
 
+
 class Database:
     """
-        super database.           \n
-        stores: User              \n
-        >>> database = Database() \n
+    super database.           \n
+    stores: User              \n
+    >>> database = Database() \n
     """
 
     # static fields, this means the following data is a property of the Database class,
@@ -20,7 +22,7 @@ class Database:
     # to access these we do Database.__file_name not db.__file_name
     # because the file names will always be the same
     __file_name = "data\\anarchist.json"
-    __csv_name  = "data\\anarchist.csv"
+    __csv_name = "data\\anarchist.csv"
 
     
     # utils
@@ -83,8 +85,8 @@ class Database:
                 users : self.users
             }
         """
-        with open(Database.__file_name, 'w') as data_file:
-            json.dump( {"users" : self.users}, data_file, indent=4 )
+        with open(Database.__file_name, "w") as data_file:
+            json.dump({"users": self.users}, data_file, indent=4)
             self.log("database saved")
   
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -138,7 +140,7 @@ class Database:
         """
         tmp_user = self[id]
 
-        if amount == "max":
+        if amount.lower() == "max" or amount.lower() == "all":
             tmp_user["bank"] -= tmp_user["bank"]
             self[id] = tmp_user
             return 1
@@ -287,11 +289,11 @@ class Database:
                 DatabaseException: when user not found
         """
         if id in self:
-            for i in range( len(self.users) ):
-                if  self.users[i]["id"] == id:
+            for i in range(len(self.users)):
+                if self.users[i]["id"] == id:
                     self.users[i] = new_user
         else:
-            #do this or insert new user, can be changed
+            # do this or insert new user, can be changed
             raise DatabaseException(f"Could not find user by id: {id}")
     
     def __len__(self) -> int:
@@ -335,4 +337,5 @@ class Database:
         if not exc_tb == None:
             self.error(exc_tb)
         self.close()
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

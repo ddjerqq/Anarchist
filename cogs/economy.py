@@ -3,15 +3,16 @@ import time
 import discord
 from discord.ext import commands
 
+import time
+
 from main import PREFIX
-from database import Database
+from main import database
 
 from utils import *
 
 class Economy(commands.Cog):
     def __init__(self, client: discord.Client):
         self.client = client
-
     # Event
     # @commands.Cog.listener()
     # async def on_message(self):
@@ -51,35 +52,35 @@ class Economy(commands.Cog):
 
     # ------------------------------------------------------------------------------
 
-    @commands.command()
-    async def withdraw(self, ctx: commands.Context, amount) -> None:
+    @commands.command(name="withdraw", aliases=["with"])
+    async def withdraw(self, ctx: commands.Context, amount=None) -> None:
         """
         withdraw any amount of money from your bank to you wallet
         """
-        with Database(verbose=True) as db:
-            if amount == "max":
-                bank = db[ctx.author.id]["bank"]
-                if db.money_bank(ctx.author.id, -bank) == 1:
-                    db.money_wallet(ctx.author.id, bank)
-                    await ctx.send(f"> you withdrew {bank} from your bank account.")
-                    return
-            else:
-                amount = float(amount)
+        if not amount:
+            await ctx.reply("what you tryna take out? air?")
+            return
 
-            if db[ctx.author.id]["bank"] - amount < -0.1:
-                await ctx.send(f"> you do not have enough funds")
-            else:
-                if db.money_bank(ctx.author.id, -amount) == 1:
-                    db.money_wallet(ctx.author.id, amount)
-                    await ctx.send(f"> you withdrew {bank} from your bank account.")
-            db._save()
+        if amount.lower() == "max" or amount.lower() == "all":
+            amount = database[ctx.author.id]["bank"]
 
-    @withdraw.error
-    async def withdraw_error(self, ctx, error):
-        if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send("> missing required argument: amount\n> please specify the amount you want to withdraw from your wallet to your bank" )
+        if amount == "max":
+            bank = database[ctx.author.id]["bank"]
+
+            if database.money_bank(ctx.author.id, -bank) == 1:
+                database.money_wallet(ctx.author.id, bank)
+                await ctx.send(f"> you withdrew {bank} from your bank account.")
+                return
         else:
-            await ctx.send(error)
+            amount = float(amount)
+
+        if database[ctx.author.id]["bank"] - amount < -0.1:
+            await ctx.send(f"> you do not have enough funds")
+        else:
+            if database.money_bank(ctx.author.id, -amount) == 1:
+                database.money_wallet(ctx.author.id, amount)
+                await ctx.send(f"> you withdrew {bank} from your bank account.")
+        database._save()
 
     # ------------------------------------------------------------------------------
 
