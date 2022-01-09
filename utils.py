@@ -39,14 +39,6 @@ def log(message = "Log") -> None:
     if VERBOSE:
         print("\033[38;2;0;0;255m" + "[*] " + str(message).strip() + END)
 
-def error(message = "Error!") -> None:
-    """
-        [!] use this to print errors.\n
-        red
-    """
-    os.system("")
-    print("\033[38;2;255;0;0m" + f"[!] {str(message).strip()}" + "\a" + END)
-
 def warn(message = "Warning!") -> None:
     """
         [^] use this to print warnings.\n
@@ -63,6 +55,32 @@ def ok(message = "Success") -> None:
     os.system("")
     print("\033[38;2;0;255;0m" + f"[*] {str(message).strip()}" + "\a" + END)
 
-def rgb(text: str, /, r: int, g: int, b: int, *, newline: bool = True) -> None:    
+def rgb(text: str, /, r: int, g: int, b: int, *, newline: bool = True) -> None:
+    """
+        print rgb color 🎊 with this
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        \n
+        ~~~~~~~~~~~~~~
+        Args:
+            text (str): the text you want to print
+            r (int): 0-255 value of Red
+            g (int): 0-255 value of Green
+            b (int): 0-255 value of Blue
+            newline (bool default False): whether or now you want to print a new line \n
+            after you are done printing rgb, you can insert colored text if you set this to false
+        \n
+        ~~~~~~~~~~~~~~
+        Retrurns:
+            None
+        \n
+        ~~~~~~~~~~~~~~
+        Example:
+            >>> rgb("foo bar candy", 255, 0, 255)
+            "foo bar candy" but printed in red
+            >>> rgb("red", 255, 0, 0, newline=False)
+            >>> rgb("green", 0, 255, 0, newline=False)
+            >>> rgb("blue", 0, 0, 255, newline=False)
+            "red green blue" #but they will be colored respectively
+    """
     end = "\n" if newline else ""
     print(f"\033[38;2;{r};{g};{b}m" + str(text) + "\033[0m", end=end)
