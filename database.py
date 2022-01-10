@@ -263,7 +263,7 @@ class Database:
                 csv_writer.writerow(user.values())
             self.log("csv generated")
 
-    def add_user(self, id: int, name: str) -> bool:
+    def add_user(self, id: int, name: str) -> None:
         """
             add a user dict to database user dictionaries.
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -278,7 +278,7 @@ class Database:
         """
 
         if id in self: 
-            return 1
+            return
         else:
             # create a temporary user
             tmp_user = {
@@ -287,12 +287,10 @@ class Database:
                 "bank"   : 0.0,
                 "wallet" : 0.0,
             }
+
             self.users.append(tmp_user)
             
             self.log(f"added {name} {id}")
-            
-            self._save()
-            return False    
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 

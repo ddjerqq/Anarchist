@@ -26,17 +26,22 @@ client.remove_command("help")
 database = Database(verbose=True)
 # ~~~~~~~~~~~~~~~~~~~~~~~
 
-@tasks.loop(seconds=10)
-async def change_status():
+@tasks.loop(seconds = 10)
+async def change_status() -> None:
     statuses = cycle([f"{PREFIX}help", "My prefix is {PREFIX}", "rob anyone anytime 😈"])
     await client.change_presence(activity=discord.Game(next(statuses)))
+
+@tasks.loop(seconds = 120)
+async def save_database() -> None:
+    database._save()
+    database.generate_csv()
 
 # events
 @client.event
 async def on_ready():
     # update member names in database
     for guild in client.guilds:
-        async for member in guild.fetch_members(limit=None):
+        async for member in guild.fetch_members(limit = None):
             if member.bot:
                 continue
             if member.id not in database:
@@ -46,12 +51,10 @@ async def on_ready():
                 if tmp_user["name"] != member.name:
                     tmp_user["name"] = member.name
                     database[member.id] = tmp_user
-                    warn(
-                        f"{tmp_user['name']}'s name updated to {database[member.id]['name']}"
-                    )
-                continue
+                    warn( f"{tmp_user['name']}'s name updated to {database[member.id]['name']}" )
 
     change_status.start()  # start loops
+    save_database.start()
     ok("Bot is online")
 
 @client.event
@@ -59,6 +62,7 @@ async def on_command_error(ctx, error):
     embed = discord.Embed( color = 0xff0000, title="unhandled error" )
     embed.add_field( name = "error:", value = error, inline = False )
     await ctx.send( embed = embed )
+    print(error)
 
 # embed = discord.Embed( color = 0xff0000 )
 # embed.add_field( name = "bank account", value = "bank money", inline = False )
@@ -98,25 +102,25 @@ async def deposit(ctx: commands.Context, amount: str = None) -> None:
     """
     if amount == None:
         embed = discord.Embed( color = 0xff0000, title = "how much are you withdrawing dumbass?" )
-        ctx.send( embed = embed )
+        await ctx.send( embed = embed )
         return
 
-    if int(amount) <= 0:
-        embed = discord.Embed( color = 0xff0000, title = "you're a real dumbass, aren't you?" )
-        ctx.send( embed = embed )
-        return
     
     if amount.lower() == "all" or amount.lower() == "max":
         amount = database[ctx.author.id]["wallet"]
+    elif int(amount) <= 0:
+        embed = discord.Embed( color = 0xff0000, title = "you're a real dumbass, aren't you?" )
+        await ctx.send( embed = embed )
+        return
     else:
         amount = int(amount)
     
     if database.deposit(ctx.author.id, amount):
         embed = discord.Embed( color = 0xff0000, title = f"success!\nyou successfully deposited {amount}" )
-        ctx.send( embed = embed )
+        await ctx.send( embed = embed )
     else:
         embed = discord.Embed( color = 0xff0000, title = "you don't have enough funds stupid" )
-        ctx.send( embed = embed )
+        await ctx.send( embed = embed )
 
 @client.command(name = "withdraw")
 async def withdraw(ctx: commands.Context, amount: str = None) -> None:
@@ -125,25 +129,24 @@ async def withdraw(ctx: commands.Context, amount: str = None) -> None:
     """
     if amount == None:
         embed = discord.Embed( color = 0xff0000, title = "how much are you withdrawing dumbass?" )
-        ctx.send( embed = embed )
-        return
-
-    if int(amount) <= 0:
-        embed = discord.Embed( color = 0xff0000, title = "you're a real dumbass, aren't you?" )
-        ctx.send( embed = embed )
+        await ctx.send( embed = embed )
         return
 
     if amount.lower() == "all" or amount.lower() == "max":
         amount = database[ctx.author.id]["bank"]
+    elif int(amount) <= 0:
+        embed = discord.Embed( color = 0xff0000, title = "you're a real dumbass, aren't you?" )
+        await ctx.send( embed = embed )
+        return
     else:
         amount = int(amount)
     
-    if database.deposit(ctx.author.id, amount):
+    if database.withdraw(ctx.author.id, amount):
         embed = discord.Embed( color = 0xff0000, title = f"success!\nyou successfully deposited {amount}" )
-        ctx.send( embed = embed )
+        await ctx.send( embed = embed )
     else:
         embed = discord.Embed( color = 0xff0000, title = "you don't have enough funds stupid" )
-        ctx.send( embed = embed )
+        await ctx.send( embed = embed )
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
