@@ -27,6 +27,27 @@ class Database:
         \n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n
         
         \nfeatures:
+
+        \ndeposit:
+        >>> if db.deposit(id, amount):
+        >>>   success
+        >>> else: fail, user has insufficient funds in their wallet
+
+        \nwithdraw:
+        >>> if db.withdraw(id, amount):
+        >>>   success 
+        >>> else: fail, user has insufficient funds in their bank
+
+        \nmoney_bank
+        >>> if db.money_bank(id, -100):
+        >>>   success
+        >>> else: fail, user has insufficient funds in their bank
+
+        \nmoney_wallet
+        >>> if db.money_wallet(id, -100):
+        >>>   success
+        >>> else: fail, user has insufficient funds in their wallet
+
         \n__contains__ implementation:
         >>> if user_id in db:
         >>> ...
@@ -167,23 +188,64 @@ class Database:
             self[id] = tmp_user # __setitem__; self[id] = tmp_user is same as db[id] = tmp_user
             return True
 
-    def money_bank(self, id: int, amount: float | str) -> int:
+    def money_bank(self, id: int, amount: float) -> int:
         """
             check docs for money_wallet, this is exactly the same, just on wallet
         """
         tmp_user = self[id]
 
-        if amount.lower() == "max" or amount.lower() == "all":
-            tmp_user["bank"] -= tmp_user["bank"]
+        if tmp_user["bank"] + amount < -0.1:
+            return 0
+        else:
+            tmp_user["bank"] += amount
             self[id] = tmp_user
             return 1
+
+    def deposit(self, id: int, amount: float) -> bool:
+        """
+            an easier way to deposit funds from an users wallet to their bank.
+
+            Args:
+                id (int): id of the user
+                amount (float): amount to deposit
+            
+            Returns:
+                True on success
+                False on fail (if user has insufficient funds)
+
+            Example:
+                >>> if db.deposit(id, 10):
+                >>>   user deposit success
+                >>> else: user has insufficient funds
+        """
+        if self.money_wallet(id, -amount):
+            self.money_bank(id, amount)
+            return True
         else:
-            if tmp_user["bank"] + amount < -0.1:
-                return 0
-            else:
-                tmp_user["bank"] += amount
-                self[id] = tmp_user
-                return 1
+            return False
+    
+    def withdraw(self, id: int, amount: float) -> bool:
+        """
+            an easier way to withdraw funds from an users bank to their wallet.
+
+            Args:
+                id (int): id of the user
+                amount (float): amount to deposit
+            
+            Returns:
+                True on success
+                False on fail (if user has insufficient funds)
+
+            Example:
+                >>> if db.withdraw(id, 10):
+                >>>   user withdraw success
+                >>> else: user has insufficient funds
+        """
+        if self.money_bank(id, -amount):
+            self.money_wallet(id, amount)
+            return True
+        else:
+            return False
 
     def generate_csv(self) -> None:
         """
