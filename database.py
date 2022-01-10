@@ -286,7 +286,6 @@ class Database:
                 "name"   : name,
                 "bank"   : 0.0,
                 "wallet" : 0.0,
-                "items"  : [],
             }
             self.users.append(tmp_user)
             
