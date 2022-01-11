@@ -86,11 +86,9 @@ async def on_member_join(member):
 # bot utils
 
 
-async def dm_user(
-    _id: str, *, message: str = None, embed: discord.Embed = None
-) -> None:
+async def dm_user(_id: str, *, message: str = None, embed: discord.Embed = None) -> None:
     """
-    dm an user by their id
+        dm an user by their id
     """
     user = client.get_user(_id)
     if message == None:
@@ -256,7 +254,7 @@ async def work(ctx: commands.Context) -> None:
 @client.command(name="deposit", aliases=["dep"])
 async def deposit(ctx: commands.Context, amount: str = None) -> None:
     """
-    from wallet to bank
+        from wallet to bank
     """
     if not amount:
         embed = discord.Embed(
@@ -291,7 +289,7 @@ async def deposit(ctx: commands.Context, amount: str = None) -> None:
 @client.command(name="withdraw")
 async def withdraw(ctx: commands.Context, amount: str = None) -> None:
     """
-    from bank to wallet
+        from bank to wallet
     """
     if not amount:
         embed = discord.Embed(
