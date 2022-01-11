@@ -5,10 +5,8 @@ import time
 
 from utils import *
 
-
 class DatabaseException(Exception):
     pass
-
 
 class Database:
     """
@@ -71,10 +69,6 @@ class Database:
         ... ...
     """
 
-    # static fields, this means the following data is a property of the Database class,
-    # not a database object
-    # to access these we do Database._file_name not db._file_name
-    # because the file names will always be the same
     _file_name        = "data\\anarchist.json"
     _users_csv        = "data\\anarchist.csv"
     _transactions_csv = "data\\transactions.csv"
@@ -96,8 +90,8 @@ class Database:
     # create the database
 
     def __init__(self, *, verbose: bool = False):
-        self.verbose = verbose
-        self.users = []
+        self.verbose      = verbose
+        self.users        = []
         self.transactions = []
         self._init_db()
 
@@ -131,7 +125,7 @@ class Database:
             "wallet"         : wallet,
             "bank"           : bank
         } )
-        self.log(f"#{self.transactions[-1]['transaction_id']} {self[sender_id]['name']} -> {self[receiver_id]['name']} wallet:{wallet} bank:{bank}")
+        self.log(f"#{self.transactions[-1]['transaction_id']} {self[sender_id]['name']} -> {self[receiver_id]['name']} wallet: {wallet} bank: {bank}")
 
     def _init_db(self) -> None:
         """
@@ -248,7 +242,7 @@ class Database:
             tracked transaction
         """
         self._wallet(id, 25)
-        self._add_transaction(id, id, 25, 0)
+        self._add_transaction("work", id, 25, 0)
 
     def deposit(self, id: int, amount: float) -> bool:
         """
@@ -276,20 +270,20 @@ class Database:
 
     def withdraw(self, id: int, amount: float) -> bool:
         """
-        an easier way to withdraw funds from an users bank to their wallet.
+            an easier way to withdraw funds from an users bank to their wallet.
 
-        Args:
-            id (int): id of the user
-            amount (float): amount to deposit
+            Args:
+                id (int): id of the user
+                amount (float): amount to deposit
 
-        Returns:
-            True on success
-            False on fail (if user has insufficient funds)
+            Returns:
+                True on success
+                False on fail (if user has insufficient funds)
 
-        Example:
-            >>> if db.withdraw(id, 10):
-            >>>   user withdraw success
-            >>> else: user has insufficient funds
+            Example:
+                >>> if db.withdraw(id, 10):
+                >>>   user withdraw success
+                >>> else: user has insufficient funds
         """
         if self._bank(id, -amount):
             self._wallet(id, amount)
@@ -325,8 +319,8 @@ class Database:
 
     def generate_csv(self) -> None:
         """
-        generate csv of the data.
-        for our representation only, this is just so we can access the sheets
+            generate csv of the data.
+            for our representation only, this is just so we can access the sheets
         """
         with open(Database._users_csv, "w", newline="", encoding="utf-8") as data_file:
             csv_writer = csv.writer(data_file)
@@ -350,16 +344,16 @@ class Database:
 
     def add_user(self, id: int, name: str) -> None:
         """
-        add a user dict to database user dictionaries.
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        (saves automatically)
+            add a user dict to database user dictionaries.
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            (saves automatically)
 
-        Args:
-            id (int): the id of the user
-            name (str): the name of the user
+            Args:
+                id (int): the id of the user
+                name (str): the name of the user
 
-        Returns:
-            bool: True if the user was already in the database, False otherwise
+            Returns:
+                bool: True if the user was already in the database, False otherwise
         """
 
         if id in self:
@@ -383,42 +377,42 @@ class Database:
 
     def __str__(self) -> str:
         """
-        same as doing :
-        >>> str(db)
+            same as doing :
+            >>> str(db)
 
-        Args:
-            None
+            Args:
+                None
 
-        Returns:
-            str: just gives you a string representation
+            Returns:
+                str: just gives you a string representation
         """
         return str([str(user) + "\n" for user in self.users])
 
     def __iter__(self):
         """
-        >>> for user in db
-        >>>   print(user)
+            >>> for user in db
+            >>>   print(user)
 
-        this is used when we iterate over the databse,
-        and yes this is very useless, we can just do
+            this is used when we iterate over the databse,
+            and yes this is very useless, we can just do
 
-        >>> for user in db.users:
-        >>>   print(user)
+            >>> for user in db.users:
+            >>>   print(user)
 
-        both ways work perfectly fine and we dont need to worry about it much
+            both ways work perfectly fine and we dont need to worry about it much
         """
         for user in self.users:
             yield user
 
     def __contains__(self, id: int) -> bool:
         """
-        >>> user_id in database
+            >>> user_id in database
 
-        Args:
-            None
+            Args:
+                None
 
-        Returns:
-            bool: True if id is in the database, False otherwise
+            Returns:
+                bool: True if id is in the database, False otherwise
         """
         for user in self.users:
             if id == user["id"]:
@@ -430,17 +424,17 @@ class Database:
 
     def __getitem__(self, id: int) -> dict:
         """
-        get whole user dictionary from the database by just doing
-        >>> db[id]
+            get whole user dictionary from the database by just doing
+            >>> db[id]
 
-        Args:
-            id (int): id of the user
+            Args:
+                id (int): id of the user
 
-        Retruns:
-            dict: dictionary of the user with that id
+            Retruns:
+                dict: dictionary of the user with that id
 
-        Raises:
-            DatabaseException: if the user does not exist in the database
+            Raises:
+                DatabaseException: if the user does not exist in the database
         """
         if id in self:
             for user in self.users:
@@ -451,19 +445,19 @@ class Database:
 
     def __setitem__(self, id: int, new_user: dict) -> None:
         """
-        same as __getitem__ but this time, we are setting the item in the database, not just reading
+            same as __getitem__ but this time, we are setting the item in the database, not just reading
 
-        >>> new_user = {"name": "something"}
-        >>> db[id] = new_user
+            >>> new_user = {"name": "something"}
+            >>> db[id] = new_user
 
-        Args:
-            new_user (dict): the user which you are assigning to the id
+            Args:
+                new_user (dict): the user which you are assigning to the id
 
-        Returns:
-            None
+            Returns:
+                None
 
-        Raises:
-            DatabaseException: when user not found
+            Raises:
+                DatabaseException: when user not found
         """
         if id in self:
             for i in range(len(self.users)):
@@ -473,39 +467,32 @@ class Database:
             # do this or insert new user, can be changed
             raise DatabaseException(f"Could not find user by id: {id}")
 
-    def __len__(self) -> int:
-        """
-        >>> len(db)
-        should be self explanatory and intuitive
-        """
-        return len(self.users)
-
     def __enter__(self):
         """
-        context managers, very useful stuff if you wanna quickly do stuff on the db
-        this is called when you do
-        >>> with database as db:
-        >>>   db.add_user(id)
+            context managers, very useful stuff if you wanna quickly do stuff on the db
+            this is called when you do
+            >>> with database as db:
+            >>>   db.add_user(id)
 
-        Returns:
-            self, the database basically
+            Returns:
+                self, the database basically
 
-        __enter__ by itself has no meaning, it is useless, unless we implement 🔽
+            __enter__ by itself has no meaning, it is useless, unless we implement 🔽
         """
         return self
 
     def __exit__(self, exc_type, exc_value, exc_tb) -> None:
         """
-        this is called when we are done operating on the database using the context manager
-        if any error happens, we print that with red color
+            this is called when we are done operating on the database using the context manager
+            if any error happens, we print that with red color
 
-        Args:
-            exc_type: exception type
-            exc_value: exception value
-            exc_tb: exception traceback
-            # we are not really handling those exceptions because we dont need to so its ok
+            Args:
+                exc_type: exception type
+                exc_value: exception value
+                exc_tb: exception traceback
+                # we are not really handling those exceptions because we dont need to so its ok
 
-        Returns: None
+            Returns: None
         """
         if not exc_type == None:
             self.error(exc_type)

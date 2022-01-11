@@ -261,8 +261,8 @@
         {
             "name": "ddjerqq",
             "id": 725773984808960050,
-            "bank": 850.0,
-            "wallet": 0.0
+            "bank": 750.0,
+            "wallet": 25.0
         },
         {
             "name": "Alien",
@@ -352,7 +352,7 @@
             "name": "punkfroj",
             "id": 679770499349479508,
             "bank": 0.0,
-            "wallet": 0.0
+            "wallet": 100.0
         },
         {
             "name": "AveraX",
@@ -1536,6 +1536,33 @@
             "receiver_id": 333617737211445250,
             "receiver_name": "Incisiion",
             "wallet": 100.0,
+            "bank": 0
+        },
+        {
+            "transaction_id": 6,
+            "sender_id": 725773984808960050,
+            "sender_name": "ddjerqq",
+            "receiver_id": 725773984808960050,
+            "receiver_name": "ddjerqq",
+            "wallet": 100.0,
+            "bank": -100.0
+        },
+        {
+            "transaction_id": 7,
+            "sender_id": 725773984808960050,
+            "sender_name": "ddjerqq",
+            "receiver_id": 679770499349479508,
+            "receiver_name": "punkfroj",
+            "wallet": 100.0,
+            "bank": 0
+        },
+        {
+            "transaction_id": 8,
+            "sender_id": 725773984808960050,
+            "sender_name": "ddjerqq",
+            "receiver_id": 725773984808960050,
+            "receiver_name": "ddjerqq",
+            "wallet": 25,
             "bank": 0
         }
     ]

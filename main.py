@@ -67,7 +67,7 @@ async def on_command_error(ctx, error):
     embed = discord.Embed(color=0xFF0000, title="unhandled error")
     embed.add_field(name="error:", value=error, inline=False)
     await ctx.send(embed=embed)
-    print(error)
+    warn(error)
 
 
 @client.event
@@ -100,38 +100,6 @@ async def dm_user(_id: str, *, message: str = None, embed: discord.Embed = None)
 
 
 # HELP COMMAND
-
-
-@client.command(name="help")
-async def help_command(ctx, _type: str = None):
-    em = discord.Embed(title="Categories", color=0xFF0000)
-    em.set_footer(
-        text="type `.help [category] for help with a specific category or command`"
-    )
-    if not _type:
-        em.set_author(name="Help")
-        categories = "**Currency**\n**Information**"
-        em.description = categories
-    elif _type.lower() == "currency":
-        em.title = "Currency Commands"
-        currency_commands = [
-            "**Balance**",
-            "**Rob**",
-            "**Work**",
-            "**Deposit**",
-            "**Withdraw**",
-            "**Give**",
-        ]
-        currency_commands = ", ".join(currency_commands)
-        em.description = currency_commands
-    elif _type.lower() in ("information", "infoh"):
-        information_commands = ["**Invite**", "**Info**"]
-        information_commands = ", ".join(information_commands)
-        em.description = information_commands
-    elif _type.lower() in ("bal", "balance"):
-        em.description = "Tells you your balance or someone elses\nOne optional argument: [user ping or id]\nUsage: `.bal [user ping or id]`"
-    await ctx.send(embed=em)
-
 
 # random commands
 
