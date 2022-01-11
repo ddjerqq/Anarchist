@@ -116,6 +116,7 @@ async def info(ctx: commands.Context, _id: str = None):
     embed: discord.Embed = discord.Embed(
         title=f"{user.name}#{user.discriminator}'s info", color=0xFF0000
     )
+
     embed.add_field(name="creation time", value=str(user.created_at), inline=False)
     embed.add_field(name="id", value=user.id, inline=False)
     embed.add_field(name="is bot?", value=user.bot, inline=False)
@@ -138,18 +139,15 @@ async def info(ctx: commands.Context, _id: str = None):
 
 
 @client.command(name="bal", aliases=["balanace"])
-async def balance(ctx: commands.Context, _id: str = None) -> None:
-    if _id == None:
-        _id = ctx.author.id
-    elif "@" in _id:
-        # <@!923600698967461898>
-        _id = int(_id[3:-1])
-    else:
-        _id = int(_id)
+async def balance(ctx: commands.Context, user: discord.Member = None) -> None:
+    if not user:
+        user = ctx.author
+    _id = user.id
 
     embed = discord.Embed(color=0xFF0000, title=f"{database[_id]['name']}'s balance")
     embed.add_field(name="bank account", value=database[_id]["bank"], inline=False)
     embed.add_field(name="wallet account", value=database[_id]["wallet"], inline=False)
+
     await ctx.send(embed=embed)
 
 
@@ -168,7 +166,7 @@ async def deposit(ctx: commands.Context, amount: str = None) -> None:
     """
     from wallet to bank
     """
-    if amount == None:
+    if not amount:
         embed = discord.Embed(
             color=0xFF0000, title="how much are you withdrawing dumbass?"
         )
@@ -203,7 +201,7 @@ async def withdraw(ctx: commands.Context, amount: str = None) -> None:
     """
     from bank to wallet
     """
-    if amount == None:
+    if not amount:
         embed = discord.Embed(
             color=0xFF0000, title="how much are you withdrawing dumbass?"
         )
@@ -234,11 +232,17 @@ async def withdraw(ctx: commands.Context, amount: str = None) -> None:
 
 
 @client.command(name="give")
-async def give(ctx: commands.Context, _id: str, amount: str) -> None:
-    if "@" in _id:
-        _id = int(_id[3:-1])
-    else:
-        _id = int(_id)
+async def give(
+    ctx: commands.Context, user: discord.Member = None, amount: str = None
+) -> None:
+    if not user:
+        await ctx.send("Who you tryna give to?")
+        return
+    _id = user.id
+
+    if not amount:
+        await ctx.send("you can't send nothing lol")
+        return
 
     if amount.lower() == "all" or amount.lower() == "max":
         amount = database[ctx.author.id]["wallet"]
@@ -265,11 +269,11 @@ async def give(ctx: commands.Context, _id: str, amount: str) -> None:
 
 
 @client.command(name="rob")
-async def rob(ctx: commands.Context, _id: str) -> None:
-    if "@" in _id:
-        _id = int(_id[3:-1])
-    else:
-        _id = int(_id)
+async def rob(ctx: commands.Context, user: discord.Member = None) -> None:
+    if not user:
+        await ctx.send("who you tryna rob?")
+        return
+    _id = user.id
 
     if _id == ctx.author.id:
         embed = discord.Embed(color=0xFF0000, title=f"you're so dumb")
