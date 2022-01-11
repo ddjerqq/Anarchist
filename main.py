@@ -1,6 +1,6 @@
 # built-ins
 import os
-
+import random
 # ~~~~~~~~
 
 # 3rd party libraries
@@ -42,16 +42,15 @@ async def on_ready():
     # update member names in database
     for guild in client.guilds:
         async for member in guild.fetch_members(limit = None):
-            if member.bot:
-                continue
-            if member.id not in database:
+            if member.bot: continue
+            if member.id not in database: 
                 database.add_user(member.id, member.name)
             else:
                 tmp_user = database[member.id]
                 if tmp_user["name"] != member.name:
                     tmp_user["name"] = member.name
                     database[member.id] = tmp_user
-                    warn( f"{tmp_user['name']}'s name updated to {database[member.id]['name']}" )
+                    warn( f"{tmp_user['name']}'s name updated" )
 
     change_status.start()  # start loops
     save_database.start()
@@ -64,14 +63,85 @@ async def on_command_error(ctx, error):
     await ctx.send( embed = embed )
     print(error)
 
+@client.event
+async def on_member_join(member):
+    if member.bot:
+        return
+    if member.id not in database:
+        database.add_user(member.id, member.name)
+
 # embed = discord.Embed( color = 0xff0000 )
 # embed.add_field( name = "bank account", value = "bank money", inline = False )
 # embed.add_field( name = "wallet account", value = "wallet money", inline = False )
 # await ctx.send( embed = embed )
 
+# bot utils
+
+async def dm_user(_id: str, *, message: str = None, embed: discord.Embed = None) -> None:
+    """
+        dm an user by their id
+    """
+    user = client.get_user(_id)
+    if message == None:
+        await user.send(embed = embed)
+    elif embed == None:
+        await user.send(message)
+    else:
+        warn("what are you sending this user?")
+
+
+# random commands
+@client.command(name="info")
+async def info(ctx: commands.Context, _id: str = None):
+    if _id == None:  _id = ctx.author.id
+    elif "@" in _id: _id = int( _id[3:-1] )
+    else:            _id = int(_id)
+
+    user:  discord.User  = client.get_user(_id)
+
+    embed: discord.Embed = discord.Embed( 
+        title = f"{user.name}#{user.discriminator}'s info", 
+        color = 0xff0000
+        )
+    embed.add_field( 
+        name   = "creation time",
+        value  = str(user.created_at),
+        inline = False
+        )
+    embed.add_field( 
+        name   = "id",
+        value  = user.id,
+        inline = False
+        )
+    embed.add_field( 
+        name   = "is bot?",
+        value  = user.bot,
+        inline = False
+        )
+    embed.add_field( 
+        name   = "public flags",
+        value  = user.public_flags,
+        inline = False
+        )
+    embed.set_image(
+        url = user.avatar_url
+    )
+
+    await ctx.send( embed=embed )
+
+@commands.has_permissions(administrator = True)
+@client.command(name = "evaluate", aliases=["e", "eval"])
+async def evaluate(ctx: commands.Context, code: str):
+    messages: discord.Message = await ctx.history(limit = 1).flatten()
+    _code: str = messages[0].content.replace(f"{PREFIX}e\n```py", "").replace("```", "").strip()
+    
+    result = eval(_code)
+    print(result)
+    await ctx.send("```\n" + str(result) + "\n```")
+
 # commands
 
-@client.command(name="bal", aliases = ["balanace"])
+@client.command(name = "bal", aliases = ["balanace"])
 async def balance(ctx: commands.Context, _id: str = None) -> None:
     if _id == None:
         _id = ctx.author.id
@@ -105,15 +175,14 @@ async def deposit(ctx: commands.Context, amount: str = None) -> None:
         await ctx.send( embed = embed )
         return
 
-    
     if amount.lower() == "all" or amount.lower() == "max":
         amount = database[ctx.author.id]["wallet"]
-    elif int(amount) <= 0:
+    elif float(amount) <= 0:
         embed = discord.Embed( color = 0xff0000, title = "you're a real dumbass, aren't you?" )
         await ctx.send( embed = embed )
         return
     else:
-        amount = int(amount)
+        amount = float(amount)
     
     if database.deposit(ctx.author.id, amount):
         embed = discord.Embed( color = 0xff0000, title = f"success!\nyou successfully deposited {amount}" )
@@ -134,21 +203,97 @@ async def withdraw(ctx: commands.Context, amount: str = None) -> None:
 
     if amount.lower() == "all" or amount.lower() == "max":
         amount = database[ctx.author.id]["bank"]
-    elif int(amount) <= 0:
+    elif float(amount) <= 0:
         embed = discord.Embed( color = 0xff0000, title = "you're a real dumbass, aren't you?" )
         await ctx.send( embed = embed )
         return
     else:
-        amount = int(amount)
+        amount = float(amount)
     
     if database.withdraw(ctx.author.id, amount):
-        embed = discord.Embed( color = 0xff0000, title = f"success!\nyou successfully deposited {amount}" )
+        embed = discord.Embed( color = 0xff0000, title = f"success!\nyou successfully withdrew {amount}" )
         await ctx.send( embed = embed )
     else:
         embed = discord.Embed( color = 0xff0000, title = "you don't have enough funds stupid" )
         await ctx.send( embed = embed )
 
+@client.command(name = "give")
+async def give(ctx: commands.Context, _id: str, amount: str) -> None:
+    if "@" in _id:
+        _id = int( _id[3:-1] )
+    else:
+        _id = int(_id)
+
+    if amount.lower() == "all" or amount.lower() == "max":
+        amount = database[ctx.author.id]["wallet"]
+    else:
+        amount = float(amount)
+
+    if database.money_wallet(ctx.author.id, -amount):
+        database.money_wallet(_id, amount)
+        embed = discord.Embed( 
+            color = 0xff0000, 
+            title = f"you successfully gave {database[_id]['name']} {amount} coins"
+            )
+        embed2 = discord.Embed(
+            color = 0xff0000, 
+            title = f"{database[ctx.author.id]['name']} gave you {amount} coins"
+            )
+        await dm_user(_id, embed = embed2)
+    else:
+        embed = discord.Embed( 
+            color = 0xff0000, 
+            title = f"you don't have enough money in your wallet, try withdrawing first"
+            )
+    await ctx.send( embed = embed )
+
+@client.command(name = "rob")
+async def rob(ctx: commands.Context, _id: str) -> None:
+    if "@" in _id:
+        _id = int( _id[3:-1] )
+    else:
+        _id = int(_id)
+    
+    if _id == ctx.author.id:
+        embed = discord.Embed( 
+            color = 0xff0000, 
+            title = f"you're so dumb"
+            )
+        await ctx.send(embed = embed)
+        return
+    
+    if database[_id]["wallet"] < 5:
+        embed = discord.Embed( 
+            color = 0xff0000, 
+            title = f"you cannot rob this user"
+            )
+        await ctx.send(embed = embed)
+        
+        embed2 = discord.Embed(
+            color = 0xff0000, 
+            title = f"{database[ctx.author.id]['name']} tried robbing you in {ctx.guild.name}"
+        )
+        await dm_user(_id, embed = embed2)
+        return
+    
+    random_amount = random.randint(5, int(database[_id]["wallet"]) - 1)
+    
+    database.money_wallet(_id, -random_amount)
+    database.money_wallet(ctx.author.id, random_amount)
+
+    embed1 = discord.Embed( 
+        color = 0xff0000, 
+        title = f"you successfully robbed {database[_id]['name']} \nand stole {random_amount} coins"
+    )
+    await ctx.send(embed = embed1)
+
+    embed2 = discord.Embed(
+        color = 0xff0000, 
+        title = f"{database[ctx.author.id]['name']} robbed you in {ctx.guild.name} and stole {random_amount} coins"
+    )
+    await dm_user(_id, embed = embed2)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 def main():
     # load_extensions() ditch cogs

@@ -73,19 +73,19 @@ class Database:
 
     # static fields, this means the following data is a property of the Database class,
     # not a database object
-    # to access these we do Database.__file_name not db.__file_name
+    # to access these we do Database._file_name not db._file_name
     # because the file names will always be the same
-    __file_name = "data\\anarchist.json"
-    __csv_name = "data\\anarchist.csv"
+    _file_name = "data\\anarchist.json"
+    _csv_name  = "data\\anarchist.csv"
 
     
     # utils
 
     def log(self, message: str) -> None:
-        if self.verbose: rgb("[*] " + str(message).replace("[*]", ""), 0, 255, 255, newline=True)
+        if self.verbose: rgb("[*] " + str(message).replace("[*]", ""), (0, 255, 255))
     
     def error(self, message: str) -> None:
-        if self.verbose: rgb("[*] " + str(message).replace("[*]", ""), 255, 0, 0, newline=True)
+        if self.verbose: rgb("[*] " + str(message).replace("[*]", ""), (255, 0, 0))
     
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -98,11 +98,9 @@ class Database:
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    
     # properties
     # we dont have any properties yet, so just dont worry about this either.
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
     # private
     
@@ -114,9 +112,9 @@ class Database:
             else:
                 read them
         """
-        if os.path.isfile(self.__file_name):
+        if os.path.isfile(self._file_name):
             # reading
-            with open(Database.__file_name, 'r') as data_file:
+            with open(Database._file_name, 'r') as data_file:
                 self.users = json.load( data_file )["users"]
             self.log(f"loaded database with {len(self.users)} user") if len(self.users) == 1 else self.log(f"loaded database with {len(self.users)} users") #ensure it says "1 user" "2 users".
         else:
@@ -124,7 +122,7 @@ class Database:
             os.mkdir("data") # make the folder
 
             #this is a context manager lol
-            with open(Database.__file_name, 'w') as data_file:
+            with open(Database._file_name, 'w') as data_file:
                 json.dump( { "users" : self.users }, data_file, indent=4 )
             # we are saving {users : []}
             # so we can expand and possibly add more stuff to it idk
@@ -139,15 +137,13 @@ class Database:
                 users : self.users
             }
         """
-        with open(Database.__file_name, "w") as data_file:
+        with open(Database._file_name, "w") as data_file:
             json.dump({"users": self.users}, data_file, indent=4)
             self.log("database saved")
   
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
     # public
-
     def close(self) -> None:
         """
             close the database, but this is a public method, and this is the one you 
@@ -252,7 +248,7 @@ class Database:
             generate csv of the data.
             for our representation only, this is just so we can access the sheets
         """
-        with open(Database.__csv_name, "w", newline="", encoding="utf-8") as data_file:
+        with open(Database._csv_name, "w", newline="", encoding="utf-8") as data_file:
             csv_writer = csv.writer(data_file)
             headers = False
             for user in self.users:
@@ -307,7 +303,7 @@ class Database:
             Returns:
                 str: just gives you a string representation
         """
-        return str([user + "\n" for user in self.users])
+        return str([str(user) + "\n" for user in self.users])
 
     def __iter__(self):
         """
@@ -429,5 +425,4 @@ class Database:
         if not exc_tb == None:
             self.error(exc_tb)
         self.close()
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
