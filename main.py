@@ -129,15 +129,14 @@ async def info(ctx: commands.Context, _id: str = None):
 
     await ctx.send( embed=embed )
 
-@commands.has_permissions(administrator = True)
-@client.command(name = "evaluate", aliases=["e", "eval"])
-async def evaluate(ctx: commands.Context, code: str):
-    messages: discord.Message = await ctx.history(limit = 1).flatten()
-    _code: str = messages[0].content.replace(f"{PREFIX}e\n```py", "").replace("```", "").strip()
-    
-    result = eval(_code)
-    print(result)
-    await ctx.send("```\n" + str(result) + "\n```")
+# @commands.has_permissions(administrator = True)
+# @client.command(name = "evaluate", aliases=["e", "eval"])
+# async def evaluate(ctx: commands.Context, code: str):
+#     messages: discord.Message = await ctx.history(limit = 1).flatten()
+#     _code: str = messages[0].content.replace(f"{PREFIX}e\n```py", "").replace("```", "").strip()
+#     result = eval(_code)
+#     print(result)
+#     await ctx.send("```\n" + str(result) + "\n```")
 
 # commands
 

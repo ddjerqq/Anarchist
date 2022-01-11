@@ -92,8 +92,9 @@ class Database:
     #create the database
 
     def __init__(self, *, verbose: bool = False):
-        self.verbose = verbose
-        self.users   = []
+        self.verbose      = verbose
+        self.users        = []
+        self.transactions = []
         self._init_db()
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
