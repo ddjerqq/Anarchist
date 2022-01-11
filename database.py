@@ -39,12 +39,12 @@ class Database:
         >>> else: fail, user has insufficient funds in their bank
 
         \nmoney_bank
-        >>> if db.money_bank(id, -100):
+        >>> if db._bank(id, -100):
         >>>   success
         >>> else: fail, user has insufficient funds in their bank
 
         \nmoney_wallet
-        >>> if db.money_wallet(id, -100):
+        >>> if db._wallet(id, -100):
         >>>   success
         >>> else: fail, user has insufficient funds in their wallet
 
@@ -75,10 +75,12 @@ class Database:
     # not a database object
     # to access these we do Database._file_name not db._file_name
     # because the file names will always be the same
-    _file_name = "data\\anarchist.json"
-    _csv_name  = "data\\anarchist.csv"
+    _file_name        = "data\\anarchist.json"
+    _users_csv        = "data\\anarchist.csv"
+    _transactions_csv = "data\\transactions.csv"
 
-    
+    # static methods
+
     # utils
 
     def log(self, message: str) -> None:
@@ -104,7 +106,31 @@ class Database:
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # private
-    
+    def _add_transaction(self, sender_id: int | str, receiver_id: int | str, /, wallet: float = 0, bank: float = 0) -> None:
+        """
+            add transaction to the database
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+            Args:
+                sender   (int | str): sender id or service name
+                receiver (int | str): receiver id or service name
+                wallet   (float): amount to be added to the wallet
+                bank     (float): amount to be added to the bank
+            
+            Returns:
+                None
+        """
+        self.transactions.append( { 
+            "transaction_id" : len(self.transactions),
+            "sender_id"      : sender_id,
+            "sender_name"    : self[sender_id]["name"],
+            "receiver_id"    : receiver_id,
+            "receiver_name"  : self[receiver_id]["name"],
+            "wallet"         : wallet,
+            "bank"           : bank
+        } )
+        self.log(f"#{self.transactions[-1]['transaction_id']} {self[sender_id]['name']} -> {self[receiver_id]['name']} wallet:{wallet} bank:{bank}")
+
     def _init_db(self) -> None:
         """
             initialize the database \n
@@ -116,17 +142,26 @@ class Database:
         if os.path.isfile(self._file_name):
             # reading
             with open(Database._file_name, 'r') as data_file:
-                self.users = json.load( data_file )["users"]
-            self.log(f"loaded database with {len(self.users)} user") if len(self.users) == 1 else self.log(f"loaded database with {len(self.users)} users") #ensure it says "1 user" "2 users".
+                data = json.load( data_file )
+                self.users        = data["users"]
+                self.transactions = data["transactions"]
+            self.log(f"loaded database with {len(self.users)} users and {len(self.transactions)} transactions")
+        
         else:
             # create
             os.mkdir("data") # make the folder
 
             #this is a context manager lol
             with open(Database._file_name, 'w') as data_file:
-                json.dump( { "users" : self.users }, data_file, indent=4 )
-            # we are saving {users : []}
-            # so we can expand and possibly add more stuff to it idk
+                json.dump( 
+                        { 
+                            "users"        : self.users, 
+                            "transactions" : self.transactions 
+                        }, 
+                        data_file, 
+                        indent=4 
+                    )
+            
             self.log(f"database created")
 
     def _save(self) -> None:
@@ -139,9 +174,58 @@ class Database:
             }
         """
         with open(Database._file_name, "w") as data_file:
-            json.dump({"users": self.users}, data_file, indent=4)
+            json.dump(
+                    {
+                        "users"        : self.users,
+                        "transactions" : self.transactions 
+                    },
+                    data_file, 
+                    indent=4
+                )
             self.log("database saved")
-  
+
+    def _wallet(self, id: int, amount: float) -> bool:
+        """
+            add or subtract amount from the wallet
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            Args:
+                id (int): the id of the user
+                amount (float): keep in mind you can pass -10 as an argument.
+            
+            Returns: 
+                True on success, False on failure,
+                this could fail if the user has insufficient funds
+
+            Example:
+                >>> if db._wallet(id, -10):
+                >>>   db._bank(id, 10)
+                >>> else: # the user does not have enough money
+        """
+
+        tmp_user = self[id] # we get a temporary user dict
+
+        if (tmp_user["wallet"] + amount) < -0.1:
+            # if the amount is just a lil negative
+            return False
+        else:
+            # if the amount is not negative, then we conduct the operation
+            tmp_user["wallet"] += amount
+            self[id] = tmp_user
+            return True
+
+    def _bank(self, id: int, amount: float) -> int:
+        """
+            check docs for _wallet, this is exactly the same, just on wallet
+        """
+        tmp_user = self[id]
+
+        if tmp_user["bank"] + amount < -0.1:
+            return 0
+        else:
+            tmp_user["bank"] += amount
+            self[id] = tmp_user
+            return 1
+
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # public
@@ -156,47 +240,13 @@ class Database:
         self._save()
         self.log("closing database")
 
-    def money_wallet(self, id: int, amount: float) -> bool:
+    def work(self, id: int) -> None:
         """
-            add or subtract amount from the wallet
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            Args:
-                id (int): the id of the user
-                amount (float): keep in mind you can pass -10 as an argument.
-            
-            Returns: 
-                True on success, False on failure,
-                this could fail if the user has insufficient funds
-
-            Example:
-                >>> if db.money_wallet(id, -10):
-                >>>   db.money_bank(id, 10)
-                >>> else: # the user does not have enough money
+            work command\n
+            tracked transaction
         """
-
-        tmp_user = self[id] # we get a temporary user dict
-
-        if (tmp_user["wallet"] + amount) < -0.1:
-            # if the amount is just a lil negative
-            return False
-        else:
-            # if the amount is not negative, then we conduct the operation
-            tmp_user["wallet"] += amount
-            self[id] = tmp_user # __setitem__; self[id] = tmp_user is same as db[id] = tmp_user
-            return True
-
-    def money_bank(self, id: int, amount: float) -> int:
-        """
-            check docs for money_wallet, this is exactly the same, just on wallet
-        """
-        tmp_user = self[id]
-
-        if tmp_user["bank"] + amount < -0.1:
-            return 0
-        else:
-            tmp_user["bank"] += amount
-            self[id] = tmp_user
-            return 1
+        self._wallet(id, 25)
+        self._add_transaction(id, id, 25, 0)
 
     def deposit(self, id: int, amount: float) -> bool:
         """
@@ -215,8 +265,9 @@ class Database:
                 >>>   user deposit success
                 >>> else: user has insufficient funds
         """
-        if self.money_wallet(id, -amount):
-            self.money_bank(id, amount)
+        if self._wallet(id, -amount):
+            self._bank(id, amount)
+            self._add_transaction(id, id, amount, -amount)
             return True
         else:
             return False
@@ -238,8 +289,34 @@ class Database:
                 >>>   user withdraw success
                 >>> else: user has insufficient funds
         """
-        if self.money_bank(id, -amount):
-            self.money_wallet(id, amount)
+        if self._bank(id, -amount):
+            self._wallet(id, amount)
+            self._add_transaction(id, id, amount, -amount)
+            return True
+        else:
+            return False
+
+    def give(self, sender_id: int, receiver_id: int, amount: float) -> bool:
+        """
+            take money from one user's wallet to another
+            tracked transaction
+
+            Args:
+                sender_id (int)  : The sender's id
+                receiver_id (int): The receiver's id
+                amount (float)   : The amount to give
+
+            Returns:
+                bool: True on success, False on fail
+            
+            Example:
+                >>> if database.give(ctx.author.id, _id, amount):
+                >>>   success
+                >>> else: fail
+        """
+        if self._wallet(sender_id, -amount):
+            self._wallet(receiver_id, amount)
+            self._add_transaction(sender_id, receiver_id, wallet = amount)
             return True
         else:
             return False
@@ -249,16 +326,25 @@ class Database:
             generate csv of the data.
             for our representation only, this is just so we can access the sheets
         """
-        with open(Database._csv_name, "w", newline="", encoding="utf-8") as data_file:
+        with open(Database._users_csv, "w", newline="", encoding="utf-8") as data_file:
             csv_writer = csv.writer(data_file)
             headers = False
             for user in self.users:
                 if not headers:
-                    header = user.keys()
-                    csv_writer.writerow(header)
+                    csv_writer.writerow(user.keys())
                     headers = True
                 csv_writer.writerow(user.values())
-            self.log("csv generated")
+
+        with open(Database._transactions_csv, "w", newline="", encoding="utf-8") as data_file:
+            csv_writer = csv.writer(data_file)
+            headers = False
+            for transaction in self.transactions:
+                if not headers:
+                    csv_writer.writerow(transaction.keys())
+                    headers = True
+                csv_writer.writerow(transaction.values())
+        
+        self.log("csv data sheets generated")
 
     def add_user(self, id: int, name: str) -> None:
         """
