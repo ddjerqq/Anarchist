@@ -100,6 +100,7 @@ class Database:
     def _add_transaction(self, sender_id: int, receiver_id: int, amount: int) -> None:
         self.transactions.append( { 
             "transaction_id" : len(self.transactions),
+            "timestamp"      : round(time.time()),
             "sender_id"      : sender_id,
             "receiver_id"    : receiver_id,
             "amount"         : round(amount)

@@ -14,7 +14,7 @@ from itertools import cycle
 
 # local imports
 from utils import *
-from tokens import TOKEN
+from secrets import TOKEN
 from database import Database
 
 # ~~~~~~~~~~~~~~~~~~~~~~~

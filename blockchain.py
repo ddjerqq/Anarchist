@@ -1,103 +1,140 @@
-import json
 import time
+import json
+import datetime
 from hashlib import sha256
 
-"""
-Genesis Block
-{
-    index: 0,
-    timestamp: time.time(),
-    data: transaction_data,
-    proof: 420,
-    previous_hash = "0"
-}
-"""
+#TODO add timestamp to transactions
+
+genesis_data = {
+            "transaction_id": 2,
+            "sender_id": 725773984808960050,
+            "receiver_id": 923600698967461898,
+            "amount": 10
+        }
 
 class BlockChain:
-    _difficulty = 5
 
-    def __init__(self):
-        self.chain = []
-        self.add_block(0, "initial", "")
+    _difficulty = 4
 
-    def add_block(self, proof: int, previous_hash: str, transaction_data: list) -> dict:
-        block = {
-            "index": len(self.chain),
-            "proof": proof,
-            "previous_hash": previous_hash,
-            "transactions": transaction_data,
-        }
-        self.chain.append(block)
+    def __init__(self) -> None:
+        self.chain    = []
+        genesis_block = self._create_block(0, {"genesis block" : ""}, 0, "0")
+        self.chain.append(genesis_block)
+
+    def mine_block(self, data: dict) -> dict:
+        if not self.chain_valid:
+            raise Exception("the blockchain is invalid")
+        
+        block = self._mine_block(data)
         return block
+    
+    
 
     @property
-    def last_block(self) -> dict:
+    def previous_block(self) -> dict:
         return self.chain[-1]
 
-    def proof_of_work(self, previous_proof: int) -> int:
-        new_proof = 1
-        check_proof = False
+    @property
+    def chain_valid(self) -> bool:
+        current_block = self.chain[0]
+        block_index   = 1
 
-        while check_proof is False:
-            hash_operation = sha256(
-                str(new_proof ** 2 - previous_proof ** 2).encode()
-            ).hexdigest()
-
-            if hash_operation[: BlockChain._difficulty] == "0" * BlockChain._difficulty:
-                check_proof = True
-            else:
-                new_proof += 1
-        return new_proof
-
-    def hash_block(self, block: dict):
-        encoded_block = json.dumps(block, sort_keys=True).encode()
-        return sha256(encoded_block).hexdigest()
-
-    def chain_valid(self):
-        previous_block = self.chain[0]
-        for block_index in range(1, len(self.chain)):
-            block = self.chain[block_index]
-            if block["previous_hash"] != self.hash_block(previous_block):
+        while block_index < len(self.chain):
+            next_block = self.chain[block_index]
+            if next_block["previous_hash"] != self._hash(current_block):
                 return False
 
-            previous_proof = previous_block["proof"]
-            proof = block["proof"]
-            hash_operation = sha256(
-                str(proof ** 2 - previous_proof ** 2).encode()
+            current_proof = current_block["proof"]
+            next_index = next_block["index"]
+            next_data  = next_block["data"]
+            next_proof = next_block["proof"]
+
+            hash_value = sha256(
+                self._to_digest(next_proof, current_proof, next_index, next_data)
             ).hexdigest()
 
-            if hash_operation[: BlockChain._difficulty] != "0" * BlockChain._difficulty:
+            if hash_value[:self._difficulty] != "0" * self._difficulty:
                 return False
-            previous_block = block
+            
+            current_block = next_block
+            block_index += 1
 
         return True
 
-    def send_money(self, sender, receiver, amount):
-        pass
+    def _mine_block(self, data: dict) -> dict:
+        previous_block = self.previous_block
+        previous_proof = previous_block["proof"]
+        index = previous_block["index"] + 1
+        proof = self._proof_of_work(previous_proof, index, data)
+        previous_hash = self._hash(previous_block)
+        block = self._create_block(index, data, proof, previous_hash)
+        self.chain.append(block)
+        return block
 
-    def mine(self):
-        proof = self.proof_of_work(self.last_block["proof"])
-        previous_hash = self.hash_block(self.last_block)
-        block = self.add_block(proof, previous_hash, "sender_id-receiver_id:amount;")
+    def _hash(self, block: dict) -> str:
+        """
+            hash a block and return the cryptographic hash
+        """
+        return sha256(str(block).encode()).hexdigest()
 
-        print()
-        print("new block is mined!")
-        print("index:", block["index"])
-        print("proof:", block["proof"])
-        print("data:", block["transactions"])
-        print("hash:", self.hash_block(block))
-        print("prev:", block["previous_hash"])
+    def _to_digest(self, new_proof: int, previous_proof: int, index: int, data: dict) -> bytes:
+        #TODO make this absolutely crazy
+        to_digest = str(new_proof ** 2 - previous_proof ** 2 + index) + str(data)
+        return to_digest.encode()
+
+    def _proof_of_work(self, previous_proof: int, index: int, data: dict) -> int:
+        """
+            heavy operation
+        """
+        new_proof = 1
+        while True:
+            to_digest = self._to_digest(new_proof, previous_proof, index, data)
+            hash_value = sha256(to_digest).hexdigest()
+            if hash_value[:self._difficulty] == "0" * self._difficulty:
+                return new_proof
+            else:
+                new_proof += 1
+
+    def _create_block(self, 
+            index         : int, 
+            data          : dict, 
+            proof         : int, 
+            previous_hash : str
+        )  -> dict:
+        block = {
+            "index"         : index,
+            "data"          : data,
+            "proof"         : proof,
+            "previous_hash" : previous_hash
+        }
+
+        return block
 
 
-blockchain = BlockChain()
-blockchain.mine()
-blockchain.mine()
-blockchain.mine()
-blockchain.mine()
+t1 = {
+    "transaction_id": 0,
+    "sender_id"  : 725773984808960050,
+    "receiver_id": 725773984808960050,
+    "amount": 25
+}
+t2 = {
+    "transaction_id": 1,
+    "sender_id"  : 725773984808960050,
+    "receiver_id": 725773984808960050,
+    "amount": 25
+}
+t3 = {
+    "transaction_id": 2,
+    "sender_id"  : 725773984808960050,
+    "receiver_id": 923600698967461898,
+    "amount": 10
+}
 
-print()
-for block in blockchain.chain:
-    print(block)
+bc = BlockChain()
+bc._mine_block(t1)
+bc._mine_block(t2)
+bc._mine_block(t3)
 
-print()
-print(blockchain.chain_valid())
+print(bc.chain)
+
+print(bc.chain_valid)
