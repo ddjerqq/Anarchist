@@ -10,7 +10,7 @@ class BlockChain:
         self.chain = []
         self.add_block(0, "initial", "")
 
-    def add_block(self, proof, previous_hash, transaction_data) -> dict:
+    def add_block(self, proof: int, previous_hash: str, transaction_data: list) -> dict:
         block = {
             "index": len(self.chain),
             "proof": proof,
@@ -20,15 +20,13 @@ class BlockChain:
         self.chain.append(block)
         return block
 
-    # This function is created
-    # to display the previous block
     @property
     def last_block(self) -> dict:
         return self.chain[-1]
 
     # This is the function for proof of work
     # and used to successfully mine the block
-    def proof_of_work(self, previous_proof) -> int:
+    def proof_of_work(self, previous_proof: int) -> int:
         new_proof = 1
         check_proof = False
 
@@ -43,7 +41,7 @@ class BlockChain:
                 new_proof += 1
         return new_proof
 
-    def hash_block(self, block):
+    def hash_block(self, block: dict):
         encoded_block = json.dumps(block, sort_keys=True).encode()
         return sha256(encoded_block).hexdigest()
 
@@ -65,6 +63,9 @@ class BlockChain:
             previous_block = block
 
         return True
+
+    def send_money(self, sender, receiver, amount):
+        pass
 
     def mine(self):
         proof = self.proof_of_work(self.last_block["proof"])

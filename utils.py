@@ -43,8 +43,7 @@ def warn(message="Warning!") -> None:
         yellow
     """
     os.system("")
-    print("\033[38;2;0;255;255m" + f"[^] {str(message).strip()}" + "\a" + END)
-
+    print("\033[38;2;255;125;0m" + f"[^] {str(message).strip()}" + "\a" + END)
 
 def ok(message="Success") -> None:
     """
@@ -54,16 +53,17 @@ def ok(message="Success") -> None:
     os.system("")
     print("\033[38;2;0;255;0m" + f"[*] {str(message).strip()}" + "\a" + END)
 
-
-def rgb(text: str, /, color: str | tuple, *, newline: bool = True) -> None:
+def rgb(text: str, /, color: str | tuple | int, *, newline: bool = True) -> None:
     """
         print rgb color 🎊 with this
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         \n
         ~~~~~~~~~~~~~~
         Args:
-            text (str): the text you want to print
-            color (str | tuple): #000000 either a string hex or a tuple of rgb value
+            text  (str): the text you want to print, str() method is automatically called on it
+            color (str): #000000 hex representation of color, prefixed with # or not
+            color (tuple): (red, green, blue) color tuple
+            color (int): 0xff0000 integer representation of hex color.
             newline (bool default False): whether or now you want to print a new line \n
             after you are done printing rgb, you can insert colored text if you set this to false
         \n
@@ -75,23 +75,27 @@ def rgb(text: str, /, color: str | tuple, *, newline: bool = True) -> None:
         Example:
             >>> rgb("lorem ipsum", "#ff0000")
             >>> rgb("lorem ipsum", (255, 0, 0))
-
+            >>> rgb("lorem ipsum", 0xff0000)
             >>> rgb("lorem", "#ff0000", newline=False)
             >>> rgb("ipsum", "#00ff00", newline=False)
     """
     if type(color) == str:
         color = tuple(int(color.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4))
-    elif type(color) == tuple:
-        pass
-    else:
-        print(f'color error "{color}" is not a valid option')
-        return
+    
+    elif type(color) == tuple: pass
 
-    if color[0] > 255 or color[1] > 255 or color[2] > 255:
-        print(f'color error "{color}" is not a valid option')
-        return
+    elif type(color) == int:
+        blue  = color % 256
+        green = ( (color - blue) // 256 ) % 256
+        red   = ( (color - blue) // 256 ** 2 ) - green // 256
+        color = ( (red, green, blue) )
+    
+    else: raise Exception(f"invalid color {color}")
+
+    if sum(color) > 765: return
 
     end = "\n" if newline else ""
-    print(
-        f"\033[38;2;{color[0]};{color[1]};{color[2]}m" + str(text) + "\033[0m", end=end
-    )
+    _color = f"\033[38;2;{color[0]};{color[1]};{color[2]}m"
+    _end_char = "\033[0m"
+
+    print( _color + str(text) + _end_char, end=end )
