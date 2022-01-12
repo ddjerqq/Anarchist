@@ -5,8 +5,7 @@ import time
 
 from utils import *
 
-class DatabaseException(Exception):
-    pass
+class DatabaseException(Exception): pass
 
 class Database:
     """
@@ -98,39 +97,16 @@ class Database:
     #----------------------------------------------------------------
 
 
-    def _add_transaction(self, sender_id: int | str, receiver_id: int | str, /, wallet: int = 0, bank: int = 0) -> None:
-        """
-            add transaction to the database
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-            Args:
-                sender   (int | str): sender id or service name
-                receiver (int | str): receiver id or service name
-                wallet   (float): amount to be added to the wallet
-                bank     (float): amount to be added to the bank
-            
-            Returns:
-                None
-        """
+    def _add_transaction(self, sender_id: int, receiver_id: int, amount: int) -> None:
         self.transactions.append( { 
             "transaction_id" : len(self.transactions),
             "sender_id"      : sender_id,
-            "sender_name"    : self[sender_id]["name"],
             "receiver_id"    : receiver_id,
-            "receiver_name"  : self[receiver_id]["name"],
-            "wallet"         : round(wallet),
-            "bank"           : round(bank)
+            "amount"         : round(amount)
         } )
-        self.log(f"#{self.transactions[-1]['transaction_id']} {self[sender_id]['name']} -> {self[receiver_id]['name']} wallet: {wallet} bank: {bank}")
+        self.warn(f"#{self.transactions[-1]['transaction_id']} {self[sender_id]['name']} -> {self[receiver_id]['name']} amount: {round(amount)}")
 
     def _init_db(self) -> None:
-        """
-            initialize the database \n
-            if the datafiles dont exist already:
-                make them
-            else:
-                read them
-        """
         if os.path.isfile(self._file_name):
             # reading
             with open(Database._file_name, 'r') as user_data_file, open(Database._transactions_file) as transactions_file:
@@ -146,15 +122,6 @@ class Database:
             self.log("database created")
 
     def _save(self) -> None:
-        """
-            save the database.
-            from memory to disk,
-            we are dumping self.users to datafile.json inside the \n
-            {
-                "users"        : self.users,
-                "transactions" : self.transactions
-            }
-        """
         with open(Database._file_name, "w") as data_file:
             json.dump(
                     { "users" : self.users },
@@ -171,51 +138,14 @@ class Database:
 
             self.log("database saved")
 
-    def _wallet(self, id: int, amount: int) -> bool:
-        """
-            add or subtract amount from the wallet
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            Args:
-                id (int): the id of the user
-                amount (int): keep in mind you can pass -10 as an argument.
-
-            Returns:
-                True on success, False on failure,
-                this could fail if the user has insufficient funds
-
-                Example:
-                    >>> if db._wallet(id, -10):
-                    >>>   db._bank(id, 10)
-                    >>> else: # the user does not have enough money
-        """
-
-        tmp_user = self[id]  # we get a temporary user dict
-
-        if (tmp_user["wallet"] + round(amount)) < 0:
-            # if the amount is just a lil negative
-            return False
-        else:
-            # if the amount is not negative, then we conduct the operation
-            tmp_user["wallet"] += round(amount)
-            self[id] = tmp_user
-            return True
-
-    def _bank(self, id: int, amount: int) -> int:
-        """
-            check docs for _wallet, this is exactly the same, just on wallet
-        """
+    def _money(self, id: int, amount: int) -> bool:
         tmp_user = self[id]
-
-        if tmp_user["bank"] + round(amount) < 0:
-            return 0
-        else:
-            tmp_user["bank"] += round(amount)
-            self[id] = tmp_user
-            return 1
-
+        if (tmp_user["amount"] + round(amount)) < 0: return False
+        tmp_user["amount"] += round(amount)
+        self[id] = tmp_user
+        return True
 
     #----------------------------------------------------------------
-
 
     def close(self) -> None:
         """
@@ -229,82 +159,13 @@ class Database:
         self.warn("closing database")
 
     def work(self, id: int) -> None:
-        """
-            work command\n
-            tracked transaction
-        """
-        self._wallet(id, 25)
-        self._add_transaction(id, id, 25, 0)
-
-    def deposit(self, id: int, amount: int) -> bool:
-        """
-        an easier way to deposit funds from an users wallet to their bank.
-
-        Args:
-            id (int): id of the user
-            amount (int): amount to deposit
-
-        Returns:
-            True on success
-            False on fail (if user has insufficient funds)
-
-        Example:
-            >>> if db.deposit(id, 10):
-            >>>   user deposit success
-            >>> else: user has insufficient funds
-        """
-        if self._wallet(id, -amount):
-            self._bank(id, amount)
-            self._add_transaction(id, id, amount, -amount)
-            return True
-        else:
-            return False
-
-    def withdraw(self, id: int, amount: int) -> bool:
-        """
-            an easier way to withdraw funds from an users bank to their wallet.
-
-            Args:
-                id (int): id of the user
-                amount (int): amount to deposit
-
-            Returns:
-                True on success
-                False on fail (if user has insufficient funds)
-
-            Example:
-                >>> if db.withdraw(id, 10):
-                >>>   user withdraw success
-                >>> else: user has insufficient funds
-        """
-        if self._bank(id, -amount):
-            self._wallet(id, amount)
-            self._add_transaction(id, id, amount, -amount)
-            return True
-        else:
-            return False
+        self._money(id, 25)
+        self._add_transaction(id, id, 25)
 
     def give(self, sender_id: int, receiver_id: int, amount: int) -> bool:
-        """
-            take money from one user's wallet to another
-            tracked transaction
-
-            Args:
-                sender_id (int)  : The sender's id
-                receiver_id (int): The receiver's id
-                amount (float)   : The amount to give
-
-            Returns:
-                bool: True on success, False on fail
-            
-            Example:
-                >>> if database.give(ctx.author.id, _id, amount):
-                >>>   success
-                >>> else: fail
-        """
-        if self._wallet(sender_id, -amount):
-            self._wallet(receiver_id, amount)
-            self._add_transaction(sender_id, receiver_id, wallet = amount)
+        if  self._money(sender_id, -amount):
+            self._money(receiver_id, amount)
+            self._add_transaction(sender_id, receiver_id, amount)
             return True
         else:
             return False
@@ -326,37 +187,36 @@ class Database:
         with open(Database._transactions_csv, "w", newline="", encoding="utf-8") as data_file:
             csv_writer = csv.writer(data_file)
             headers = False
+
+            csv_writer.writerow([
+                "transaction_id",
+                "sender_id",
+                "sender_name",
+                "receiver_id",
+                "receiver_name",
+                "amount"
+            ])
+            
             for transaction in self.transactions:
-                if not headers:
-                    csv_writer.writerow(transaction.keys())
-                    headers = True
-                csv_writer.writerow(transaction.values())
+                csv_writer.writerow([
+                            transaction["transaction_id"],
+                            transaction["sender_id"],
+                            self[transaction["sender_id"]]["name"],
+                            transaction["receiver_id"],
+                            self[transaction["receiver_id"]]["name"],
+                            transaction["amount"]
+                        ])
         
         self.warn("csv data sheets generated")
 
     def add_user(self, id: int, name: str) -> None:
-        """
-            add a user dict to database user dictionaries.
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            (saves automatically)
-
-            Args:
-                id (int): the id of the user
-                name (str): the name of the user
-
-            Returns:
-                bool: True if the user was already in the database, False otherwise
-        """
-
         if id in self:
             return
         else:
-            # create a temporary user
             tmp_user = {
                 "id"     : id,
                 "name"   : name,
-                "bank"   : 0,
-                "wallet" : 0,
+                "amount" : 0,
             }
 
             self.users.append(tmp_user)
@@ -367,6 +227,9 @@ class Database:
 
     def __str__(self) -> str:
         return str([str(user) + "\n" for user in self.users])
+
+    def __len__(self) -> int:
+        return len(self.users)
 
     def __iter__(self):
         for user in self.users:

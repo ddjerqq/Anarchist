@@ -2,6 +2,16 @@ import json
 import time
 from hashlib import sha256
 
+"""
+Genesis Block
+{
+    index: 0,
+    timestamp: time.time(),
+    data: transaction_data,
+    proof: 420,
+    previous_hash = "0"
+}
+"""
 
 class BlockChain:
     _difficulty = 5
@@ -24,8 +34,6 @@ class BlockChain:
     def last_block(self) -> dict:
         return self.chain[-1]
 
-    # This is the function for proof of work
-    # and used to successfully mine the block
     def proof_of_work(self, previous_proof: int) -> int:
         new_proof = 1
         check_proof = False

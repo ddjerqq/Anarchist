@@ -34,6 +34,7 @@ async def save_database() -> None:
 
 @client.event
 async def on_ready():
+    old_user_count = len(database)
     for guild in client.guilds:
         async for member in guild.fetch_members(limit=None):
             if member.bot:
@@ -43,9 +44,12 @@ async def on_ready():
             else:
                 tmp_user = database[member.id]
                 if tmp_user["name"] != member.name:
+                    old_name = tmp_user["name"]
                     tmp_user["name"] = member.name
                     database[member.id] = tmp_user
-                    warn(f"{tmp_user['name']}'s name updated")
+                    warn(f"{old_name}'s name updated to {tmp_user['name']}")
+
+    warn(f"added {len(database) - old_user_count} new users")
 
     await client.change_presence(activity=discord.Game(F"{PREFIX}help"))
     ok("Bot is online")
@@ -77,7 +81,9 @@ async def dm_user(_id: str, *, message: str = None, embed: discord.Embed = None)
     else:
         warn("what are you sending this user?")
 
-@client.command(name="help")
+
+
+@client.command(name = "help")
 async def help_command(ctx, _type: str = None):
     em = discord.Embed(title="Categories", color=0xFF0000)
     em.set_footer(
@@ -101,13 +107,10 @@ async def help_command(ctx, _type: str = None):
         em.description = currency_commands
     await ctx.send(embed=em)
 
-@client.command(name="info")
-async def info(ctx: commands.Context, _id: str = None):
-    if _id == None:  _id = ctx.author.id
-    elif "@" in _id: _id = int(_id[3:-1])
-    else:            _id = int(_id)
-
-    user: discord.User = client.get_user(_id)
+@client.command(name = "info")
+async def info(ctx: commands.Context, user: discord.Member = None):
+    if not user: 
+        user = ctx.author
 
     embed: discord.Embed = discord.Embed( 
         title = f"{user.name}#{user.discriminator}'s info", 
@@ -132,12 +135,6 @@ async def info(ctx: commands.Context, _id: str = None):
         url = user.avatar_url
     )
 
-    embed.add_field(name="creation time", value=str(user.created_at), inline=False)
-    embed.add_field(name="id", value=user.id, inline=False)
-    embed.add_field(name="is bot?", value=user.bot, inline=False)
-    embed.add_field(name="public flags", value=user.public_flags, inline=False)
-    embed.set_image(url=user.avatar_url)
-
     await ctx.send(embed=embed)
 
 #TODO add query commands for mods
@@ -151,14 +148,9 @@ async def balance(ctx: commands.Context, user: discord.Member = None) -> None:
         color = 0xff0000, 
         title = f"{database[_id]['name']}'s balance" 
         )
-    embed.add_field( 
-        name = "bank account",
-        value = database[_id]["bank"],
-        inline = False 
-        )
-    embed.add_field( 
-        name = "wallet account", 
-        value = database[_id]["wallet"], 
+    embed.add_field(
+        name = "total amount",
+        value = f"{database[_id]['amount']} ⏣",
         inline = False 
         )
     await ctx.send( embed = embed )
@@ -169,80 +161,14 @@ async def work(ctx: commands.Context) -> None:
     database.work(ctx.author.id)
     embed = discord.Embed( 
         color = 0xff0000, 
-        title = f"nice work! \nyou earned 25 coins"
+        title = f"nice work! \nyou earned 25 ⏣"
         )
     await ctx.send( embed = embed )
 
-@client.command(name="deposit", aliases=["dep"])
-async def deposit(ctx: commands.Context, amount: str = None) -> None:
-    """
-        from wallet to bank
-    """
-    if not amount:
-        embed = discord.Embed(
-            color=0xFF0000, title="how much are you withdrawing dumbass?"
-        )
-        await ctx.send(embed=embed)
-        return
-
-    if amount.lower() == "all" or amount.lower() == "max":
-        amount = database[ctx.author.id]["wallet"]
-    elif float(amount) <= 0:
-        embed = discord.Embed(
-            color=0xFF0000, title="you're a real dumbass, aren't you?"
-        )
-        await ctx.send(embed=embed)
-        return
-    else:
-        amount = float(amount)
-
-    if database.deposit(ctx.author.id, amount):
-        embed = discord.Embed(
-            color=0xFF0000, title=f"success!\nyou successfully deposited {amount}"
-        )
-        await ctx.send(embed=embed)
-    else:
-        embed = discord.Embed(
-            color=0xFF0000, title="you don't have enough funds stupid"
-        )
-        await ctx.send(embed=embed)
-
-@client.command(name="withdraw")
-async def withdraw(ctx: commands.Context, amount: str = None) -> None:
-    """
-        from bank to wallet
-    """
-    if not amount:
-        embed = discord.Embed(
-            color=0xFF0000, title="how much are you withdrawing dumbass?"
-        )
-        await ctx.send(embed=embed)
-        return
-
-    if amount.lower() == "all" or amount.lower() == "max":
-        amount = database[ctx.author.id]["bank"]
-    elif float(amount) <= 1:
-        embed = discord.Embed( color = 0xff0000, title = "you're a real dumbass, aren't you?" )
-        await ctx.send( embed = embed )
-        return
-    else:
-        amount = float(amount)
-
-    if database.withdraw(ctx.author.id, amount):
-        embed = discord.Embed(
-            color=0xFF0000, title=f"success!\nyou successfully withdrew {amount}"
-        )
-        await ctx.send(embed=embed)
-    else:
-        embed = discord.Embed(
-            color=0xFF0000, title="you don't have enough funds stupid"
-        )
-        await ctx.send(embed=embed)
-
 @client.command(name = "give")
-async def give(ctx: commands.Context, _id: str, amount: str) -> None:
-    if "@" in _id: _id = int( _id[3:-1] )
-    else:          _id = int(_id)
+async def give(ctx: commands.Context, user: discord.Member, amount: str) -> None:
+
+    _id = user.id
 
     if amount.lower() == "all" or amount.lower() == "max":
         amount = database[ctx.author.id]["wallet"]
@@ -260,7 +186,7 @@ async def give(ctx: commands.Context, _id: str, amount: str) -> None:
     if database.give(ctx.author.id, _id, amount):
         embed = discord.Embed( 
             color = 0xff0000, 
-            title = f"you successfully gave {database[_id]['name']} {amount} coins"
+            title = f"you successfully gave {database[_id]['name']} {amount} ⏣"
             )
         # embed2 = discord.Embed(
         #     color = 0xff0000, 
