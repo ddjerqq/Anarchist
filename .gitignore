@@ -1,5 +1,6 @@
 supersecrets.py
-data/anarchist.csv
-data/anarchist.json
 data/transactions.csv
 data/transactions.json
+data/anarchist.json
+data/anarchist.csv
+selfbot.py
