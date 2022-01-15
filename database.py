@@ -73,8 +73,6 @@ class Database:
     _transactions_csv  = "data\\transactions.csv"
     _transactions_file = "data\\transactions.json"
 
-
-
     def log(self, message: str) -> None:
         if self.verbose:
             rgb("[*] " + str(message).replace("[*]", ""), (0, 255, 255))
@@ -93,11 +91,9 @@ class Database:
         self.transactions = []
         self._init_db()
 
+    #---------------------------------------------------------------
 
-    #----------------------------------------------------------------
-
-
-    def _add_transaction(self, sender_id: int, receiver_id: int, amount: int) -> None:
+    def _add_transaction(self, sender_id: int | str, receiver_id: int | str, amount: int) -> None:
         self.transactions.append( { 
             "transaction_id" : len(self.transactions),
             "timestamp"      : round(time.time()),
@@ -105,7 +101,10 @@ class Database:
             "receiver_id"    : receiver_id,
             "amount"         : round(amount)
         } )
-        self.warn(f"#{self.transactions[-1]['transaction_id']} {self[sender_id]['name']} -> {self[receiver_id]['name']} amount: {round(amount)}")
+        if sender_id == "work":
+            self.warn(f"#{self.transactions[-1]['transaction_id']} work -> {self[receiver_id]['name']} amount: {round(amount)}")
+        else:
+            self.warn(f"#{self.transactions[-1]['transaction_id']} {self[sender_id]['name']} -> {self[receiver_id]['name']} amount: {round(amount)}")
 
     def _init_db(self) -> None:
         if os.path.isfile(self._file_name):
@@ -161,7 +160,7 @@ class Database:
 
     def work(self, id: int) -> None:
         self._money(id, 25)
-        self._add_transaction(id, id, 25)
+        self._add_transaction("work", id, 25)
 
     def give(self, sender_id: int, receiver_id: int, amount: int) -> bool:
         if  self._money(sender_id, -amount):
