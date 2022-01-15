@@ -1,21 +1,11 @@
 import time
-import json
-import datetime
 from hashlib import sha256
+from supersecrets import digest
 
 #TODO add timestamp to transactions
 
-genesis_data = {
-            "transaction_id": 2,
-            "sender_id": 725773984808960050,
-            "receiver_id": 923600698967461898,
-            "amount": 10
-        }
-
 class BlockChain:
-
     _difficulty = 4
-
     def __init__(self) -> None:
         self.chain    = []
         genesis_block = self._create_block(0, {"genesis block" : ""}, 0, "0")
@@ -27,8 +17,6 @@ class BlockChain:
         
         block = self._mine_block(data)
         return block
-    
-    
 
     @property
     def previous_block(self) -> dict:
@@ -77,18 +65,13 @@ class BlockChain:
         """
         return sha256(str(block).encode()).hexdigest()
 
-    def _to_digest(self, new_proof: int, previous_proof: int, index: int, data: dict) -> bytes:
-        #TODO make this absolutely crazy
-        to_digest = str(new_proof ** 2 - previous_proof ** 2 + index) + str(data)
-        return to_digest.encode()
-
     def _proof_of_work(self, previous_proof: int, index: int, data: dict) -> int:
         """
             heavy operation
         """
         new_proof = 1
         while True:
-            to_digest = self._to_digest(new_proof, previous_proof, index, data)
+            to_digest = digest(new_proof, previous_proof, index, data)
             hash_value = sha256(to_digest).hexdigest()
             if hash_value[:self._difficulty] == "0" * self._difficulty:
                 return new_proof
@@ -113,28 +96,19 @@ class BlockChain:
 
 t1 = {
     "transaction_id": 0,
-    "sender_id"  : 725773984808960050,
-    "receiver_id": 725773984808960050,
-    "amount": 25
+    "sender_id"     : 725773984808960050,
+    "receiver_id"   : 725773984808960050,
+    "amount"        : 25
 }
 t2 = {
     "transaction_id": 1,
-    "sender_id"  : 725773984808960050,
-    "receiver_id": 725773984808960050,
-    "amount": 25
+    "sender_id"     : 725773984808960050,
+    "receiver_id"   : 725773984808960050,
+    "amount"        : 25
 }
 t3 = {
     "transaction_id": 2,
-    "sender_id"  : 725773984808960050,
-    "receiver_id": 923600698967461898,
-    "amount": 10
+    "sender_id"     : 725773984808960050,
+    "receiver_id"   : 923600698967461898,
+    "amount"        : 10
 }
-
-bc = BlockChain()
-bc._mine_block(t1)
-bc._mine_block(t2)
-bc._mine_block(t3)
-
-print(bc.chain)
-
-print(bc.chain_valid)

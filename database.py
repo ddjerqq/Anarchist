@@ -273,3 +273,5 @@ class Database:
         if not exc_tb == None:
             self.error(exc_tb)
         self.close()
+
+database = Database(verbose = True)

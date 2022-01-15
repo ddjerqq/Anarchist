@@ -2,20 +2,15 @@
 import os
 import random
 
-# ~~~~~~~~
-
 # 3rd party libraries
 import discord
 from discord.ext import commands
 from discord.ext import tasks
-from itertools import cycle
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~
 
 # local imports
 from utils import *
-from secrets import TOKEN
-from database import Database
+from supersecrets import TOKEN
+from database import database
 
 # ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -23,8 +18,6 @@ from database import Database
 PREFIX = "."
 client = commands.Bot(command_prefix=PREFIX, intents=discord.Intents.all())
 client.remove_command("help")
-
-database = Database(verbose=True)
 # ~~~~~~~~~~~~~~~~~~~~~~~
 
 @tasks.loop(seconds = 120)
@@ -80,8 +73,6 @@ async def dm_user(_id: str, *, message: str = None, embed: discord.Embed = None)
         await user.send(message)
     else:
         warn("what are you sending this user?")
-
-
 
 @client.command(name = "help")
 async def help_command(ctx, _type: str = None):
@@ -139,6 +130,27 @@ async def info(ctx: commands.Context, user: discord.Member = None):
 
 #TODO add query commands for mods
 
+@client.command(name = "rank", aliases = ["leaderboard"])
+async def _rank(ctx: commands.Context) -> None:
+    users = []
+    async for user in ctx.guild.fetch_members( limit = None ):
+        if not user.bot:
+            users.append(database[user.id])
+
+    sorted_users = sorted(users, key = lambda x: x["amount"], reverse = True)[0:10]
+
+    embed = discord.Embed(
+        title = f"{ctx.guild.name} leaderboard",
+        color = 0xff0000,
+    )
+    for user_index in range(len(sorted_users)):
+        embed.add_field(
+            name   = f"#{user_index + 1} {sorted_users[user_index]['name']}",
+            value  = str(sorted_users[user_index]["amount"]) + " ⏣",
+            inline = False 
+        )
+    await ctx.send( embed = embed)
+
 @client.command(name = "bal", aliases = ["balanace"])
 async def balance(ctx: commands.Context, user: discord.Member = None) -> None:
     if not user: user = ctx.author
@@ -167,11 +179,9 @@ async def work(ctx: commands.Context) -> None:
 
 @client.command(name = "give")
 async def give(ctx: commands.Context, user: discord.Member, amount: str) -> None:
-
     _id = user.id
-
     if amount.lower() == "all" or amount.lower() == "max":
-        amount = database[ctx.author.id]["wallet"]
+        amount = database[ctx.author.id]["amount"]
     else:
         if int(amount) > 0:
             amount = int(amount)
@@ -196,7 +206,7 @@ async def give(ctx: commands.Context, user: discord.Member, amount: str) -> None
     else:
         embed = discord.Embed( 
             color = 0xff0000, 
-            title = f"you don't have enough money in your wallet, try withdrawing first"
+            title = f"you don't have enough money dumbass"
             )
 
     await ctx.send( embed = embed )
