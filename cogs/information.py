@@ -7,7 +7,7 @@ class Information(commands.Cog):
         self.client = client
 
     @commands.command(name="help")
-    async def help_command(ctx, _type: str = None):
+    async def help_command(self, ctx, _type: str = None):
         em = discord.Embed(title="Categories", color=0xFF0000)
         em.set_footer(
             text="type `.help [category] for help with a specific category or command`"
@@ -31,7 +31,7 @@ class Information(commands.Cog):
         await ctx.send(embed=em)
 
     @commands.command(name="info")
-    async def info(ctx: commands.Context, user: discord.Member = None):
+    async def info(self, ctx: commands.Context, user: discord.Member = None):
         if not user:
             user = ctx.author
 
@@ -46,5 +46,5 @@ class Information(commands.Cog):
         await ctx.send(embed=embed)
 
 
-def setup(client):
+def setup(client: discord.Client):
     client.add_cog(Information(client))
