@@ -43,37 +43,12 @@ async def save_database() -> None:
     database._save()
     database.generate_csv()
 
-<<<<<<< HEAD
-=======
-#TODO add query commands for mods
 
-@client.command(name = "rank", aliases = ["leaderboard"])
-async def _rank(ctx: commands.Context) -> None:
-    users = []
-    async for user in ctx.guild.fetch_members( limit = None ):
-        if not user.bot:
-            users.append(database[user.id])
+def load_extensions():
+    for i in os.listdir("cogs"):
+        client.load_extension(f"cogs.{i[:-3]}")
+        print(f"{i:[-3]} loaded.")
 
-    sorted_users = sorted(users, key = lambda x: x["amount"], reverse = True)[0:10]
-
-    embed = discord.Embed(
-        title = f"{ctx.guild.name} leaderboard",
-        color = 0xff0000,
-    )
-    for user_index in range(len(sorted_users)):
-        embed.add_field(
-            name   = f"#{user_index + 1} {sorted_users[user_index]['name']}",
-            value  = str(sorted_users[user_index]["amount"]) + " ⏣",
-            inline = False 
-        )
-    await ctx.send( embed = embed)
-
-
-def load_extensions() -> None:
-    for file_name in os.listdir("./cogs"):
-        if file_name.endswith(".py"):
-            client.load_extension(f"cogs.{file_name[:-3]}")
->>>>>>> 0b4433ea0beb6198635a259c59be53d902266809
 
 def main():
     load_extensions()
