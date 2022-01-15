@@ -14,65 +14,13 @@ from database import database
 
 # ~~~~~~~~~~~~~~~~~~~~~~~
 
-# globals
 PREFIX = "."
-client = commands.Bot(command_prefix=PREFIX, intents=discord.Intents.all())
-client.remove_command("help")
-# ~~~~~~~~~~~~~~~~~~~~~~~
 
-@tasks.loop(seconds = 120)
-async def save_database() -> None:
-    database._save()
-    database.generate_csv()
+client = commands.Bot(
+    command_prefix = PREFIX, 
+    intents        = discord.Intents.all(), 
+    help_command   = None)
 
-@client.event
-async def on_ready():
-    old_user_count = len(database)
-    for guild in client.guilds:
-        async for member in guild.fetch_members(limit=None):
-            if member.bot:
-                continue
-            if member.id not in database:
-                database.add_user(member.id, member.name)
-            else:
-                tmp_user = database[member.id]
-                if tmp_user["name"] != member.name:
-                    old_name = tmp_user["name"]
-                    tmp_user["name"] = member.name
-                    database[member.id] = tmp_user
-                    warn(f"{old_name}'s name updated to {tmp_user['name']}")
-
-    warn(f"added {len(database) - old_user_count} new users")
-
-    await client.change_presence(activity=discord.Game(F"{PREFIX}help"))
-    ok("Bot is online")
-
-@client.event
-async def on_command_error(ctx, error):
-    embed = discord.Embed(color=0xFF0000, title="unhandled error")
-    embed.add_field(name="error:", value=error, inline=False)
-    await ctx.send(embed=embed)
-    warn(error)
-
-@client.event
-async def on_member_join(member):
-    if member.bot:
-        return
-    if member.id not in database:
-        database.add_user(member.id, member.name)
-
-# utils
-async def dm_user(_id: str, *, message: str = None, embed: discord.Embed = None) -> None:
-    """
-        dm an user by their id
-    """
-    user = client.get_user(_id)
-    if message == None:
-        await user.send(embed=embed)
-    elif embed == None:
-        await user.send(message)
-    else:
-        warn("what are you sending this user?")
 
 @client.command(name = "help")
 async def help_command(ctx, _type: str = None):
@@ -130,26 +78,7 @@ async def info(ctx: commands.Context, user: discord.Member = None):
 
 #TODO add query commands for mods
 
-@client.command(name = "rank", aliases = ["leaderboard"])
-async def _rank(ctx: commands.Context) -> None:
-    users = []
-    async for user in ctx.guild.fetch_members( limit = None ):
-        if not user.bot:
-            users.append(database[user.id])
 
-    sorted_users = sorted(users, key = lambda x: x["amount"], reverse = True)[0:10]
-
-    embed = discord.Embed(
-        title = f"{ctx.guild.name} leaderboard",
-        color = 0xff0000,
-    )
-    for user_index in range(len(sorted_users)):
-        embed.add_field(
-            name   = f"#{user_index + 1} {sorted_users[user_index]['name']}",
-            value  = str(sorted_users[user_index]["amount"]) + " ⏣",
-            inline = False 
-        )
-    await ctx.send( embed = embed)
 
 
 def load_extensions() -> None:
@@ -159,7 +88,6 @@ def load_extensions() -> None:
 
 def main():
     load_extensions()
-    save_database.start()
     client.run(TOKEN)
 
 if __name__ == "__main__":
