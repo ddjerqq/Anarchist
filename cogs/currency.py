@@ -8,7 +8,7 @@ class Currency(commands.Cog):
         self.client = client
 
     @commands.command(name="rank", aliases=["leaderboard"])
-    async def _rank(ctx: commands.Context) -> None:
+    async def _rank(self, ctx: commands.Context) -> None:
         users = []
         async for user in ctx.guild.fetch_members(limit=None):
             if not user.bot:
@@ -29,7 +29,7 @@ class Currency(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name="bal", aliases=["balanace"])
-    async def balance(ctx: commands.Context, user: discord.Member = None) -> None:
+    async def balance(self, ctx: commands.Context, user: discord.Member = None) -> None:
         if not user:
             user = ctx.author
         _id = user.id
@@ -44,13 +44,13 @@ class Currency(commands.Cog):
 
     @commands.command(name="work")
     @commands.cooldown(1, 30, commands.BucketType.user)
-    async def work(ctx: commands.Context) -> None:
+    async def work(self, ctx: commands.Context) -> None:
         database.work(ctx.author.id)
         embed = discord.Embed(color=0xFF0000, title=f"nice work! \nyou earned 25 ⏣")
         await ctx.send(embed=embed)
 
     @commands.command(name="give")
-    async def give(ctx: commands.Context, user: discord.Member, amount: str) -> None:
+    async def give(self, ctx: commands.Context, user: discord.Member, amount: str) -> None:
         _id = user.id
         if amount.lower() == "all" or amount.lower() == "max":
             amount = database[ctx.author.id]["amount"]
@@ -80,7 +80,6 @@ class Currency(commands.Cog):
             )
 
         await ctx.send(embed=embed)
-
 
 def setup(client):
     client.add_cog(Currency(client))
