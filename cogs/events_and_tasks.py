@@ -43,6 +43,7 @@ class EventsAndTasks(commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx: commands.Context, error):
         if isinstance(error, commands.errors.CommandOnCooldown): return
+        if isinstance(error, commands.errors.CommandNotFound)  : return
 
         embed = discord.Embed(
             color = 0xff0000,

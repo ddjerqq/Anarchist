@@ -4,9 +4,6 @@ from discord.ext.commands import errors
 
 from database import database
 
-# TODO add query commands for mods
-# TODO HOOK THE FUCKING BLOCKCHAIN ALREADY JESUS
-
 class Currency(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -33,7 +30,7 @@ class Currency(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name="bal", aliases=["balanace"])
-    async def balance(self, ctx: commands.Context, user: discord.Member = None) -> None:
+    async def _balance(self, ctx: commands.Context, user: discord.Member = None) -> None:
         if not user:
             user = ctx.author
         _id = user.id
@@ -48,22 +45,22 @@ class Currency(commands.Cog):
 
     @commands.command(name="work")
     @commands.cooldown(1, 30, commands.BucketType.user)
-    async def work(self, ctx: commands.Context) -> None:
+    async def _work(self, ctx: commands.Context) -> None:
         database.work(ctx.author.id)
         embed = discord.Embed(color=0x00ff00, title=f"nice work! \nyou earned 25 ⏣")
         await ctx.send(embed=embed)
 
-    @work.error
-    async def work_error(self, ctx: commands.Context, error) -> None:
+    @_work.error
+    async def _work_error(self, ctx: commands.Context, error) -> None:
         if isinstance(error, errors.CommandOnCooldown):
             embed = discord.Embed( 
                 color = 0xff0000,
-                title = f"slow down buddy, you're on cooldown\ntry again in {round(error.retry_after)}"
+                title = f"slow down buddy, you're on cooldown\ntry again in {round(error.retry_after)} seconds"
                 )
             await ctx.send(embed = embed)
 
     @commands.command(name="give")
-    async def give(self, ctx: commands.Context, user: discord.Member, amount: str) -> None:
+    async def _give(self, ctx: commands.Context, user: discord.Member, amount: str) -> None:
         _id = user.id
         if amount.lower() == "all" or amount.lower() == "max":
             amount = database[ctx.author.id]["amount"]
