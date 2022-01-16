@@ -2,19 +2,19 @@ import time
 from hashlib import sha256
 from supersecrets import digest
 
-#TODO add timestamp to transactions
-
 class BlockChain:
     _difficulty = 4
+    _file_name  = "data\\blockchain.json"
+    _csv_name   = "data\\blockchain.csv"
+
     def __init__(self) -> None:
         self.chain    = []
-        genesis_block = self._create_block(0, {"genesis block" : ""}, 0, "0")
+        genesis_block = self._create_block(0, {"genesis block" : "super"}, 0, "0")
         self.chain.append(genesis_block)
 
     def mine_block(self, data: dict) -> dict:
         if not self.chain_valid:
             raise Exception("the blockchain is invalid")
-        
         block = self._mine_block(data)
         return block
 
@@ -78,12 +78,11 @@ class BlockChain:
             else:
                 new_proof += 1
 
-    def _create_block(self, 
-            index         : int, 
-            data          : dict, 
-            proof         : int, 
-            previous_hash : str
-        )  -> dict:
+    def _create_block(self,
+            index         : int,
+            data          : dict,
+            proof         : int,
+            previous_hash : str )  -> dict:
         block = {
             "index"         : index,
             "data"          : data,

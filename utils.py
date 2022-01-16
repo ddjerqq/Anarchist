@@ -4,8 +4,9 @@ import time
 VERBOSE = True
 
 END = "\33[0m"
-# RGB \033[38;2;<r>;<g>;<b>m
+#\033[38;2;<r>;<g>;<b>m
 
+os.system("")
 
 def stat(precision: int = 6) -> callable:
     """
@@ -42,16 +43,14 @@ def warn(message="Warning!") -> None:
         [^] use this to print warnings.\n
         yellow
     """
-    os.system("")
-    print("\033[38;2;255;125;0m" + f"[^] {str(message).strip()}" + "\a" + END)
+    rgb(f"[^] {str(message)}" + "\a" + END, 0xffff00)
 
 def ok(message="Success") -> None:
     """
         [*] use this to print sucess messages.\n
         green
     """
-    os.system("")
-    print("\033[38;2;0;255;0m" + f"[*] {str(message).strip()}" + "\a" + END)
+    rgb(f"[*] {str(message)}" + END, 0x00ff00)
 
 def rgb(text: str, /, color: str | tuple | int, *, newline: bool = True) -> None:
     """

@@ -3,57 +3,19 @@ import csv
 import json
 import time
 
+from hashlib import sha256
+from supersecrets import digest
+
 from utils import *
 
 class DatabaseException(Exception): pass
 
 class Database:
-    """
-        super database v 1.0
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    _difficulty        = 4
+    _blockchain_file   = "data\\blockchain.json"
 
-        
-        \n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n
-        \nstores: user dictionaries inside json
-        
-        \nGet started
-        >>> database = Database()
-        ... #or do
-        >>> with Database(verbose=True) as db:
-        ...   db.add_user(id, user_name)
-        \n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n
-        
-        \nfeatures:
-
-        \ndeposit:
-        >>> give implementation
-        >>> work implementation
-
-        \n__contains__ implementation:
-        >>> if user_id in db:
-        >>> ...
-
-        \n__getitem__ / __setitem__ implementation:
-        >>> db[user_id]
-        >>> db[user_id] = new_user
-
-        \n__iter__ implementation:
-        >>> for user in db:
-        ...   print(user["id"])
-        \n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n
-
-        \nextras:
-        >>> len(db) #get amount of users in db
-        ... 101
-
-        >>> str(db) #get every user dictionary in the db, all on new lines
-        ... {"name": "John", "wallet": 6.9, "bank": 420.0}
-        ... {"name": "Foo",  "wallet": 0.0, "bank": 200.0}
-        ... ...
-    """
-
-    _file_name         = "data\\anarchist.json"
-    _users_csv         = "data\\anarchist.csv"
+    _users_file_name   = "data\\anarchist.json"
+    _users_csv_file    = "data\\anarchist.csv"
     _transactions_csv  = "data\\transactions.csv"
     _transactions_file = "data\\transactions.json"
 
@@ -68,11 +30,11 @@ class Database:
     def error(self, message: str) -> None:
         rgb("[*] " + str(message), (255, 0, 0))
 
-
     def __init__(self, *, verbose: bool = False):
         self.verbose      = verbose
         self.users        = []
         self.transactions = []
+        self.blockchain   = []
         self._init_db()
 
     #---------------------------------------------------------------
@@ -91,9 +53,9 @@ class Database:
             self.warn(f"#{self.transactions[-1]['transaction_id']} {self[sender_id]['name']} -> {self[receiver_id]['name']} amount: {round(amount)}")
 
     def _init_db(self) -> None:
-        if os.path.isfile(self._file_name):
+        if os.path.isfile(self._users_file_name):
             # reading
-            with open(Database._file_name, 'r') as user_data_file, open(Database._transactions_file) as transactions_file:
+            with open(Database._users_file_name, 'r') as user_data_file, open(Database._transactions_file) as transactions_file:
                 self.users        = json.load( user_data_file )["users"]
                 self.transactions = json.load( transactions_file )["transactions"]
             
@@ -106,7 +68,7 @@ class Database:
             self.log("database created")
 
     def _save(self) -> None:
-        with open(Database._file_name, "w") as data_file:
+        with open(Database._users_file_name, "w") as data_file:
             json.dump(
                     { "users" : self.users },
                     data_file, 
@@ -120,11 +82,19 @@ class Database:
                     indent=4
                 )
 
-            self.log("database saved")
+        with open(Database._blockchain_file, "w") as blockchain_file:
+            json.dump(
+                    { "blocks" : self.transactions },
+                    blockchain_file,
+                    indent=4
+                )
+
+        self.log("database saved")
 
     def _money(self, id: int, amount: int) -> bool:
         tmp_user = self[id]
-        if (tmp_user["amount"] + round(amount)) < 0: return False
+        if (tmp_user["amount"] + round(amount)) < 0: 
+            return False
         tmp_user["amount"] += round(amount)
         self[id] = tmp_user
         return True
@@ -159,7 +129,7 @@ class Database:
             generate csv of the data.
             for our representation only, this is just so we can access the sheets
         """
-        with open(Database._users_csv, "w", newline="", encoding="utf-8") as data_file:
+        with open(Database._users_csv_file, "w", newline="", encoding="utf-8") as data_file:
             csv_writer = csv.writer(data_file)
             headers = False
             for user in self.users:

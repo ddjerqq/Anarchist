@@ -53,6 +53,17 @@ class Information(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @commands.command(name = "invite", aliases = ["inv"])
+    async def _invite(self, ctx: commands.Context):
+        embed = discord.Embed(
+            title = "Click me to Invite!", 
+            url = "https://discord.com/api/oauth2/authorize?client_id=924293465997705286&permissions=275884665968&scope=bot"
+            )
+        embed.set_author(
+            name = self.client.user, 
+            icon_url = self.client.user.avatar_url
+            )
+        await ctx.reply(embed = embed)
 
 def setup(client: discord.Client):
     client.add_cog(Information(client))

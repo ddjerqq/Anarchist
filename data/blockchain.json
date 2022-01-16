@@ -1,5 +1,5 @@
 {
-    "transactions": [
+    "blocks": [
         {
             "transaction_id": 2,
             "timestamp": 1642355291,
