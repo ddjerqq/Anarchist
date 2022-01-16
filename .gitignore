@@ -4,3 +4,4 @@ data/transactions.json
 data/anarchist.json
 data/anarchist.csv
 selfbot.py
+__pycache__
