@@ -10,17 +10,24 @@ from __main__ import PREFIX
 
 STATUSES = cycle( [f"{PREFIX}help", "worlds first crypto bot", f"{PREFIX}bal"] )
 
-class Economy(commands.Cog):
-    def __init__(self, client: discord.Client):
+class EventsAndTasks(commands.Cog):
+    def __init__(self, client: commands.bot.Bot):
         self.client = client
         self.save_database.start()
         self.status_cycle.start()
 
     @tasks.loop(seconds = 10)
     async def status_cycle(self):
-        await self.client.change_presence( 
-            activity = discord.Game(next(STATUSES))
+        await self.client.change_presence(
+            activity = discord.Activity(
+                type = discord.ActivityType.listening, 
+                name="a song"
+                )
             )
+
+    @status_cycle.before_loop
+    async def before_status_cycle(self):
+        await self.client.wait_until_ready()
 
     @tasks.loop(seconds = 120)
     async def save_database(self):
@@ -35,6 +42,8 @@ class Economy(commands.Cog):
     
     @commands.Cog.listener()
     async def on_command_error(self, ctx: commands.Context, error):
+        if isinstance(error, commands.errors.CommandOnCooldown): return
+
         embed = discord.Embed(
             color = 0xff0000,
             title = "unhandled error"
@@ -68,8 +77,7 @@ class Economy(commands.Cog):
 
         warn(f"added {len(database) - old_user_count} new users")
 
-        await self.client.change_presence(activity=discord.Game(F"{PREFIX}help"))
         ok("Bot is online")
 
 def setup(client: discord.Client):
-    client.add_cog(Economy(client))
+    client.add_cog(EventsAndTasks(client))

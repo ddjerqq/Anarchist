@@ -21,12 +21,9 @@ client = commands.Bot(
     intents        = discord.Intents.all(), 
     help_command   = None)
 
-# TODO add query commands for mods
-
 def load_extensions():
     for i in os.listdir("cogs"):
         client.load_extension(f"cogs.{i[:-3]}")
-        print(f"{i:[-3]} loaded.")
 
 def main():
     load_extensions()
@@ -34,9 +31,7 @@ def main():
 
 if __name__ == "__main__":
     try:
-        load_extensions()
         main()
-
     except KeyboardInterrupt:
         warn("keyboard interrupt")
     except Exception as e:

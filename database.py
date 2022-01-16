@@ -26,24 +26,8 @@ class Database:
         \nfeatures:
 
         \ndeposit:
-        >>> if db.deposit(id, amount):
-        >>>   success
-        >>> else: fail, user has insufficient funds in their wallet
-
-        \nwithdraw:
-        >>> if db.withdraw(id, amount):
-        >>>   success 
-        >>> else: fail, user has insufficient funds in their bank
-
-        \nmoney_bank
-        >>> if db._bank(id, -100):
-        >>>   success
-        >>> else: fail, user has insufficient funds in their bank
-
-        \nmoney_wallet
-        >>> if db._wallet(id, -100):
-        >>>   success
-        >>> else: fail, user has insufficient funds in their wallet
+        >>> give implementation
+        >>> work implementation
 
         \n__contains__ implementation:
         >>> if user_id in db:
@@ -198,10 +182,15 @@ class Database:
             ])
             
             for transaction in self.transactions:
+                if type(transaction["sender_id"]) == str:
+                    sender = transaction["sender_id"]
+                else: 
+                    sender = self[transaction["sender_id"]]["name"]
+
                 csv_writer.writerow([
                             transaction["transaction_id"],
-                            transaction["sender_id"],
-                            self[transaction["sender_id"]]["name"],
+                            sender,
+                            sender,
                             transaction["receiver_id"],
                             self[transaction["receiver_id"]]["name"],
                             transaction["amount"]

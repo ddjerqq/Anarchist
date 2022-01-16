@@ -1,7 +1,11 @@
 import discord
 from discord.ext import commands
+from discord.ext.commands import errors
+
 from database import database
 
+# TODO add query commands for mods
+# TODO HOOK THE FUCKING BLOCKCHAIN ALREADY JESUS
 
 class Currency(commands.Cog):
     def __init__(self, client):
@@ -18,7 +22,7 @@ class Currency(commands.Cog):
 
         embed = discord.Embed(
             title=f"{ctx.guild.name} leaderboard",
-            color=0xFF0000,
+            color=0x00ff00,
         )
         for user_index in range(len(sorted_users)):
             embed.add_field(
@@ -35,7 +39,7 @@ class Currency(commands.Cog):
         _id = user.id
 
         embed = discord.Embed(
-            color=0xFF0000, title=f"{database[_id]['name']}'s balance"
+            color=0x00ff00, title=f"{database[_id]['name']}'s balance"
         )
         embed.add_field(
             name="total amount", value=f"{database[_id]['amount']} ⏣", inline=False
@@ -46,8 +50,17 @@ class Currency(commands.Cog):
     @commands.cooldown(1, 30, commands.BucketType.user)
     async def work(self, ctx: commands.Context) -> None:
         database.work(ctx.author.id)
-        embed = discord.Embed(color=0xFF0000, title=f"nice work! \nyou earned 25 ⏣")
+        embed = discord.Embed(color=0x00ff00, title=f"nice work! \nyou earned 25 ⏣")
         await ctx.send(embed=embed)
+
+    @work.error
+    async def work_error(self, ctx: commands.Context, error) -> None:
+        if isinstance(error, errors.CommandOnCooldown):
+            embed = discord.Embed( 
+                color = 0xff0000,
+                title = f"slow down buddy, you're on cooldown\ntry again in {round(error.retry_after)}"
+                )
+            await ctx.send(embed = embed)
 
     @commands.command(name="give")
     async def give(self, ctx: commands.Context, user: discord.Member, amount: str) -> None:
@@ -59,14 +72,15 @@ class Currency(commands.Cog):
                 amount = int(amount)
             else:
                 embed = discord.Embed(
-                    color=0xFF0000, title=f"what are you trying to do here 🤨⁉"
+                    color=0xff0000, 
+                    title=f"what are you trying to do here 🤨⁉"
                 )
                 await ctx.send(embed=embed)
                 return
 
         if database.give(ctx.author.id, _id, amount):
             embed = discord.Embed(
-                color=0xFF0000,
+                color=0x00ff00,
                 title=f"you successfully gave {database[_id]['name']} {amount} ⏣",
             )
             # embed2 = discord.Embed(
@@ -76,7 +90,7 @@ class Currency(commands.Cog):
             # await dm_user(_id, embed = embed2)
         else:
             embed = discord.Embed(
-                color=0xFF0000, title=f"you don't have enough money dumbass"
+                color=0xff0000, title=f"you don't have enough money dumbass"
             )
 
         await ctx.send(embed=embed)
