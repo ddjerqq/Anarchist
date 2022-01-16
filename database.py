@@ -38,7 +38,8 @@ class Database:
         self._init_db()
 
     #---------------------------------------------------------------
-
+    #TODO integrate blockchain
+    
     def _add_transaction(self, sender_id: int | str, receiver_id: int | str, amount: int) -> None:
         self.transactions.append( { 
             "transaction_id" : len(self.transactions),
@@ -53,13 +54,18 @@ class Database:
             self.warn(f"#{self.transactions[-1]['transaction_id']} {self[sender_id]['name']} -> {self[receiver_id]['name']} amount: {round(amount)}")
 
     def _init_db(self) -> None:
-        if os.path.isfile(self._users_file_name):
+        if os.path.isdir("data"):
             # reading
-            with open(Database._users_file_name, 'r') as user_data_file, open(Database._transactions_file) as transactions_file:
-                self.users        = json.load( user_data_file )["users"]
+            with open(Database._users_file_name, 'r') as user_data_file:
+                self.users = json.load( user_data_file )["users"]
+            
+            with open(Database._transactions_file, "r") as transactions_file:
                 self.transactions = json.load( transactions_file )["transactions"]
             
-            self.log(f"loaded {len(self.users)} users | {len(self.transactions)} transactions")
+            with open(Database._blockchain_file, "r") as blockchain_file:
+                self.blockchain = json.load( blockchain_file )["blocks"]
+            
+            self.log(f"loaded {len(self.users)} users | {len(self.transactions)} transactions | {len(self.blockchain)} blocks")        
         
         else:
             # create
@@ -84,7 +90,7 @@ class Database:
 
         with open(Database._blockchain_file, "w") as blockchain_file:
             json.dump(
-                    { "blocks" : self.transactions },
+                    { "blocks" : self.blockchain },
                     blockchain_file,
                     indent=4
                 )

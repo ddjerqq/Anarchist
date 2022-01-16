@@ -29,20 +29,16 @@ class MyHelpCommand(commands.MinimalHelpCommand):
             e.description += page
         await destination.send(embed=e)
 
-
 client.help_command = MyHelpCommand()
-
 
 def load_extensions():
     for i in os.listdir("cogs"):
         if not i.startswith("_"):
             client.load_extension(f"cogs.{i[:-3]}")
 
-
 def main():
     load_extensions()
     client.run(TOKEN)
-
 
 if __name__ == "__main__":
     try:
