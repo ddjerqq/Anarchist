@@ -31,42 +31,118 @@ class Database:
         rgb("[*] " + str(message), (255, 0, 0))
 
     def __init__(self, *, verbose: bool = False):
-        self.verbose      = verbose
-        self.users        = []
-        self.transactions = []
-        self.blockchain   = []
+        self.verbose    = verbose
+        self.users      = []
+        self.blockchain = []
         self._init_db()
+        self._init_blockchain()
 
     #---------------------------------------------------------------
-    #TODO integrate blockchain
     
-    def _add_transaction(self, sender_id: int | str, receiver_id: int | str, amount: int) -> None:
-        self.transactions.append( { 
-            "transaction_id" : len(self.transactions),
+    
+    def _init_blockchain(self) -> None:
+        if os.path.isdir("data"):
+            with open(self._blockchain_file, "r") as blockchain_file:
+                self.blockchain = json.load(blockchain_file)["blocks"]
+            self.log(f"loaded blockchain with {len(self.blockchain)} blocks")
+
+        else:
+            genesis_block = { "index" : 0, "data" : "genocide", "proof" : 0, "previous_hash" : "0" * 64 }
+            self.blockchain.append(genesis_block)
+            with open(self._blockchain_file, "w") as blockchain_file:
+                json.dump(
+                        { "blocks" : self.blockchain },
+                        blockchain_file,
+                        indent=4
+                    )
+
+            self.log(f"created blockchain")
+
+    def _create_block(self, data: list[dict], proof: int, prev_hash: str) -> dict:
+        block = {
+            "index" : len(self.blockchain),
+            "data"  : data,
+            "proof" : proof,
+            "prev_hash" : prev_hash
+        }
+        return block
+
+    def _proof_of_work(self, block: dict) -> int:
+        """heavy operation"""
+        new_proof = 1
+        while True:
+            block["proof"] = new_proof
+            hash_value = self._block_hash(block)
+            if hash_value[:self._difficulty] == "0" * self._difficulty:
+                #print(hash_value) #DEBUG
+                return new_proof
+            else:
+                new_proof += 1
+
+    def _block_hash(self, block: dict) -> str:
+        _ = json.dumps(block, sort_keys = True)
+        return sha256(_.encode()).hexdigest()
+    
+    def _mine(self, data: list[dict]) -> None:
+        prev_block = self._previous_block
+        proof      = self._proof_of_work(prev_block)
+        prev_hash  = self._block_hash(prev_block)
+        block      = self._create_block(data, proof, prev_hash)
+        self.blockchain.append(block)
+
+    @property
+    def _previous_block(self):
+        return self.blockchain[-1]
+    
+    @property
+    def is_blockchain_valid(self) -> bool:
+        current_block = self.blockchain[0]
+        block_index = current_block["index"]
+        
+        while block_index < len(self.blockchain):
+            next_block = self.blockchain[block_index]
+            hash_value = hash_value = self._block_hash(current_block)
+            
+            if next_block["prev_hash"] != hash_value:
+                return False
+            
+            if hash_value[:self._difficulty] != "0" * self._difficulty:
+                return False
+            
+            current_block = next_block
+            block_index  += 1
+
+        return True
+
+    def _create_transaction(self, sender_id : int | str, receiver_id: int | str, amount : int ) -> dict:
+        return { 
+            "transaction_id" : len(self.blockchain),
             "timestamp"      : round(time.time()),
             "sender_id"      : sender_id,
             "receiver_id"    : receiver_id,
             "amount"         : round(amount)
-        } )
-        if sender_id == "work":
-            self.warn(f"#{self.transactions[-1]['transaction_id']} work -> {self[receiver_id]['name']} amount: {round(amount)}")
+        }
+
+    def _add_transaction(self, sender_id : int | str, receiver_id: int | str, amount : int) -> None:
+        self._mine(self._create_transaction(sender_id, receiver_id, amount))
+        if type(sender_id) == str:
+            self.log(f"#{len(self.blockchain)} {sender_id} -> {self[receiver_id]['name']} | {round(amount)}")
         else:
-            self.warn(f"#{self.transactions[-1]['transaction_id']} {self[sender_id]['name']} -> {self[receiver_id]['name']} amount: {round(amount)}")
+            self.log(f"#{len(self.blockchain)} {self[sender_id]['name']} -> {self[receiver_id]['name']} | {round(amount)}")
+        self.warn("block mined!")
+
+    #----------------------------------------------------------------
 
     def _init_db(self) -> None:
         if os.path.isdir("data"):
             # reading
-            with open(Database._users_file_name, 'r') as user_data_file:
+            with open(self._users_file_name, 'r') as user_data_file:
                 self.users = json.load( user_data_file )["users"]
             
-            with open(Database._transactions_file, "r") as transactions_file:
-                self.transactions = json.load( transactions_file )["transactions"]
-            
-            with open(Database._blockchain_file, "r") as blockchain_file:
+            with open(self._blockchain_file, "r") as blockchain_file:
                 self.blockchain = json.load( blockchain_file )["blocks"]
             
-            self.log(f"loaded {len(self.users)} users | {len(self.transactions)} transactions | {len(self.blockchain)} blocks")        
-        
+            self.log(f"loaded {len(self.users)} users")
         else:
             # create
             os.mkdir("data")
@@ -74,21 +150,14 @@ class Database:
             self.log("database created")
 
     def _save(self) -> None:
-        with open(Database._users_file_name, "w") as data_file:
+        with open(self._users_file_name, "w") as data_file:
             json.dump(
                     { "users" : self.users },
                     data_file, 
                     indent=4
                 )
 
-        with open(Database._transactions_file, "w") as transactions_file:
-            json.dump(
-                    { "transactions" : self.transactions },
-                    transactions_file,
-                    indent=4
-                )
-
-        with open(Database._blockchain_file, "w") as blockchain_file:
+        with open(self._blockchain_file, "w") as blockchain_file:
             json.dump(
                     { "blocks" : self.blockchain },
                     blockchain_file,
@@ -131,48 +200,13 @@ class Database:
             return False
 
     def generate_csv(self) -> None:
-        """
-            generate csv of the data.
-            for our representation only, this is just so we can access the sheets
-        """
-        with open(Database._users_csv_file, "w", newline="", encoding="utf-8") as data_file:
+        with open(self._users_csv_file, "w", newline="", encoding="utf-8") as data_file:
             csv_writer = csv.writer(data_file)
-            headers = False
+            csv_writer.writerow(["id", "name", "amount"])
             for user in self.users:
-                if not headers:
-                    csv_writer.writerow(user.keys())
-                    headers = True
                 csv_writer.writerow(user.values())
 
-        with open(Database._transactions_csv, "w", newline="", encoding="utf-8") as data_file:
-            csv_writer = csv.writer(data_file)
-            headers = False
-
-            csv_writer.writerow([
-                "transaction_id",
-                "sender_id",
-                "sender_name",
-                "receiver_id",
-                "receiver_name",
-                "amount"
-            ])
-            
-            for transaction in self.transactions:
-                if type(transaction["sender_id"]) == str:
-                    sender = transaction["sender_id"]
-                else: 
-                    sender = self[transaction["sender_id"]]["name"]
-
-                csv_writer.writerow([
-                            transaction["transaction_id"],
-                            sender,
-                            sender,
-                            transaction["receiver_id"],
-                            self[transaction["receiver_id"]]["name"],
-                            transaction["amount"]
-                        ])
-        
-        self.warn("csv data sheets generated")
+            self.warn("user data sheets generated")
 
     def add_user(self, id: int, name: str) -> None:
         if id in self:
@@ -183,9 +217,7 @@ class Database:
                 "name"   : name,
                 "amount" : 0,
             }
-
             self.users.append(tmp_user)
-
             self.log(f"added {name} {id}")
 
     #----------------------------------------------------------------

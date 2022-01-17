@@ -3,7 +3,7 @@ from discord.ext import commands
 from discord.ext.commands import errors
 
 from database import database
-
+from utils import *
 
 class Currency(commands.Cog):
     def __init__(self, client):
@@ -31,13 +31,11 @@ class Currency(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(
-        name="bal",
-        aliases=["balanace"],
-        description="Allows a user to get their balance or the balance of another user\nUsage:\n    `.bal (user)` or `.bal`",
+        name = "bal",
+        aliases = ["balanace"],
+        description = "Allows a user to get their balance or the balance of another user\nUsage:\n    `.bal (user)` or `.bal`",
     )
-    async def _balance(
-        self, ctx: commands.Context, user: discord.Member = None
-    ) -> None:
+    async def _balance( self, ctx: commands.Context, user: discord.Member = None ) -> None:
         if not user:
             user = ctx.author
         _id = user.id
@@ -58,13 +56,16 @@ class Currency(commands.Cog):
         await ctx.send(embed=embed)
 
     @_work.error
-    async def _work_error(self, ctx: commands.Context, error) -> None:
-        if isinstance(error, errors.CommandOnCooldown):
+    async def _work_error(self, ctx: commands.Context, _error) -> None:
+        if isinstance(_error, errors.CommandOnCooldown):
             embed = discord.Embed(
                 color=0xFF0000,
-                title=f"slow down buddy, you're on cooldown\ntry again in {round(error.retry_after)} seconds",
+                title=f"slow down buddy, you're on cooldown\ntry again in {round(_error.retry_after)} seconds",
             )
             await ctx.send(embed=embed)
+        else:
+            warn(_error)
+            
 
     @commands.command(name="give")
     async def _give(
