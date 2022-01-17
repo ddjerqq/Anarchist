@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 
+from database import database
 
 class Information(commands.Cog):
     def __init__(self, client):
@@ -20,6 +21,21 @@ class Information(commands.Cog):
         embed.set_image(url=user.avatar_url)
 
         await ctx.send(embed=embed)
+
+    @commands.command( name = "blockchain")
+    async def _blockchain(self, ctx: commands.Context):
+        embed = discord.Embed(
+            title = "BlockChain valid?"
+        )
+
+        if database.is_blockchain_valid:
+            embed.description = "**Yes**"
+            embed.color = 0x00ff00
+        else:
+            embed.description = "**No**"
+            embed.color = 0xff0000
+            
+        await ctx.send(embed = embed)
 
     @commands.command(name="invite", aliases=["inv"])
     async def _invite(self, ctx: commands.Context):

@@ -51,9 +51,10 @@ class Currency(commands.Cog):
     @commands.command(name="work")
     @commands.cooldown(1, 30, commands.BucketType.user)
     async def _work(self, ctx: commands.Context) -> None:
-        database.work(ctx.author.id)
-        embed = discord.Embed(color=0x00FF00, title=f"nice work! \nyou earned 25 ⏣")
-        await ctx.send(embed=embed)
+        async with ctx.channel.typing():
+            database.work(ctx.author.id)
+            embed = discord.Embed(color=0x00FF00, title=f"nice work! \nyou earned 25 ⏣")
+            await ctx.send(embed=embed)
 
     @_work.error
     async def _work_error(self, ctx: commands.Context, _error) -> None:
@@ -68,21 +69,20 @@ class Currency(commands.Cog):
             
 
     @commands.command(name="give")
-    async def _give(
-        self, ctx: commands.Context, user: discord.Member, amount: str
-    ) -> None:
-        _id = user.id
-        if amount.lower() == "all" or amount.lower() == "max":
-            amount = database[ctx.author.id]["amount"]
-        else:
-            if int(amount) > 0:
-                amount = int(amount)
+    async def _give(self, ctx: commands.Context, user: discord.Member, amount: str) -> None:
+        async with ctx.channel.typing():
+            _id = user.id
+            if amount.lower() == "all" or amount.lower() == "max":
+                amount = database[ctx.author.id]["amount"]
             else:
-                embed = discord.Embed(
-                    color=0xFF0000, title=f"what are you trying to do here 🤨⁉"
-                )
-                await ctx.send(embed=embed)
-                return
+                if int(amount) > 0:
+                    amount = int(amount)
+                else:
+                    embed = discord.Embed(
+                        color=0xFF0000, title=f"what are you trying to do here 🤨⁉"
+                    )
+                    await ctx.send(embed=embed)
+                    return
 
         if database.give(ctx.author.id, _id, amount):
             embed = discord.Embed(
@@ -101,6 +101,17 @@ class Currency(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @_give.error
+    async def _give_error(self, ctx: commands.Context, _error) -> None:
+        if isinstance(_error, errors.CommandOnCooldown):
+            embed = discord.Embed(
+                color = 0xFF0000,
+                title = f"slow down buddy, you're on cooldown\ntry again in {round(_error.retry_after)} seconds",
+            )
+            await ctx.send(embed=embed)
+        else:
+            warn(_error)
+            
 
 def setup(client):
     client.add_cog(Currency(client))

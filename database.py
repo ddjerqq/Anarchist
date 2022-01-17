@@ -44,10 +44,10 @@ class Database:
         if os.path.isdir("data"):
             with open(self._blockchain_file, "r") as blockchain_file:
                 self.blockchain = json.load(blockchain_file)["blocks"]
-            self.log(f"loaded blockchain with {len(self.blockchain)} blocks")
+            self.log(f"loaded {len(self.blockchain)} blocks")
 
         else:
-            genesis_block = { "index" : 0, "data" : "genocide", "proof" : 0, "previous_hash" : "0" * 64 }
+            genesis_block = { "index" : 0, "data" : "genocide", "proof" : 0, "prev_hash" : "0" * 64 }
             self.blockchain.append(genesis_block)
             with open(self._blockchain_file, "w") as blockchain_file:
                 json.dump(
@@ -84,15 +84,11 @@ class Database:
         return sha256(_.encode()).hexdigest()
     
     def _mine(self, data: list[dict]) -> None:
-        prev_block = self._previous_block
+        prev_block = self.blockchain[-1]
         proof      = self._proof_of_work(prev_block)
         prev_hash  = self._block_hash(prev_block)
         block      = self._create_block(data, proof, prev_hash)
-        self.blockchain.append(block)
-
-    @property
-    def _previous_block(self):
-        return self.blockchain[-1]
+        self.blockchain.append(block) 
     
     @property
     def is_blockchain_valid(self) -> bool:
@@ -102,7 +98,6 @@ class Database:
         while block_index < len(self.blockchain):
             next_block = self.blockchain[block_index]
             hash_value = hash_value = self._block_hash(current_block)
-            
             if next_block["prev_hash"] != hash_value:
                 return False
             
