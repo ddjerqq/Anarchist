@@ -19,7 +19,7 @@ class Information(commands.Cog):
         embed.add_field(name="creation time", value=str(user.created_at), inline=False)
         embed.add_field(name="id", value=user.id, inline=False)
         embed.add_field(name="is bot?", value=user.bot, inline=False)
-        embed.set_image(url=user.avatar_url)
+        embed.set_image(url=user.avatar.url)
 
         await ctx.send(embed=embed)
 
@@ -42,7 +42,7 @@ class Information(commands.Cog):
             title="Click me to Invite!",
             url="https://disnake.com/api/oauth2/authorize?client_id=924293465997705286&permissions=275884665968&scope=bot",
         )
-        embed.set_author(name=self.client.user, icon_url=self.client.user.avatar_url)
+        embed.set_author(name=self.client.user, icon_url=self.client.user.avatar.url)
         await ctx.reply(embed=embed)
 
 
