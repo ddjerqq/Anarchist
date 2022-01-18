@@ -36,6 +36,7 @@ class Database:
         self.blockchain = []
         self._init_db()
         self._init_blockchain()
+        self.warn("blockchain valid: " + str(self.is_blockchain_valid))
 
     #---------------------------------------------------------------
     
