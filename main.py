@@ -11,7 +11,6 @@ from supersecrets import TOKEN
 from database import database
 
 # TODO add query commands for mods
-# TODO HOOK THE FUCKING BLOCKCHAIN ALREADY JESUS
 
 PREFIX = "."
 
@@ -19,7 +18,6 @@ client = commands.Bot(
     command_prefix=PREFIX,
     intents=disnake.Intents.all(),
 )
-
 
 class MyHelpCommand(commands.MinimalHelpCommand):
     async def send_pages(self):
@@ -29,20 +27,15 @@ class MyHelpCommand(commands.MinimalHelpCommand):
             e.description += page
         await destination.send(embed=e)
 
-
-client.help_command = MyHelpCommand()
-
-
 def load_extensions():
     for i in os.listdir("cogs"):
         if not i.startswith("_"):
             client.load_extension(f"cogs.{i[:-3]}")
 
-
 def main():
+    client.help_command = MyHelpCommand()
     load_extensions()
     client.run(TOKEN)
-
 
 if __name__ == "__main__":
     try:
@@ -53,4 +46,3 @@ if __name__ == "__main__":
         warn(e)
     finally:
         database.close()
-        database.generate_csv()

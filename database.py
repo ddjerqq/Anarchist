@@ -8,7 +8,8 @@ from supersecrets import digest
 
 from utils import *
 
-class DatabaseException(Exception): pass
+class DatabaseException(Exception): 
+    pass
 
 class Database:
     _difficulty        = 4
@@ -36,7 +37,6 @@ class Database:
         self.blockchain = []
         self._init_db()
         self._init_blockchain()
-        self.warn("blockchain valid: " + str(self.is_blockchain_valid))
 
     #---------------------------------------------------------------
     
@@ -91,18 +91,23 @@ class Database:
         block      = self._create_block(data, proof, prev_hash)
         self.blockchain.append(block) 
     
+    #FIXME
     @property
     def is_blockchain_valid(self) -> bool:
         current_block = self.blockchain[0]
-        block_index = current_block["index"]
+        block_index = 1
         
         while block_index < len(self.blockchain):
             next_block = self.blockchain[block_index]
-            hash_value = hash_value = self._block_hash(current_block)
+            hash_value = self._block_hash(current_block)
+
             if next_block["prev_hash"] != hash_value:
+                #TODO handle this
+                self.error("previous hash does not match next hash")
                 return False
-            
-            if hash_value[:self._difficulty] != "0" * self._difficulty:
+            if hash_value[:self._difficulty] != "0" * self._difficulty: 
+                #TODO HANDLE THIS
+                self.error("hash is not valid")
                 return False
             
             current_block = next_block
@@ -120,7 +125,8 @@ class Database:
         }
 
     def _add_transaction(self, sender_id : int | str, receiver_id: int | str, amount : int) -> None:
-        self._mine(self._create_transaction(sender_id, receiver_id, amount))
+        transaction = self._create_transaction(sender_id, receiver_id, amount)
+        self._mine(transaction)
         if type(sender_id) == str:
             self.log(f"#{len(self.blockchain)} {sender_id} -> {self[receiver_id]['name']} | {round(amount)}")
         else:
@@ -173,19 +179,12 @@ class Database:
     #----------------------------------------------------------------
 
     def close(self) -> None:
-        """
-            close the database, but this is a public method, and this is the one you 
-            should use outside of the class.
-
-            private methods *should* not be used outside of the class
-            i said should, so you can still do db._save() without a problem
-        """
         self._save()
         self.warn("closing database")
 
     def work(self, id: int) -> None:
         self._money(id, 25)
-        self._add_transaction("work", id, 25)
+        self._add_transaction("bank", id, 25)
 
     def give(self, sender_id: int, receiver_id: int, amount: int) -> bool:
         if  self._money(sender_id, -amount):
@@ -196,13 +195,8 @@ class Database:
             return False
 
     def generate_csv(self) -> None:
-        with open(self._users_csv_file, "w", newline="", encoding="utf-8") as data_file:
-            csv_writer = csv.writer(data_file)
-            csv_writer.writerow(["id", "name", "amount"])
-            for user in self.users:
-                csv_writer.writerow(user.values())
-
-            self.warn("user data sheets generated")
+        #TODO
+        raise NotImplementedError
 
     def add_user(self, id: int, name: str) -> None:
         if id in self:
@@ -267,3 +261,22 @@ class Database:
         self.close()
 
 database = Database(verbose = True)
+
+def test():
+    _id = int(input("id > "))
+    print("bal: ", database[_id]['amount'])
+    while True:
+        input("work...")
+        database.work(_id)
+        print("bal: ", database[_id]['amount'])
+        print("valid", database.is_blockchain_valid)
+
+if __name__ == '__main__':
+    try:
+        test()
+    except KeyboardInterrupt:
+        warn("keyboard interrupt")
+    except Exception as e:
+        warn(e)
+    finally:
+        database.close()

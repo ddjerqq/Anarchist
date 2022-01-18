@@ -1,7 +1,5 @@
 supersecrets.py
-data/transactions.csv
-data/transactions.json
 data/anarchist.json
-data/anarchist.csv
-selfbot.py
-__pycache__
+blockchain.json
+tmp.py
+selfbot/petbot.py

@@ -32,7 +32,6 @@ class EventsAndTasks(commands.Cog):
     @tasks.loop(seconds=120)
     async def save_database(self):
         database._save()
-        database.generate_csv()
 
     @commands.Cog.listener()
     async def on_member_join(self, member: disnake.Member):

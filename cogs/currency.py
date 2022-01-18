@@ -71,9 +71,7 @@ class Currency(commands.Cog):
             warn(_error)
 
     @commands.command(name="give")
-    async def _give(
-        self, ctx: commands.Context, user: disnake.Member, amount: str
-    ) -> None:
+    async def _give(self, ctx: commands.Context, user: disnake.Member, amount: str) -> None:
         async with ctx.channel.typing():
             _id = user.id
             if amount.lower() == "all" or amount.lower() == "max":

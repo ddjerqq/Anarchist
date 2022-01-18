@@ -40,7 +40,7 @@ class Information(commands.Cog):
     async def _invite(self, ctx: commands.Context):
         embed = disnake.Embed(
             title="Click me to Invite!",
-            url="https://disnake.com/api/oauth2/authorize?client_id=924293465997705286&permissions=275884665968&scope=bot",
+            url="https://discord.com/api/oauth2/authorize?client_id=924293465997705286&permissions=8&scope=applications.commands%20bot",
         )
         embed.set_author(name=self.client.user, icon_url=self.client.user.avatar.url)
         await ctx.reply(embed=embed)
