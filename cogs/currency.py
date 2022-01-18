@@ -1,9 +1,10 @@
-import discord
-from discord.ext import commands
-from discord.ext.commands import errors
+import disnake
+from disnake.ext import commands
+from disnake.ext.commands import errors
 
 from database import database
 from utils import *
+
 
 class Currency(commands.Cog):
     def __init__(self, client):
@@ -18,7 +19,7 @@ class Currency(commands.Cog):
 
         sorted_users = sorted(users, key=lambda x: x["amount"], reverse=True)[0:10]
 
-        embed = discord.Embed(
+        embed = disnake.Embed(
             title=f"{ctx.guild.name} leaderboard",
             color=0x00FF00,
         )
@@ -31,16 +32,18 @@ class Currency(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(
-        name = "bal",
-        aliases = ["balanace"],
-        description = "Allows a user to get their balance or the balance of another user\nUsage:\n    `.bal (user)` or `.bal`",
+        name="bal",
+        aliases=["balanace"],
+        description="Allows a user to get their balance or the balance of another user\nUsage:\n    `.bal (user)` or `.bal`",
     )
-    async def _balance( self, ctx: commands.Context, user: discord.Member = None ) -> None:
+    async def _balance(
+        self, ctx: commands.Context, user: disnake.Member = None
+    ) -> None:
         if not user:
             user = ctx.author
         _id = user.id
 
-        embed = discord.Embed(
+        embed = disnake.Embed(
             color=0x00FF00, title=f"{database[_id]['name']}'s balance"
         )
         embed.add_field(
@@ -53,23 +56,24 @@ class Currency(commands.Cog):
     async def _work(self, ctx: commands.Context) -> None:
         async with ctx.channel.typing():
             database.work(ctx.author.id)
-            embed = discord.Embed(color=0x00FF00, title=f"nice work! \nyou earned 25 ⏣")
+            embed = disnake.Embed(color=0x00FF00, title=f"nice work! \nyou earned 25 ⏣")
             await ctx.send(embed=embed)
 
     @_work.error
     async def _work_error(self, ctx: commands.Context, _error) -> None:
         if isinstance(_error, errors.CommandOnCooldown):
-            embed = discord.Embed(
+            embed = disnake.Embed(
                 color=0xFF0000,
                 title=f"slow down buddy, you're on cooldown\ntry again in {round(_error.retry_after)} seconds",
             )
             await ctx.send(embed=embed)
         else:
             warn(_error)
-            
 
     @commands.command(name="give")
-    async def _give(self, ctx: commands.Context, user: discord.Member, amount: str) -> None:
+    async def _give(
+        self, ctx: commands.Context, user: disnake.Member, amount: str
+    ) -> None:
         async with ctx.channel.typing():
             _id = user.id
             if amount.lower() == "all" or amount.lower() == "max":
@@ -78,24 +82,24 @@ class Currency(commands.Cog):
                 if int(amount) > 0:
                     amount = int(amount)
                 else:
-                    embed = discord.Embed(
+                    embed = disnake.Embed(
                         color=0xFF0000, title=f"what are you trying to do here 🤨⁉"
                     )
                     await ctx.send(embed=embed)
                     return
 
         if database.give(ctx.author.id, _id, amount):
-            embed = discord.Embed(
+            embed = disnake.Embed(
                 color=0x00FF00,
                 title=f"you successfully gave {database[_id]['name']} {amount} ⏣",
             )
-            # embed2 = discord.Embed(
+            # embed2 = disnake.Embed(
             #     color = 0xff0000,
             #     title = f"{database[ctx.author.id]['name']} gave you {amount} coins"
             #     )
             # await dm_user(_id, embed = embed2)
         else:
-            embed = discord.Embed(
+            embed = disnake.Embed(
                 color=0xFF0000, title=f"you don't have enough money dumbass"
             )
 
@@ -104,14 +108,14 @@ class Currency(commands.Cog):
     @_give.error
     async def _give_error(self, ctx: commands.Context, _error) -> None:
         if isinstance(_error, errors.CommandOnCooldown):
-            embed = discord.Embed(
-                color = 0xFF0000,
-                title = f"slow down buddy, you're on cooldown\ntry again in {round(_error.retry_after)} seconds",
+            embed = disnake.Embed(
+                color=0xFF0000,
+                title=f"slow down buddy, you're on cooldown\ntry again in {round(_error.retry_after)} seconds",
             )
             await ctx.send(embed=embed)
         else:
             warn(_error)
-            
+
 
 def setup(client):
     client.add_cog(Currency(client))

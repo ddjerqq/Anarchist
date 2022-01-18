@@ -1,18 +1,19 @@
-import discord
-from discord.ext import commands
+import disnake
+from disnake.ext import commands
 
 from database import database
+
 
 class Information(commands.Cog):
     def __init__(self, client):
         self.client = client
 
     @commands.command(name="info")
-    async def _info(self, ctx: commands.Context, user: discord.Member = None):
+    async def _info(self, ctx: commands.Context, user: disnake.Member = None):
         if not user:
             user = ctx.author
 
-        embed: discord.Embed = discord.Embed(
+        embed: disnake.Embed = disnake.Embed(
             title=f"{user.name}#{user.discriminator}'s info", color=0x00FF00
         )
         embed.add_field(name="creation time", value=str(user.created_at), inline=False)
@@ -22,30 +23,28 @@ class Information(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command( name = "blockchain")
+    @commands.command(name="blockchain")
     async def _blockchain(self, ctx: commands.Context):
-        embed = discord.Embed(
-            title = "BlockChain valid?"
-        )
+        embed = disnake.Embed(title="BlockChain valid?")
 
         if database.is_blockchain_valid:
             embed.description = "**Yes**"
-            embed.color = 0x00ff00
+            embed.color = 0x00FF00
         else:
             embed.description = "**No**"
-            embed.color = 0xff0000
-            
-        await ctx.send(embed = embed)
+            embed.color = 0xFF0000
+
+        await ctx.send(embed=embed)
 
     @commands.command(name="invite", aliases=["inv"])
     async def _invite(self, ctx: commands.Context):
-        embed = discord.Embed(
+        embed = disnake.Embed(
             title="Click me to Invite!",
-            url="https://discord.com/api/oauth2/authorize?client_id=924293465997705286&permissions=275884665968&scope=bot",
+            url="https://disnake.com/api/oauth2/authorize?client_id=924293465997705286&permissions=275884665968&scope=bot",
         )
         embed.set_author(name=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.reply(embed=embed)
 
 
-def setup(client: discord.Client):
+def setup(client: disnake.Client):
     client.add_cog(Information(client))

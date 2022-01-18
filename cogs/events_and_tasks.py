@@ -1,14 +1,15 @@
 from itertools import cycle
 
-import discord
-from discord.ext import commands
-from discord.ext import tasks
+import disnake
+from disnake.ext import commands
+from disnake.ext import tasks
 
 from database import database
 from utils import *
 from __main__ import PREFIX
 
-STATUSES = cycle( [f"{PREFIX}help", "worlds first crypto bot", f"{PREFIX}bal"] )
+STATUSES = cycle([f"{PREFIX}help", "worlds first crypto bot", f"{PREFIX}bal"])
+
 
 class EventsAndTasks(commands.Cog):
     def __init__(self, client: commands.bot.Bot):
@@ -16,46 +17,42 @@ class EventsAndTasks(commands.Cog):
         self.save_database.start()
         self.status_cycle.start()
 
-    @tasks.loop(seconds = 10)
+    @tasks.loop(seconds=10)
     async def status_cycle(self):
         await self.client.change_presence(
-            activity = discord.Activity(
-                type = discord.ActivityType.listening, 
-                name="a song"
-                )
+            activity=disnake.Activity(
+                type=disnake.ActivityType.listening, name="a song"
             )
+        )
 
     @status_cycle.before_loop
     async def before_status_cycle(self):
         await self.client.wait_until_ready()
 
-    @tasks.loop(seconds = 120)
+    @tasks.loop(seconds=120)
     async def save_database(self):
         database._save()
         database.generate_csv()
 
     @commands.Cog.listener()
-    async def on_member_join(self, member: discord.Member):
-        if member.bot: return
+    async def on_member_join(self, member: disnake.Member):
+        if member.bot:
+            return
         if member.id not in database:
             database.add_user(member.id, member.name)
-    
+
     @commands.Cog.listener()
     async def on_command_error(self, ctx: commands.Context, error):
-        if isinstance(error, commands.errors.CommandOnCooldown): return
-        if isinstance(error, commands.errors.CommandNotFound)  : return
+        if isinstance(error, commands.errors.CommandOnCooldown):
+            return
+        if isinstance(error, commands.errors.CommandNotFound):
+            return
 
-        embed = discord.Embed(
-            color = 0xff0000,
-            title = "unhandled error"
-            )
-        embed.add_field(
-            name   = "error:",
-            value  = error,
-            inline = False)
+        embed = disnake.Embed(color=0xFF0000, title="unhandled error")
+        embed.add_field(name="error:", value=error, inline=False)
 
         await ctx.send(embed=embed)
-        
+
         warn(error)
         print(type(error))
 
@@ -63,7 +60,7 @@ class EventsAndTasks(commands.Cog):
     async def on_ready(self):
         old_user_count = len(database)
         for guild in self.client.guilds:
-            async for member in guild.fetch_members(limit = None):
+            async for member in guild.fetch_members(limit=None):
                 if member.bot:
                     continue
                 if member.id not in database:
@@ -80,5 +77,6 @@ class EventsAndTasks(commands.Cog):
 
         ok("Bot is online")
 
-def setup(client: discord.Client):
+
+def setup(client: disnake.Client):
     client.add_cog(EventsAndTasks(client))
