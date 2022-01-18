@@ -38,7 +38,7 @@
         {
             "id": 725773984808960050,
             "name": "ddjerqq",
-            "amount": 600
+            "amount": 375
         },
         {
             "id": 711026794240671794,
@@ -528,7 +528,7 @@
         {
             "id": 709091386925776948,
             "name": "Forwaste",
-            "amount": 0
+            "amount": 100
         },
         {
             "id": 708609704276000809,
@@ -777,7 +777,7 @@
         },
         {
             "id": 867091707950661672,
-            "name": "Maria_",
+            "name": "Ikishima Midari",
             "amount": 0
         },
         {
@@ -1133,7 +1133,7 @@
         {
             "id": 923600698967461898,
             "name": "Luna\ud83c\udf19\ud83d\udca4",
-            "amount": 0
+            "amount": 100
         },
         {
             "id": 920386942737195008,
@@ -1258,7 +1258,12 @@
         {
             "id": 508608046818131975,
             "name": "Georgee Brotherhood",
-            "amount": 0
+            "amount": 100
+        },
+        {
+            "id": 834823623365754900,
+            "name": "SomeoneYouMayLike",
+            "amount": 100
         }
     ]
 }

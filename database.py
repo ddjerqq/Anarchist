@@ -208,7 +208,7 @@ class Database:
                 "amount" : 0,
             }
             self.users.append(tmp_user)
-            self.log(f"added {name} {id}")
+            self.warn(f"added {name} {id}")
 
     #----------------------------------------------------------------
 

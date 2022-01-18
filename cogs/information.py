@@ -25,13 +25,13 @@ class Information(commands.Cog):
 
     @commands.command(name="blockchain")
     async def _blockchain(self, ctx: commands.Context):
-        embed = disnake.Embed(title="BlockChain valid?")
+        embed = disnake.Embed(title="is Blockchain valid?")
 
         if database.is_blockchain_valid:
             embed.description = "**Yes**"
             embed.color = 0x00FF00
         else:
-            embed.description = "**No**"
+            embed.description = "**No!?!?**"
             embed.color = 0xFF0000
 
         await ctx.send(embed=embed)
