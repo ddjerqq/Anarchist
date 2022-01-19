@@ -84,6 +84,7 @@ class Database:
         for user in self.users:
             if user.name != "bank":
                 user.amount = 0
+        self.log("balances cleared")
 
         for block in self.blockchain:
             sender_id   = block["data"]["sender_id"]
@@ -99,6 +100,8 @@ class Database:
                 self[receiver_id] + amount
             else:
                 self[receiver_id] + amount
+        
+        self.log("balances overwritten")
 
     @property
     def is_blockchain_valid(self) -> bool:

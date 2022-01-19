@@ -1,5 +1,6 @@
 supersecrets.py
-data/anarchist.json
 blockchain.json
 tmp.py
 selfbot/petbot.py
+data/anarchist.json
+data/blockchain.json

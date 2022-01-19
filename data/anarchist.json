@@ -59,9 +59,9 @@
         {
             "id": 725773984808960050,
             "name": "ddjerqq",
-            "amount": 300,
+            "amount": 131,
             "auth": "0",
-            "notifications": false
+            "notifications": true
         },
         {
             "id": 711026794240671794,
@@ -1074,7 +1074,7 @@
         {
             "id": 872949454074953779,
             "name": "Eniuu \u263e\u2075\u263d",
-            "amount": 0,
+            "amount": 70,
             "auth": "0",
             "notifications": false
         },
@@ -1298,7 +1298,7 @@
         {
             "id": 709898702604599346,
             "name": "loren",
-            "amount": 0,
+            "amount": 70,
             "auth": "0",
             "notifications": false
         },
@@ -1375,7 +1375,7 @@
         {
             "id": 674525313522335744,
             "name": "Hiroki Awano \u963f\u6ce2\u91ce \u5927\u6a39",
-            "amount": 0,
+            "amount": 40,
             "auth": "0",
             "notifications": false
         },
@@ -1459,7 +1459,7 @@
         {
             "id": 427593293593968654,
             "name": "AzerimA",
-            "amount": 0,
+            "amount": 20,
             "auth": "0",
             "notifications": false
         },
@@ -1592,7 +1592,7 @@
         {
             "id": 923600698967461898,
             "name": "Luna\ud83c\udf19\ud83d\udca4",
-            "amount": 0,
+            "amount": 79,
             "auth": "0",
             "notifications": false
         },
@@ -1774,7 +1774,7 @@
         {
             "id": 834823623365754900,
             "name": "SomeoneYouMayLike",
-            "amount": 0,
+            "amount": 40,
             "auth": "0",
             "notifications": false
         },
@@ -1782,6 +1782,13 @@
             "id": 345288475270053888,
             "name": "youngsniffer",
             "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 853579618069512203,
+            "name": "kato",
+            "amount": 100,
             "auth": null,
             "notifications": false
         }
