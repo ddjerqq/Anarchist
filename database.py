@@ -4,7 +4,8 @@ import json
 import time
 
 from hashlib import sha256
-from supersecrets import digest
+from models.user import User
+import helpers.db_helper
 
 from utils import *
 
@@ -16,8 +17,6 @@ class Database:
     _blockchain_file   = "data\\blockchain.json"
 
     _users_file_name   = "data\\anarchist.json"
-    _users_csv_file    = "data\\anarchist.csv"
-    _transactions_csv  = "data\\transactions.csv"
     _transactions_file = "data\\transactions.json"
 
     def log(self, message: str) -> None:
@@ -33,31 +32,100 @@ class Database:
 
     def __init__(self, *, verbose: bool = False):
         self.verbose    = verbose
-        self.users      = []
-        self.blockchain = []
+        self.users     : list[User] = []
+        self.blockchain: list[dict] = []
         self._init_db()
-        self._init_blockchain()
+        self._load_balances()
 
     #---------------------------------------------------------------
     
-    
-    def _init_blockchain(self) -> None:
-        if os.path.isdir("data"):
-            with open(self._blockchain_file, "r") as blockchain_file:
-                self.blockchain = json.load(blockchain_file)["blocks"]
-            self.log(f"loaded {len(self.blockchain)} blocks")
+    def close(self) -> None:
+        self._save()
+        self.warn("closing database")
 
+    def give(self, sender_id: int, receiver_id: int, amount: int) -> bool:
+        """
+        same as work
+        >>> give(bank, user, 50)
+        true on success
+        false on fail
+        """
+        if sender_id == "bank":
+            self[receiver_id] + amount
+            self._add_transaction(sender_id, receiver_id, amount)
+            return True
+        
+        if round(amount) < self[sender_id].amount:
+            self[receiver_id] + amount
+            self[sender_id]   - amount
+            self._add_transaction(sender_id, receiver_id, amount)
+            return True
         else:
-            genesis_block = { "index" : 0, "data" : "genocide", "proof" : 0, "prev_hash" : "0" * 64 }
-            self.blockchain.append(genesis_block)
-            with open(self._blockchain_file, "w") as blockchain_file:
-                json.dump(
-                        { "blocks" : self.blockchain },
-                        blockchain_file,
-                        indent=4
-                    )
+            return False
 
-            self.log(f"created blockchain")
+    def generate_csv(self) -> None:
+        #TODO
+        raise NotImplementedError
+
+    def add_user(self, _id: int, name: str) -> None:
+        if _id in self:
+            raise DatabaseException(f"user {_id} already in database")
+        else:
+            tmp_user = User(_id, name)
+            self.users.append(tmp_user)
+            self.warn(f"added {tmp_user}")
+
+
+    def _load_balances(self) -> None:
+        if not self.is_blockchain_valid: 
+            raise DatabaseException("blockchain is not valid")
+
+        #reset users
+        for user in self.users:
+            if user.name != "bank":
+                user.amount = 0
+
+        for block in self.blockchain:
+            sender_id   = block["data"]["sender_id"]
+            receiver_id = block["data"]["receiver_id"]
+            amount      = block["data"]["amount"]
+            
+            if not block["index"]: 
+                self["bank"].amount = amount
+                continue
+
+            if not sender_id == "bank":
+                self[sender_id]   - amount
+                self[receiver_id] + amount
+            else:
+                self[receiver_id] + amount
+
+    @property
+    def is_blockchain_valid(self) -> bool:
+        current_block = self.blockchain[0]
+        block_index = 1
+        
+        while block_index < len(self.blockchain):
+            next_block = self.blockchain[block_index]
+            cur_hash_value = self._block_hash(current_block)
+
+            
+            if next_block["prev_hash"] != cur_hash_value:
+                #TODO handle this
+                print(next_block["prev_hash"])
+                print(cur_hash_value)
+                self.error("previous hash does not match next hash")
+                return False
+            if cur_hash_value[:self._difficulty] != "0" * self._difficulty: 
+                #TODO HANDLE THIS
+                print(cur_hash_value)
+                self.error("hash is not valid")
+                return False
+            
+            current_block = next_block
+            block_index  += 1
+
+        return True
 
     def _create_block(self, data: list[dict], proof: int, prev_hash: str) -> dict:
         block = {
@@ -68,7 +136,7 @@ class Database:
         }
         return block
 
-    def _proof_of_work(self, block: dict) -> int:
+    def _find_proof(self, block: dict) -> int:
         """heavy operation"""
         new_proof = 1
         while True:
@@ -81,80 +149,42 @@ class Database:
                 new_proof += 1
 
     def _block_hash(self, block: dict) -> str:
-        _ = json.dumps(block, sort_keys = True)
-        return sha256(_.encode()).hexdigest()
+        return sha256(json.dumps(block).encode()).hexdigest()
     
     def _mine(self, data: list[dict]) -> None:
         prev_block = self.blockchain[-1]
-        proof      = self._proof_of_work(prev_block)
+        proof      = self._find_proof(prev_block)
         prev_hash  = self._block_hash(prev_block)
         block      = self._create_block(data, proof, prev_hash)
         self.blockchain.append(block) 
     
-    #FIXME
-    @property
-    def is_blockchain_valid(self) -> bool:
-        current_block = self.blockchain[0]
-        block_index = 1
-        
-        while block_index < len(self.blockchain):
-            next_block = self.blockchain[block_index]
-            hash_value = self._block_hash(current_block)
-
-            if next_block["prev_hash"] != hash_value:
-                #TODO handle this
-                self.error("previous hash does not match next hash")
-                return False
-            if hash_value[:self._difficulty] != "0" * self._difficulty: 
-                #TODO HANDLE THIS
-                self.error("hash is not valid")
-                return False
-            
-            current_block = next_block
-            block_index  += 1
-
-        return True
-
-    def _create_transaction(self, sender_id : int | str, receiver_id: int | str, amount : int ) -> dict:
-        return { 
-            "transaction_id" : len(self.blockchain),
-            "timestamp"      : round(time.time()),
-            "sender_id"      : sender_id,
-            "receiver_id"    : receiver_id,
-            "amount"         : round(amount)
-        }
-
     def _add_transaction(self, sender_id : int | str, receiver_id: int | str, amount : int) -> None:
-        transaction = self._create_transaction(sender_id, receiver_id, amount)
+        if not self.is_blockchain_valid:
+            raise DatabaseException("blockchain is not valid")
+        transaction = {
+            "timestamp"   : round(time.time()),
+            "sender_id"   : sender_id,
+            "receiver_id" : receiver_id,
+            "amount"      : round(amount)
+            }
         self._mine(transaction)
-        if type(sender_id) == str:
-            self.log(f"#{len(self.blockchain)} {sender_id} -> {self[receiver_id]['name']} | {round(amount)}")
-        else:
-            self.log(f"#{len(self.blockchain)} {self[sender_id]['name']} -> {self[receiver_id]['name']} | {round(amount)}")
-        self.warn("block mined!")
 
-    #----------------------------------------------------------------
+        self.log(f"#{len(self.blockchain)} {self[sender_id].name} -> {self[receiver_id].name} : {round(amount)}")
 
     def _init_db(self) -> None:
-        if os.path.isdir("data"):
-            # reading
-            with open(self._users_file_name, 'r') as user_data_file:
-                self.users = json.load( user_data_file )["users"]
-            
-            with open(self._blockchain_file, "r") as blockchain_file:
-                self.blockchain = json.load( blockchain_file )["blocks"]
-            
-            self.log(f"loaded {len(self.users)} users")
-        else:
-            # create
-            os.mkdir("data")
-            self._save()
-            self.log("database created")
+        with open(self._users_file_name, 'r') as user_data_file:
+            for user_dict in json.load( user_data_file )["users"]:
+                self.users.append( User.from_dict(user_dict) )
+
+        with open(self._blockchain_file, "r") as blockchain_file:
+            self.blockchain = json.load( blockchain_file )["blocks"]
+
+        self.log(f"loaded {len(self.users)} users")
 
     def _save(self) -> None:
         with open(self._users_file_name, "w") as data_file:
             json.dump(
-                    { "users" : self.users },
+                    { "users" : [user.dict for user in self.users] },
                     data_file, 
                     indent=4
                 )
@@ -168,85 +198,23 @@ class Database:
 
         self.log("database saved")
 
-    def _money(self, id: int, amount: int) -> bool:
-        tmp_user = self[id]
-        if (tmp_user["amount"] + round(amount)) < 0: 
-            return False
-        tmp_user["amount"] += round(amount)
-        self[id] = tmp_user
-        return True
-
     #----------------------------------------------------------------
-
-    def close(self) -> None:
-        self._save()
-        self.warn("closing database")
-
-    def work(self, id: int) -> None:
-        self._money(id, 25)
-        self._add_transaction("bank", id, 25)
-
-    def give(self, sender_id: int, receiver_id: int, amount: int) -> bool:
-        if  self._money(sender_id, -amount):
-            self._money(receiver_id, amount)
-            self._add_transaction(sender_id, receiver_id, amount)
-            return True
-        else:
-            return False
-
-    def generate_csv(self) -> None:
-        #TODO
-        raise NotImplementedError
-
-    def add_user(self, id: int, name: str) -> None:
-        if id in self:
-            return
-        else:
-            tmp_user = {
-                "id"     : id,
-                "name"   : name,
-                "amount" : 0,
-            }
-            self.users.append(tmp_user)
-            self.warn(f"added {name} {id}")
-
-    #----------------------------------------------------------------
-
-    def __str__(self) -> str:
-        return str([str(user) + "\n" for user in self.users])
-
-    def __len__(self) -> int:
-        return len(self.users)
-
-    def __iter__(self):
-        for user in self.users:
-            yield user
-
     def __contains__(self, _id: int) -> bool:
         for user in self.users:
-            if _id == user["id"]:
+            if _id == user.id:
                 return True
             else:
                 continue
         else:
             return False
 
-    def __getitem__(self, _id: int) -> dict:
+    def __getitem__(self, _id: int) -> User:
         if _id in self:
             for user in self.users:
-                if user["id"] == _id:
+                if user.id == _id:
                     return user
         else:
-            raise DatabaseException(f"Could not find user by id: {_id}")
-
-    def __setitem__(self, _id: int, new_user: dict) -> None:
-        if _id in self:
-            for i in range(len(self.users)):
-                if self.users[i]["id"] == _id:
-                    self.users[i] = new_user
-        else:
-            # do this or insert new user, can be changed
-            raise DatabaseException(f"Could not find user by id: {id}")
+            raise KeyError(f"Could not find user by id: {_id}")
 
     def __enter__(self):
         return self
@@ -263,13 +231,10 @@ class Database:
 database = Database(verbose = True)
 
 def test():
-    _id = int(input("id > "))
-    print("bal: ", database[_id]['amount'])
-    while True:
-        input("work...")
-        database.work(_id)
-        print("bal: ", database[_id]['amount'])
-        print("valid", database.is_blockchain_valid)
+    database._load_balances()
+    for user in database.users:
+        print(user, user.amount) if user.amount else 0-0
+    database.give("bank", 725773984808960050, 50)
 
 if __name__ == '__main__':
     try:

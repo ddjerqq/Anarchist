@@ -3,9 +3,7 @@ import disnake
 from utils import *
 
 
-async def dm_user(
-    user: disnake.Member, *, message: str = None, embed: disnake.Embed = None
-) -> None:
+async def dm_user(user: disnake.Member, *, message: str = None, embed: disnake.Embed = None) -> None:
     """
     dm an user by their id
     ~~~~~~~~~~~~~~~~~~~~~~~

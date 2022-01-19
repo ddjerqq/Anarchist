@@ -57,24 +57,20 @@ class EventsAndTasks(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        old_user_count = len(database)
+        old_user_count = len(database.users)
         for guild in self.client.guilds:
             async for member in guild.fetch_members(limit=None):
-                if member.bot:
-                    continue
+                if member.bot: continue
                 if member.id not in database:
                     database.add_user(member.id, member.name)
-                else:
-                    tmp_user = database[member.id]
-                    if tmp_user["name"] != member.name:
-                        old_name = tmp_user["name"]
-                        tmp_user["name"] = member.name
-                        database[member.id] = tmp_user
-                        warn(f"{old_name}'s name updated to {tmp_user['name']}")
 
-        warn(f"added {len(database) - old_user_count} new users")
+                tmp_user = database[member.id]
+                if tmp_user.name != member.name:
+                    warn(f"{database[member.id].name}'s name updated to {tmp_user.name}")
+                    database[member.id].name = tmp_user.name
 
-        ok("Bot is online")
+        warn(f"added {len(database.users) - old_user_count} new users")
+        rgb("[*] Bot is online", 0x00ff00)
 
 
 def setup(client: disnake.Client):

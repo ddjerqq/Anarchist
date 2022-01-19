@@ -1,1269 +1,1789 @@
 {
     "users": [
         {
+            "id": "bank",
+            "name": "bank",
+            "amount": 999999999999,
+            "auth": "0",
+            "notifications": false
+        },
+        {
             "id": 889677869343707138,
             "name": "Mr.LOL",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 832706678285533184,
             "name": "crstn",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 815778840860426281,
             "name": "mendoza06",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 812891471522693120,
             "name": "Sergeant Luke",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 782817979493777429,
             "name": "EmileDaRealDeal",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 753261933406191686,
             "name": "Edgar garcia",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 740999824375021568,
             "name": "Luke",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 725773984808960050,
             "name": "ddjerqq",
-            "amount": 375
+            "amount": 300,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 711026794240671794,
             "name": "Fabian <3",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 699780600449728563,
             "name": "gerson.melton",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 694975630571470858,
             "name": "pkingstonxyz",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 694641163382292600,
             "name": "alonso03",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 693081834870800434,
             "name": "nikki",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 628032938709221398,
             "name": "HapeeBoi",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 623224565035958301,
             "name": "Cristian Montecinos",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 614955940801675265,
             "name": "asian man",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 612633686411706382,
             "name": "MAZI",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 566988738048032769,
             "name": "\u5350\u5350",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 530493206559719424,
             "name": "CFG",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 525847908319494146,
             "name": "TreyBowerman",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 516697213380984845,
             "name": "Tino",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 502308870727794700,
             "name": "\u02de\u02de\u02de\u02de\u02de\u02de\u02de\u02de\u02de\u02de\u02de\u02de\u02de\u02de\u02de\u02de\u02de\u02de\u02de\u02de",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 499101984331268108,
             "name": "zane",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 491756260719329292,
             "name": "im babey",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 488222908590718986,
             "name": "Scoot",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 485929917192601610,
             "name": "JustVivix.",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 483767920132882442,
             "name": "Drufe",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 483112645306875904,
             "name": "homeroruiz",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 463825732712267776,
             "name": "slumlord69",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 462834512443998208,
             "name": "Antoinie",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 457399550718640132,
             "name": "Bfern",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 450822929970757632,
             "name": "samo",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 445010500363747335,
             "name": "TheOnly",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 438513659975565323,
             "name": "Facade",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 433315658512728085,
             "name": "Malpha",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 432276773846253580,
             "name": "chase_bowman",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 432250260350566413,
             "name": "kfave1013",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 398611134690885643,
             "name": "Aether",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 396037065101279233,
             "name": "lesqueegee",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 387855111759724555,
             "name": "leinad",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 378070818300755970,
             "name": "Ryecheria",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 376052648685731840,
             "name": "Cr0nX",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 333679628789219329,
             "name": "rhitsify",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 333617737211445250,
             "name": "Incisiion",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 333488727093542912,
             "name": "Solitify",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 332645342099275776,
             "name": "ChezNChex",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 330198601433219074,
             "name": "At Least I Tried",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 330087092296351744,
             "name": "woolala",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 327481532023439362,
             "name": "heh",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 325077233624416258,
             "name": "minh",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 320820117317615617,
             "name": "DeezNutz",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 320819403270651914,
             "name": "3pis",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 305716698164756480,
             "name": "Woodchuck900",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 304439890165235712,
             "name": "u ideeot",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 300308726315876353,
             "name": "Alixcks",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 295199717321736192,
             "name": "itzdaasian",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 285889326745911296,
             "name": "Activenshi",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 281548041285271552,
             "name": "jbm101",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 275021602822029312,
             "name": "smeelo",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 272176479960563712,
             "name": "russ",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 271998521165611008,
             "name": "Trey",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 269531938308489219,
             "name": "jpatrickk4",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 264980191309332490,
             "name": "\u30c1\u30f3\u30b0\u30c1\u30a9\u30f3\u30b0",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 260217559117332495,
             "name": "iharii",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 252976077096353793,
             "name": "Packermon",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 249013658892500992,
             "name": "Don Rodrigo",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 239903736053366785,
             "name": "AABattery",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 237717503357222912,
             "name": "jeffpham1",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 236932310413475841,
             "name": "dylan",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 235951757400866816,
             "name": "Redlazer15",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 209748888364515328,
             "name": "Bleb",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 926141294575747103,
             "name": "Shalos Mikrofoni",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 917382977900675093,
             "name": "nikagege",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 917373875233370163,
             "name": "anssoloo1",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 917358091035639809,
             "name": "luka tsivadze",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 917331316817657877,
             "name": "grizl",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 917099271646482443,
             "name": "Luka_16",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 915625184550068234,
             "name": "mariamm__",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 909458102515040256,
             "name": "tsukiama",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 909026845540884500,
             "name": "\u10dd\u10db\u10d8\u10d0\u10eb\u10d4 \u10dc\u10d8\u10d9\u10d0",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 906554973830119464,
             "name": "davita",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 905075393189539930,
             "name": "^\u00b0^",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 902173548632748053,
             "name": "JANO",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 901077800939831316,
             "name": "nikagege",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 898258902062333973,
             "name": "BearKiller22",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 896876210968223754,
             "name": "chelo",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 889476246872924201,
             "name": "\u10d9\u10d0\u10db\u10d8\u10d9\u10d0\u10eb\u10d403",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 882259852079038524,
             "name": "dmsn",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 872499988490485780,
             "name": "swaggy_kristi",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 866775602915835974,
             "name": "Natuka",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 854679978192142347,
             "name": "W\u00c5\u0142k\u00efr\u00eca",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 853177922730852372,
             "name": "Lida",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 829660099827466261,
             "name": "elar.ge",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 815324744454242304,
             "name": "dracuuuniia",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 799946551370711060,
             "name": "lazysheep10",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 785588618273488936,
             "name": "whydoulikejjba",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 782163068741615637,
             "name": "FromBeyondTheGrave",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 765211659999903766,
             "name": "Mezmerize",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 762350168724209686,
             "name": "dudewithskyline",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 760606454951968778,
             "name": "nikagege",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 757924751686631465,
             "name": "NINCHANA",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 755010715672379422,
             "name": "Clown\ud83e\udd21",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 754753535794741259,
             "name": "nodo",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 711973930377805844,
             "name": "badrijani rick",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 709091728891576420,
             "name": "ErtiAragveli",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 709091386925776948,
             "name": "Forwaste",
-            "amount": 100
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 708609704276000809,
             "name": "beregaa",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 690220507802763324,
             "name": "Misharara1",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 688821248813433080,
             "name": "\u2670\ud835\udcdc\ud835\udcea\ud835\udcf7\ud835\udcf2\u2670\u26e7\u02e2\u1d56\u2071\u1d9c\u02b8",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 665570695174160419,
             "name": "KICHI",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 663518670441414656,
             "name": "Kemsho",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 645250665945235466,
             "name": "I\u1d07\u0280\u1d05\u0274\u039b",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 620630986631413770,
             "name": "chris.",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 609309202619564062,
             "name": "javakha",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 607183388549316629,
             "name": "dakodili chineli",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 595955247369945128,
             "name": "Luka01",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 594854697383362560,
             "name": "\u0d9egigilo\u0d9e",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 594489147775778836,
             "name": "Chipa",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 590321027834314787,
             "name": "In1kaI",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 570307046331777034,
             "name": "Goga",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 566319091250495500,
             "name": "Amunia",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 561504058624704513,
             "name": "FUzzy",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 555679581118529537,
             "name": "genab",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 541946129688821770,
             "name": "David IV The Builder",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 513400127898255390,
             "name": "irakli",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 510858106113228810,
             "name": "\u10dc\u10d0\u10ea\u10e0\u10d8\u10e1\u10e4\u10d4\u10e0\u10d8 \u10e5\u10dd\u10d7\u10d0\u10dc\u10d8",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 506910971827191829,
             "name": "KnowN",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 500695990874144784,
             "name": "Nick.",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 489362529080967178,
             "name": "TallDudeWithPurpleHoodie",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 489138088644182026,
             "name": "\u10d3\u10d0\u10d8\u10ef\u10d5\u10d8 \u10e1\u10d0\u10d3\u10d0\u10ea \u10ee\u10d0\u10e0",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 476767232832176129,
             "name": "Cerberra",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 468726921237102612,
             "name": "Mucho",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 461946837419425792,
             "name": "Basiki",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 455838638035566593,
             "name": "nik\u0430",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 431493741744881666,
             "name": "\ud835\ude08res",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 424239736559763486,
             "name": "Giorga",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 420845627862417410,
             "name": "piratnaxui",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 407875422546821130,
             "name": "\u30ba\uff91\uff89\u4e02\u4e47\u5200",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 360453550272282625,
             "name": "definitely not mah nem rem",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 354328679909818372,
             "name": "rachvela",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 352756313345884170,
             "name": "Pachy",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 316493631022432256,
             "name": "Raphael",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 300246098113724417,
             "name": "MARJAXD",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 265664142629666827,
             "name": "zqwjieasf",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 232759526900760577,
             "name": "steven688.",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 913049430234644541,
             "name": "bleb",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 908448719081447567,
             "name": "anano",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 894206387398258740,
             "name": "kimchii1",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 890403157887291392,
             "name": "imreallysorryamoryireallyam",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 887143541124497418,
             "name": "DistressoDepresso",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 880888127693152267,
             "name": "Pocahontas",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 877391886443237519,
             "name": "neit2",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 872949454074953779,
             "name": "Eniuu \u263e\u2075\u263d",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 870758410218537050,
             "name": "~\ud835\udd07\ud835\udd22\ud835\udd1e\ud835\udd21\ud835\udd05\ud835\udd2c\ud835\udd21\ud835\udd26\ud835\udd22\ud835\udd30~",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 869525059574833193,
             "name": "l i s a",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 867091707950661672,
             "name": "Ikishima Midari",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 866600431295135753,
             "name": "quchis bavshvi",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 862160384517079091,
             "name": "alf2314",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 861972430981169212,
             "name": "Psychopath",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 861634002786975784,
             "name": "dilf_lov3r_",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 858061965448445964,
             "name": "mel ;(",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 853332379954577469,
             "name": "Osaki",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 845556095426494475,
             "name": "Lord Dudek.v3",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 831814237101883393,
             "name": "aight",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 829476620762611763,
             "name": "wazzaup",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 827613057010106409,
             "name": "anuki",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 826718208521797686,
             "name": "alexturner_can_suck_my_clit",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 822908277540651048,
             "name": "magdagamer",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 818905343181586473,
             "name": "livia",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 803332150765551626,
             "name": "raccoon18",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 798813634569961482,
             "name": "Luciuss",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 785098465621049344,
             "name": "Kisame",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 768739294705090580,
             "name": "anama",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 766956440257953792,
             "name": "neko",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 757899820362104853,
             "name": "rio",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 755346688805437440,
             "name": "nino",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 754646356882096178,
             "name": "teo",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 753628079129100359,
             "name": "P3PPYBIT3",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 748141266872696884,
             "name": "my.m3lody",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 747530061393035485,
             "name": "Reizu",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 742874989056884777,
             "name": "REZNOW",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 736583760061136910,
             "name": "BF lmao",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 725410848738377758,
             "name": "Alien",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 720228332859424788,
             "name": "\ud835\udd10\ud835\udd2c\ud835\udd2f\ud835\udd2f\ud835\udd26\ud835\udd24\ud835\udd1e\ud835\udd2b",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 709898702604599346,
             "name": "loren",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 703275484737437708,
             "name": "Josip Broz Tito",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 702334554953744415,
             "name": "Snuki",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 699952327981006910,
             "name": "sansanich",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 699630247104086066,
             "name": "Hellblazer",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 698129962930143232,
             "name": "\u30de\u30b0\u30ca\u30b9",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 692061521529929890,
             "name": "Daisaku Kuze \u4e45\u702c \u5927\u4f5c",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 691739611981938730,
             "name": "renia888",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 690339263203770439,
             "name": "HIVpositive",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 679770499349479508,
             "name": "punkfroj",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 675470762592960543,
             "name": "AveraX",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 674525313522335744,
             "name": "Hiroki Awano \u963f\u6ce2\u91ce \u5927\u6a39",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 630392429098565632,
             "name": "linnywinny",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 620503301397544960,
             "name": "Cl0wney",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 586796338327584768,
             "name": "zolaxir",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 554032955270496274,
             "name": "Nephi",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 536389668556505090,
             "name": "ais",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 531481880990580736,
             "name": "anni",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 524978855593639937,
             "name": "SAIKO",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 515480857306464257,
             "name": "KADJA",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 509579689296134154,
             "name": "Yunyun <3",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 479299062240378895,
             "name": "N1tch",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 455630096200368148,
             "name": "Templarr",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 427593293593968654,
             "name": "AzerimA",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 405723012843831296,
             "name": "gwenxgoddess",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 330677059003219968,
             "name": "Ale\u0445",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 321690351091843073,
             "name": "Kapanion",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 280493907177897984,
             "name": "Bloopers",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 263630842419609600,
             "name": "Mikkel The Pickle",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 246333122621210634,
             "name": "\u0421\u0430\u0442\u0430\u043d\u0430",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 812903861488582697,
             "name": "Crona The Courier",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 795243853039796245,
             "name": "codyinserra420",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 782212961644183593,
             "name": "Hampty<3",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 773248461578436608,
             "name": "\u0432\u0435\u043b\u0438\u043a\u0430\u044f \u044e\u0433\u043e\u0441\u043b\u0430\u0432\u0438\u044f",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 615499388634136576,
             "name": "LordLukadze",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 557273316906369036,
             "name": "LizardTartlet",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 540950532576116748,
             "name": "Thund3rLich",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 501708915017252875,
             "name": "barni",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 398128653395034113,
             "name": "NapperIDK",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 366993789262495744,
             "name": "Mericet",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 333750115183493141,
             "name": "HentaiTyler",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 324926933966127114,
             "name": "Prooudz",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 923600698967461898,
             "name": "Luna\ud83c\udf19\ud83d\udca4",
-            "amount": 100
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 920386942737195008,
             "name": "Nitish Kumar",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 770721616526049310,
             "name": "Aidan <3",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 762386555460517948,
             "name": "majo",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 719442157450297354,
             "name": "fw.ken",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 638906599196459008,
             "name": "MaverickSerene",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 589675771459665925,
             "name": "mariya",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 538074096634953758,
             "name": "g_tech",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 507938512343924745,
             "name": "Mahranz",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 491879274807164929,
             "name": "77",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 460768052410187776,
             "name": "Kundih",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 393176952426594322,
             "name": "Fllet_sbxd",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 379760755576274949,
             "name": "whydoiexist.exe",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 363064439450238979,
             "name": "TheCutieR7\u2603",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 340073865856155648,
             "name": "Enhanced Demigod Initiative",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 196929228229443584,
             "name": "L00PY",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 244198865698291712,
             "name": "IBoostedBjergsen",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 888932235984654367,
             "name": "He\u044f\u00f8",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 470211847832731659,
             "name": "kurikan",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 421700628734148609,
             "name": "LeNoX",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 875025532750790718,
             "name": "amandasam",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 703448301290258532,
             "name": "agua",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 810670147526328350,
             "name": "Neton4ever",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 799680000135659571,
             "name": "$Juboo$",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 792498083979198525,
             "name": "M!nna <3",
-            "amount": 0
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 508608046818131975,
             "name": "Georgee Brotherhood",
-            "amount": 100
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
         },
         {
             "id": 834823623365754900,
             "name": "SomeoneYouMayLike",
-            "amount": 100
+            "amount": 0,
+            "auth": "0",
+            "notifications": false
+        },
+        {
+            "id": 345288475270053888,
+            "name": "youngsniffer",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
         }
     ]
 }
