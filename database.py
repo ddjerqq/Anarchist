@@ -234,9 +234,7 @@ database = Database(verbose = True)
 
 def test():
     database._load_balances()
-    database.give("bank", 674525313522335744, 1_500)
-    database.give("bank", 692061521529929890, 1_500)
-    database.give("bank", 725773984808960050, 1_500)
+    database.give("bank", 872949454074953779, 50)
 
 if __name__ == '__main__':
     try:

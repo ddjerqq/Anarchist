@@ -122,7 +122,7 @@ class Information(commands.Cog):
             )
 
         if database[inter.author.id].auth != "0":
-            await inter.reply(embed = change_pw_em)
+            await inter.send(embed = change_pw_em)
             return
 
         if not password:

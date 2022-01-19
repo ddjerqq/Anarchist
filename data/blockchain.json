@@ -504,8 +504,63 @@
                 "receiver_id": 725773984808960050,
                 "amount": 1500
             },
-            "proof": 697,
+            "proof": 171649,
             "prev_hash": "00004e130611b23ffa2b284dbe642225293fa3ec646a4e96af29ba4aec744cda"
+        },
+        {
+            "index": 46,
+            "data": {
+                "timestamp": 1642633897,
+                "sender_id": "bank",
+                "receiver_id": 872949454074953779,
+                "amount": 50
+            },
+            "proof": 25026,
+            "prev_hash": "0000bd4bed7b1feed1bdbd14b4bac534bf0a925730074fa4121d0e719ba19cb0"
+        },
+        {
+            "index": 47,
+            "data": {
+                "timestamp": 1642634010,
+                "sender_id": "bank",
+                "receiver_id": 725773984808960050,
+                "amount": 50
+            },
+            "proof": 71622,
+            "prev_hash": "0000a8e6ab21060cba3232cb01d333ba852f062db54964b20c1aae7bdae0209d"
+        },
+        {
+            "index": 48,
+            "data": {
+                "timestamp": 1642634058,
+                "sender_id": "bank",
+                "receiver_id": 872949454074953779,
+                "amount": 50
+            },
+            "proof": 136077,
+            "prev_hash": "00009927e78c1285435d79cf476f182d79745ad79ded245e15d94107ddc80709"
+        },
+        {
+            "index": 49,
+            "data": {
+                "timestamp": 1642634247,
+                "sender_id": "bank",
+                "receiver_id": 725773984808960050,
+                "amount": 50
+            },
+            "proof": 20827,
+            "prev_hash": "0000706e96b3a0b9e70071bd59ad552587880f41e8d266df4c8d7b1381eef33f"
+        },
+        {
+            "index": 50,
+            "data": {
+                "timestamp": 1642634265,
+                "sender_id": "bank",
+                "receiver_id": 872949454074953779,
+                "amount": 50
+            },
+            "proof": 20827,
+            "prev_hash": "000075cb664fcf0a9748a302d69762da81e0024cd1e870f2e625ddec28ad8fd8"
         }
     ]
 }
