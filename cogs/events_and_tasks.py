@@ -58,10 +58,10 @@ class EventsAndTasks(commands.Cog):
         print(type(error))
 
     @commands.Cog.listener()
-    async def on_slash_command_error(
-        self,
-        inter: disnake.ApplicationCommandInteraction,
-        error ) -> None:
+    async def on_slash_command_error( self, inter: disnake.ApplicationCommandInteraction, error ) -> None:
+        if isinstance(error, commands.errors.CommandOnCooldown):
+            return
+
         em = disnake.Embed(color=0xFF0000, title="unhandled error")
         em.add_field(name="error:", value=error, inline=False)
 

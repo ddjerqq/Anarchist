@@ -50,11 +50,10 @@ class Database:
         true on success
         false on fail
         """
-        if sender_id == "bank":
+        if  sender_id == "bank":
             self[receiver_id] + amount
             self._add_transaction(sender_id, receiver_id, amount)
             return True
-        
         if round(amount) < self[sender_id].amount:
             self[receiver_id] + amount
             self[sender_id]   - amount
@@ -235,9 +234,9 @@ database = Database(verbose = True)
 
 def test():
     database._load_balances()
-    for user in database.users:
-        print(user, user.amount) if user.amount else 0-0
-    database.give("bank", 725773984808960050, 50)
+    database.give("bank", 674525313522335744, 1_500)
+    database.give("bank", 692061521529929890, 1_500)
+    database.give("bank", 725773984808960050, 1_500)
 
 if __name__ == '__main__':
     try:

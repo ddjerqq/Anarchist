@@ -24,10 +24,10 @@ class Information(commands.Cog):
 
         if database.is_blockchain_valid:
             em.description = "**Yes**"
-            em.color = 0x34ab0c
+            em.color = 0x00ff00
         else:
             em.description = "**No!!!**"
-            em.color = 0xab2f0c
+            em.color = 0xff0000
 
         await inter.send(embed = em)
 
@@ -96,12 +96,11 @@ class Information(commands.Cog):
             database[inter.author.id].notifications = True
             await inter.send(embed = enable)
 
-
-    @commands.command(
+    @commands.slash_command(
         name = "password",
         description = "set password to use for authentication"
     )
-    async def _password(self, ctx: commands.Context, _password: str = None) -> None:
+    async def _password(self, inter: ApplicationCommandInteraction, password: str = None) -> None:
         no_password_em = disnake.Embed(
                 title = "missing required argument password ❌",
                 color = 0xff0000,
@@ -117,53 +116,49 @@ class Information(commands.Cog):
             color = 0x00ff00
             )
         change_pw_em   = disnake.Embed(
-            title = "You already have a password set. ✅",
-            color = 0x00ff00,
+            title = "You already have a password set. 🔰",
+            color = 0xffff00,
             description = f"if you want to change it, use {PREFIX}change"
             )
 
-        if not _password:
-            await ctx.send(embed = no_password_em)
+        if database[inter.author.id].auth != "0":
+            await inter.reply(embed = change_pw_em)
             return
 
-        if database[ctx.author.id].auth == "0":
-            valid = True
+        if not password:
+            await inter.send(embed = no_password_em)
+            return
 
-            if len(_password) < 6:
-                valid = False
-                invalid_pw_em.description += "password should be **at least 8** characters\n"
-            if len(_password) > 24:
-                valid = False
-                invalid_pw_em.description += "password should **not** be **more than 32 characters**\n"
-            if not any(char.isdigit() for char in _password):
-                valid = False
-                invalid_pw_em.description += "password should have atleast one **number**\n"
-            if not any(char.isupper() for char in _password):
-                valid = False
-                invalid_pw_em.description += "password should have atleast **one uppercase** letter\n"
-            if not any(char.islower() for char in _password):
-                valid = False
-                invalid_pw_em.description += "password should have atleast one **lowercase** letter\n"
-            if not valid:
-                await ctx.send(embed = invalid_pw_em)
-                return
-            else:
-                database[ctx.author.id].auth = salt(_password)
-                await ctx.send(embed = success_set_em)
+        valid = True
+
+        if len(password) < 6:
+            valid = False
+            invalid_pw_em.description += "password should be **at least 8** characters\n"
+        if len(password) > 24:
+            valid = False
+            invalid_pw_em.description += "password should **not** be **more than 32 characters**\n"
+        if not any(char.isdigit() for char in password):
+            valid = False
+            invalid_pw_em.description += "password should have atleast one **number**\n"
+        if not any(char.isupper() for char in password):
+            valid = False
+            invalid_pw_em.description += "password should have atleast **one uppercase** letter\n"
+        if not any(char.islower() for char in password):
+            valid = False
+            invalid_pw_em.description += "password should have atleast one **lowercase** letter\n"
+        if not valid:
+            await inter.send(embed = invalid_pw_em)
+            return
         else:
-            await ctx.reply(embed = change_pw_em)
+            database[inter.author.id].auth = salt(password)
+            await inter.send(embed = success_set_em)
 
-    @commands.command(
+
+    @commands.slash_command(
         name = "change",
         description = "change password"
     )
-    async def _change(self, ctx: commands.Context, old_password: str = None, new_password: str = None) -> None:
-        
-        no_password_em = disnake.Embed(
-                title = "missing required arguments ❌",
-                color = 0xff0000,
-                description = f"to change your password use {PREFIX}change oldpassword newpassword"
-            )
+    async def _change(self, inter: ApplicationCommandInteraction, old_password: str, new_password: str) -> None:        
         fail_em = disnake.Embed(
             title = "passwords do not match ❌",
             color = 0xff0000
@@ -178,11 +173,7 @@ class Information(commands.Cog):
             description = ""
             )
 
-        if not old_password and not new_password:
-            await ctx.send(embed = no_password_em)
-            return
-
-        if salt(old_password) == database[ctx.author.id].auth:
+        if salt(old_password) == database[inter.author.id].auth:
             valid = True
             if len(new_password) < 6:
                 valid = False
@@ -200,13 +191,13 @@ class Information(commands.Cog):
                 valid = False
                 invalid_pw_em.description += "password should have atleast one **lowercase** letter\n"
             if not valid:
-                await ctx.send(embed = invalid_pw_em)
+                await inter.send(embed = invalid_pw_em)
                 return
             else:
-                database[ctx.author.id].auth = salt(new_password)
-                await ctx.send(embed = success_em)
+                database[inter.author.id].auth = salt(new_password)
+                await inter.send(embed = success_em)
         else:
-            await ctx.send(embed = fail_em)
+            await inter.send(embed = fail_em)
 
 def setup(client: disnake.Client):
     client.add_cog(Information(client))

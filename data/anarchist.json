@@ -59,8 +59,8 @@
         {
             "id": 725773984808960050,
             "name": "ddjerqq",
-            "amount": 131,
-            "auth": "80f8cffa22056c986ea461ba39b3dd0da92c5e7fb6b4734121c052448884f8e2",
+            "amount": 1651,
+            "auth": "b88a16ae2d9d6495a568df3ff25027e94b4981401c8d96d4834328f89580efbb",
             "notifications": true
         },
         {
@@ -1074,7 +1074,7 @@
         {
             "id": 872949454074953779,
             "name": "Eniuu \u263e\u2075\u263d",
-            "amount": 70,
+            "amount": 540,
             "auth": "0",
             "notifications": false
         },
@@ -1340,7 +1340,7 @@
         {
             "id": 692061521529929890,
             "name": "Daisaku Kuze \u4e45\u702c \u5927\u4f5c",
-            "amount": 0,
+            "amount": 1500,
             "auth": "0",
             "notifications": false
         },
@@ -1375,9 +1375,9 @@
         {
             "id": 674525313522335744,
             "name": "Hiroki Awano \u963f\u6ce2\u91ce \u5927\u6a39",
-            "amount": 40,
+            "amount": 1649,
             "auth": "0",
-            "notifications": false
+            "notifications": true
         },
         {
             "id": 630392429098565632,
@@ -1592,7 +1592,7 @@
         {
             "id": 923600698967461898,
             "name": "Luna\ud83c\udf19\ud83d\udca4",
-            "amount": 79,
+            "amount": 80,
             "auth": "0",
             "notifications": false
         },
