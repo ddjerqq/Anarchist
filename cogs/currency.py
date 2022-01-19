@@ -18,7 +18,7 @@ class Currency(commands.Cog):
         name        = "rank", 
         aliases     = ["leaderboard"],
         description = "Get the top users in this server",
-        guild_ids   = GUILD_IDS
+        #guild_ids   = GUILD_IDS
         )
     async def _rank(self, inter: ApplicationCommandInteraction) -> None:
         users = []
@@ -44,7 +44,7 @@ class Currency(commands.Cog):
         name        = "bal",
         aliases     = ["balanace"],
         description = f"Get your balance or someone else's",
-        guild_ids   = GUILD_IDS
+        #guild_ids   = GUILD_IDS
     )
     async def _balance(self, inter: ApplicationCommandInteraction, user: disnake.Member = None) -> None:
         if not user:
@@ -63,7 +63,7 @@ class Currency(commands.Cog):
     @commands.slash_command(
         name        = "work",
         description = f"work and earn 50 coins, you can use this command every 30 seconds",
-        guild_ids   = GUILD_IDS
+        #guild_ids   = GUILD_IDS
     )
     async def _work(self, inter: ApplicationCommandInteraction) -> None:
         async with inter.channel.typing():
@@ -92,9 +92,9 @@ class Currency(commands.Cog):
     @commands.slash_command(
         name        = "give",
         description = f"Give a user an amount",
-        guild_ids   = GUILD_IDS
+        #guild_ids   = GUILD_IDS
     )
-    async def _give(self, inter: ApplicationCommandInteraction, user: disnake.Member,amount: int) -> None:
+    async def _give(self, inter: ApplicationCommandInteraction, user: disnake.Member, amount: int) -> None:
         async with inter.channel.typing():
             _id = user.id
             if int(amount) < 0:

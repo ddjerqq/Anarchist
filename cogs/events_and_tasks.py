@@ -31,7 +31,7 @@ class EventsAndTasks(commands.Cog):
     async def before_status_cycle(self):
         await self.client.wait_until_ready()
 
-    @tasks.loop(seconds=120)
+    @tasks.loop(seconds=180)
     async def save_database(self):
         database._save()
 

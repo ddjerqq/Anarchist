@@ -1,4 +1,3 @@
-
 class User:
     def __init__(
         self, 
@@ -49,13 +48,3 @@ class User:
 
     def __str__(self) -> str:
         return f"{self.id} {self.name}"
-
-if __name__ == "__main__":
-    ddjerqq = User(725773984808960050, "ddjerqq")
-    print(ddjerqq.amount)
-    ddjerqq + 10
-    print(ddjerqq.amount)
-    ddjerqq - 10
-    print(ddjerqq.amount)
-    ddjerqq - 10
-    print(ddjerqq.amount)
