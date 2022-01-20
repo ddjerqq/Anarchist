@@ -59,7 +59,7 @@
         {
             "id": 725773984808960050,
             "name": "ddjerqq",
-            "amount": 1751,
+            "amount": 1251,
             "auth": "0",
             "notifications": true
         },
@@ -1074,7 +1074,7 @@
         {
             "id": 872949454074953779,
             "name": "Eniuu \u263e\u2075\u263d",
-            "amount": 690,
+            "amount": 740,
             "auth": "0",
             "notifications": false
         },
@@ -1115,7 +1115,7 @@
         },
         {
             "id": 861972430981169212,
-            "name": "Psychopath",
+            "name": "Mishotxo",
             "amount": 0,
             "auth": "0",
             "notifications": false
@@ -1298,7 +1298,7 @@
         {
             "id": 709898702604599346,
             "name": "loren",
-            "amount": 70,
+            "amount": 450,
             "auth": "0",
             "notifications": false
         },
@@ -1592,7 +1592,7 @@
         {
             "id": 923600698967461898,
             "name": "Luna\ud83c\udf19\ud83d\udca4",
-            "amount": 80,
+            "amount": 380,
             "auth": "0",
             "notifications": false
         },
@@ -1789,6 +1789,13 @@
             "id": 853579618069512203,
             "name": "kato",
             "amount": 100,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 723568103967031317,
+            "name": "Paradise",
+            "amount": 220,
             "auth": null,
             "notifications": false
         }

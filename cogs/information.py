@@ -31,10 +31,54 @@ class Information(commands.Cog):
 
         await inter.send(embed = em)
 
+    @commands.slash_command(
+        name        = "rank", 
+        description = "Get the top 10 users in this server",
+        #guild_ids   = GUILD_IDS
+        )
+    async def _rank(self, inter: ApplicationCommandInteraction) -> None:
+        users = []
+        async for user in inter.guild.fetch_members(limit=None):
+            if not user.bot:
+                users.append(database[user.id])
+
+        sorted_users = sorted(users, key=lambda x: x.amount, reverse=True)[0:10]
+
+        em = disnake.Embed(
+            title=f"{inter.guild.name} leaderboard",
+            color=0x00FF00,
+        )
+        for index, user in enumerate(sorted_users):
+            em.add_field(
+                name   = f"#{index + 1} {user.name}",
+                value  = f"{user.amount} ⏣",
+                inline = False,
+            )
+        await inter.send(embed=em)
+
+    @commands.slash_command(
+        name        = "leaderboard", 
+        description = "Get the top 10 users globally",
+        #guild_ids   = GUILD_IDS
+        )
+    async def _leaderboard(self, inter: ApplicationCommandInteraction) -> None:
+        sorted_users = sorted(database.users, key = lambda x: x.amount, reverse=True)[0:10]
+        em = disnake.Embed(
+            title=f"Global leaderboard",
+            color=0x00FF00,
+        )
+        for index, user in enumerate(sorted_users):
+            if not index: continue #skip bank user
+            em.add_field(
+                name   = f"#{index} {user.name}",
+                value  = f"{user.amount} ⏣",
+                inline = False,
+            )
+        await inter.send(embed=em)
+    
 
     @commands.slash_command(
         name        = "invite", 
-        aliases     = ["inv"],
         description = "gives you the link to invite the bot to your server",
         #guild_ids   = GUILD_IDS
         )
@@ -46,7 +90,6 @@ class Information(commands.Cog):
         em.set_author(name=self.client.user, icon_url=self.client.user.avatar.url)
         await inter.send(embed=em)
     
-
     @commands.slash_command(
         name        = "ping", 
         description = "measure bot latency",
@@ -74,7 +117,6 @@ class Information(commands.Cog):
         )
         await inter.send(embed = em)
 
-
     @commands.slash_command(
         name        = "notifications", 
         description = "toggle DM notifications on/off",
@@ -96,9 +138,10 @@ class Information(commands.Cog):
             database[inter.author.id].notifications = True
             await inter.send(embed = enable)
 
+
     @commands.slash_command(
         name = "password",
-        description = "set password to use for authentication"
+        description = "set a password to use for authentication"
     )
     async def _password(self, inter: ApplicationCommandInteraction, password: str = None) -> None:
         no_password_em = disnake.Embed(
@@ -152,7 +195,6 @@ class Information(commands.Cog):
         else:
             database[inter.author.id].auth = salt(password)
             await inter.send(embed = success_set_em)
-
 
     @commands.slash_command(
         name = "change",

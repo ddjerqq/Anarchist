@@ -49,10 +49,10 @@ class EventsAndTasks(commands.Cog):
         if isinstance(error, commands.errors.CommandNotFound):
             return
 
-        embed = disnake.Embed(color=0xFF0000, title="unhandled error")
-        embed.add_field(name="error:", value=error, inline=False)
+        em = disnake.Embed(color=0xFF0000, title="unhandled error")
+        em.add_field(name="error:", value=error, inline=False)
 
-        await ctx.send(embed=embed)
+        await ctx.send(embed=em)
 
         warn(error)
         print(type(error))
@@ -81,12 +81,11 @@ class EventsAndTasks(commands.Cog):
 
                 tmp_user = database[member.id]
                 if tmp_user.name != member.name:
-                    warn(f"{database[member.id].name}'s name updated to {tmp_user.name}")
-                    database[member.id].name = tmp_user.name
+                    warn(f"{database[member.id].name}'s name updated to {member.name}")
+                    database[member.id].name = member.name
 
         warn(f"added {len(database.users) - old_user_count} new users")
         rgb("[*] Bot is online", 0x00ff00)
-
 
 def setup(client: disnake.Client):
     client.add_cog(EventsAndTasks(client))

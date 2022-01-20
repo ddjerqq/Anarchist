@@ -14,52 +14,8 @@ class Currency(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.slash_command(
-        name        = "rank", 
-        aliases     = ["leaderboard"],
-        description = "Get the top users in this server",
-        #guild_ids   = GUILD_IDS
-        )
-    async def _rank(self, inter: ApplicationCommandInteraction) -> None:
-        users = []
-        async for user in inter.guild.fetch_members(limit=None):
-            if not user.bot:
-                users.append(database[user.id])
 
-        sorted_users = sorted(users, key=lambda x: x.amount, reverse=True)[0:10]
-
-        embed = disnake.Embed(
-            title=f"{inter.guild.name} leaderboard",
-            color=0x00FF00,
-        )
-        for user_index in range(len(sorted_users)):
-            embed.add_field(
-                name=f"#{user_index + 1} {sorted_users[user_index].name}",
-                value=str(sorted_users[user_index].amount) + " ⏣",
-                inline=False,
-            )
-        await inter.send(embed=embed)
-
-    @commands.slash_command(
-        name        = "bal",
-        aliases     = ["balanace"],
-        description = f"Get your balance or someone else's",
-        #guild_ids   = GUILD_IDS
-    )
-    async def _balance(self, inter: ApplicationCommandInteraction, user: disnake.Member = None) -> None:
-        if not user:
-            user = inter.author
-        _id = user.id
-
-        em = disnake.Embed(
-            color       = 0x00FF00, 
-            title       = f"{database[_id].name}'s balance",
-            description = f"{database[_id].amount} ⏣"
-        )
-        await inter.send(embed = em)
-
-
-    @commands.cooldown(1, 30, commands.BucketType.user)
+    @commands.cooldown(1, 60, commands.BucketType.user)
     @commands.slash_command(
         name        = "work",
         description = f"work and earn 50 coins, you can use this command every 30 seconds",
@@ -88,18 +44,49 @@ class Currency(commands.Cog):
         else:
             rgb(_error, 0xff0000)
 
+    @commands.user_command(
+        name        = "balance", 
+        description = "Get balance of a user",
+        #guild_ids   = GUILD_IDS
+    )
+    async def _bal_user_command(self, inter: ApplicationCommandInteraction) -> None:
+        _id = inter.target.id
+        em = disnake.Embed(
+            color       = 0x00FF00, 
+            title       = f"{database[_id].name}'s balance",
+            description = f"{database[_id].amount} ⏣"
+        )
+        await inter.send(embed = em)
+
+    @commands.slash_command(
+        name        = "bal",
+        aliases     = ["balanace"],
+        description = f"Get your balance or someone else's",
+        #guild_ids   = GUILD_IDS
+    )
+    async def _balance(self, inter: ApplicationCommandInteraction, user: disnake.Member = None) -> None:
+        if not user:
+            user = inter.author
+        _id = user.id
+
+        em = disnake.Embed(
+            color       = 0x00FF00, 
+            title       = f"{database[_id].name}'s balance",
+            description = f"{database[_id].amount} ⏣"
+        )
+        await inter.send(embed = em)
 
     @commands.slash_command(
         name        = "give",
-        description = f"Give a user an amount",
+        description = f"Give a user some coins, minimum transaction is 50 ⏣",
         #guild_ids   = GUILD_IDS
     )
     async def _give(self, inter: ApplicationCommandInteraction, user: disnake.Member, amount: int) -> None:
         async with inter.channel.typing():
             _id = user.id
-            if int(amount) < 0:
+            if int(amount) < 50:
                 em = disnake.Embed(
-                    color=0xFF0000, title=f"What are you trying to do here 🤨⁉"
+                    color=0xFF0000, title=f"Minimum transaction is 50 ⏣"
                 )
                 await inter.send(embed = em)
                 return
