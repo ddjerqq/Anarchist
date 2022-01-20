@@ -4,3 +4,4 @@ tmp.py
 selfbot/petbot.py
 data/anarchist.json
 data/blockchain.json
+selfbot/__main__.py

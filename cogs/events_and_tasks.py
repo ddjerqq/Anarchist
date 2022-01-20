@@ -21,9 +21,9 @@ class EventsAndTasks(commands.Cog):
     @tasks.loop(seconds=10)
     async def status_cycle(self):
         await self.client.change_presence(
-            activity=disnake.Activity(
-                type=disnake.ActivityType.listening,
-                name = "/help"
+            activity = disnake.Activity(
+                type = disnake.ActivityType.playing,
+                name = next(STATUSES)
             )
         )
 
@@ -81,10 +81,10 @@ class EventsAndTasks(commands.Cog):
 
                 tmp_user = database[member.id]
                 if tmp_user.name != member.name:
-                    warn(f"{database[member.id].name}'s name updated to {member.name}")
+                    rgb(f"{database[member.id].name}'s name updated to {member.name}", 0xffff00)
                     database[member.id].name = member.name
 
-        warn(f"added {len(database.users) - old_user_count} new users")
+        rgb(f"added {len(database.users) - old_user_count} new users", 0xffff00)
         rgb("[*] Bot is online", 0x00ff00)
 
 def setup(client: disnake.Client):

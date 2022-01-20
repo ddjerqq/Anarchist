@@ -14,7 +14,6 @@ class Currency(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-
     @commands.cooldown(1, 60, commands.BucketType.user)
     @commands.slash_command(
         name        = "work",

@@ -21,7 +21,7 @@ class Database:
 
     def log(self, message: str) -> None:
         if self.verbose:
-            rgb("[*] " + str(message).replace("[*]", ""), (0, 255, 255))
+            rgb("[*] " + str(message).replace("[*]", ""), 0x00ffff)
 
     def warn(self, message: str) -> None:
         if self.verbose:
@@ -72,7 +72,7 @@ class Database:
         else:
             tmp_user = User(_id, name)
             self.users.append(tmp_user)
-            self.warn(f"added {tmp_user}")
+            self.log(f"added {tmp_user}")
 
 
     def _load_balances(self) -> None:
@@ -83,7 +83,6 @@ class Database:
         for user in self.users:
             if user.name != "bank":
                 user.amount = 0
-        self.log("balances cleared")
 
         for block in self.blockchain:
             sender_id   = block["data"]["sender_id"]
@@ -234,7 +233,7 @@ database = Database(verbose = True)
 
 def test():
     database._load_balances()
-    database.give("bank", 872949454074953779, 50)
+    database.give("bank", 725773984808960050, 1550)
 
 if __name__ == '__main__':
     try:

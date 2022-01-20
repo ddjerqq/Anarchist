@@ -6,6 +6,8 @@ from disnake.ext.commands import errors
 from __main__ import GUILD_IDS
 from __main__ import PREFIX
 
+from datetime import datetime
+
 from database import database
 from supersecrets import salt
 
@@ -76,7 +78,46 @@ class Information(commands.Cog):
             )
         await inter.send(embed=em)
     
+    @commands.slash_command(
+        name        = "block",
+        description = "get the most recent block",
+        #guild_ids   = GUILD_IDS
+    )
+    async def _block(self, inter: ApplicationCommandInteraction) -> None:
+        block = database.blockchain[-1]
+        em = disnake.Embed(
+            title = f"Block #{block['index']}",
+            color = 0x00ff00
+        )
+        em.add_field(
+            name   = "sender",
+            value  = f"{database[block['data']['sender_id']].name} \n{block['data']['sender_id']}",
+            inline = True
+        )
+        em.add_field(
+            name   = "receiver",
+            value  = f"{database[block['data']['receiver_id']].name} \n{block['data']['receiver_id']}",
+            inline = True
+        )
+        em.add_field(
+            name   = "amount",
+            value  = f"{block['data']['amount']} ⏣",
+            inline = True
+        )
+        em.add_field(
+            name   = "Previous hash",
+            value  = f"`{block['prev_hash']}`",
+            inline = False
+        )
+        em.set_footer(
+            text = datetime.fromtimestamp(block['data']['timestamp']).strftime("%c")
+        )
 
+        await inter.send(embed = em)
+
+
+
+    
     @commands.slash_command(
         name        = "invite", 
         description = "gives you the link to invite the bot to your server",

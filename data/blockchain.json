@@ -768,8 +768,129 @@
                 "receiver_id": 709898702604599346,
                 "amount": 59
             },
-            "proof": 32463,
+            "proof": 56127,
             "prev_hash": "0000bc0dec0d4ed60e520c1ab4d1bdb7f16fc691678c608a4c61ac98dd0cd53b"
+        },
+        {
+            "index": 70,
+            "data": {
+                "timestamp": 1642702607,
+                "sender_id": "bank",
+                "receiver_id": 725773984808960050,
+                "amount": 1550
+            },
+            "proof": 36595,
+            "prev_hash": "00005e8c2fc3d7302cbee571c6504c0e40b1c0d3f24eee8eea21f3e2d22cd73a"
+        },
+        {
+            "index": 71,
+            "data": {
+                "timestamp": 1642703361,
+                "sender_id": "bank",
+                "receiver_id": 725773984808960050,
+                "amount": 50
+            },
+            "proof": 3951,
+            "prev_hash": "00004c83d354a039329796968e457536ec2748a6362ae4de1a990c0043b5d928"
+        },
+        {
+            "index": 72,
+            "data": {
+                "timestamp": 1642703433,
+                "sender_id": 725773984808960050,
+                "receiver_id": 692061521529929890,
+                "amount": 51
+            },
+            "proof": 47119,
+            "prev_hash": "0000b58da3b05c4e9e753a959fbe3035cb96466df07f456ad1e171850a7094b7"
+        },
+        {
+            "index": 73,
+            "data": {
+                "timestamp": 1642703476,
+                "sender_id": "bank",
+                "receiver_id": 725773984808960050,
+                "amount": 50
+            },
+            "proof": 75076,
+            "prev_hash": "0000f1cd631c44ffb5e36b76f3ba4e0f8aa4a8e8f195e3e7c8f16e839e98c4c2"
+        },
+        {
+            "index": 74,
+            "data": {
+                "timestamp": 1642703890,
+                "sender_id": "bank",
+                "receiver_id": 725773984808960050,
+                "amount": 50
+            },
+            "proof": 142491,
+            "prev_hash": "00003cd5c3492cc6d2d8f4f0c87dfea0449d8ec5378d4f1913c21634e3de2163"
+        },
+        {
+            "index": 75,
+            "data": {
+                "timestamp": 1642704984,
+                "sender_id": "bank",
+                "receiver_id": 725773984808960050,
+                "amount": 50
+            },
+            "proof": 22323,
+            "prev_hash": "0000e12b20eeeab340bcb263094faa904edcb822591c14671ed0b9badf2887f3"
+        },
+        {
+            "index": 76,
+            "data": {
+                "timestamp": 1642705133,
+                "sender_id": 725773984808960050,
+                "receiver_id": 872949454074953779,
+                "amount": 75
+            },
+            "proof": 105933,
+            "prev_hash": "0000d8e680523be76747b754bdd2f1bab9f5c51cc95e7835ebe93e1608037469"
+        },
+        {
+            "index": 77,
+            "data": {
+                "timestamp": 1642713267,
+                "sender_id": "bank",
+                "receiver_id": 725773984808960050,
+                "amount": 50
+            },
+            "proof": 30654,
+            "prev_hash": "0000dddc9e917e264468d9581147625163768a40ec4bb3f64c64f8c2444d0e6f"
+        },
+        {
+            "index": 78,
+            "data": {
+                "timestamp": 1642713300,
+                "sender_id": 725773984808960050,
+                "receiver_id": 923600698967461898,
+                "amount": 100
+            },
+            "proof": 4580,
+            "prev_hash": "00002e4a9fa68afbae0440ffc52f9bc636ee7ff0dd061731d92f3b5ade254573"
+        },
+        {
+            "index": 79,
+            "data": {
+                "timestamp": 1642713373,
+                "sender_id": "bank",
+                "receiver_id": 725773984808960050,
+                "amount": 50
+            },
+            "proof": 21969,
+            "prev_hash": "0000f359fe50d512e748ac8ed955784a745a76144eee37070a358c361d32322d"
+        },
+        {
+            "index": 80,
+            "data": {
+                "timestamp": 1642716979,
+                "sender_id": "bank",
+                "receiver_id": 725773984808960050,
+                "amount": 50
+            },
+            "proof": 21969,
+            "prev_hash": "0000fee736ee3a1699d31c87eac0dcda373c74c33c28d3d9092ef27aea19ddd3"
         }
     ]
 }
