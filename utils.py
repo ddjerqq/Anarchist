@@ -17,7 +17,6 @@ def stat(precision: int = 6) -> callable:
 
     def real_stat(func) -> callable:
         def wrap(*args, **kwargs):
-
             time_start = time.time()
 
             return_val = func(*args, **kwargs)

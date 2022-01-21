@@ -11,7 +11,6 @@ from __main__ import GUILD_IDS
 
 STATUSES = cycle([f"{PREFIX}help", "worlds first crypto bot", f"{PREFIX}bal"])
 
-
 class EventsAndTasks(commands.Cog):
     def __init__(self, client: commands.bot.Bot):
         self.client = client
@@ -31,7 +30,7 @@ class EventsAndTasks(commands.Cog):
     async def before_status_cycle(self):
         await self.client.wait_until_ready()
 
-    @tasks.loop(seconds=180)
+    @tasks.loop(seconds=300)
     async def save_database(self):
         database._save()
 

@@ -21,12 +21,12 @@ GUILD_IDS = [
     930562118359588904
 ]
 
+disnake.channel.VoiceChannel
 
 client = commands.Bot(
     command_prefix=PREFIX,
     intents=disnake.Intents.all(),
 )
-
 class MyHelpCommand(commands.MinimalHelpCommand):
     async def send_pages(self):
         destination = self.get_destination()
@@ -54,60 +54,3 @@ if __name__ == "__main__":
         warn(e)
     finally:
         database.close()
-
-
-
-
-
-
-
-
-"""
-import disnake
-from disnake.ext import commands
-from disnake import ApplicationCommandInteraction
-
-
-class Fun(commands.Cog):
-    def __init__(self, client):
-        self.client = client
-
-    @commands.slash_command(name="avatar", description="gets a users avatar")
-    async def get_avatar(
-        self, inter: ApplicationCommandInteraction, member: disnake.Member = None
-    ):
-        member = member or inter.author
-        em = disnake.Embed(color=0xD3D3D3, title=f"{member}'s avatar")
-        em.set_image(url=member.avatar.url)
-        await inter.send(embed=em, ephemeral=True)
-
-
-
-    @commands.slash_command(
-        name="invite",
-        description="returns the bots invite and lets you invite the bot to any server",
-    )
-    async def invite_bot(self, inter: ApplicationCommandInteraction):
-        URL = "https://discord.com/api/oauth2/authorize?client_id=923632746230857798&permissions=8&scope=bot%20applications.commands"
-        em = disnake.Embed(color=0xD3D3D3, title="Click me to Invite!", url=URL)
-        em.set_author(name=self.client.user, icon_url=self.client.user.avatar.url)
-        await inter.send(embed=em, ephemeral=True)
-
-
-
-    @commands.slash_command(
-        name="ping",
-        description="returns bot latency",
-    )
-    async def get_ping(self, inter: ApplicationCommandInteraction):
-        em = disnake.Embed(
-            title="Pong! 🏓",
-            color=0xD3D3D3,
-            description=f"Latency: {round(self.client.latency * 1000)}ms",
-        )
-        await inter.send(embed=em, ephemeral=True)
-
-
-def setup(client):
-    client.add_cog(Fun(client))
-"""
