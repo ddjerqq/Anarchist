@@ -36,31 +36,17 @@ class Currency(commands.Cog):
         if isinstance(_error, errors.CommandOnCooldown):
             em = disnake.Embed(
                 color       = 0xFF0000,
-                title       = f"You are on cooldown",
-                description = f"try again in {round(_error.retry_after)} seconds"
+                title       = f"You are on cooldown!",
+                description = f"You can work again in {round(_error.retry_after)} seconds"
             )
             await ctx.send(embed = em)
         else:
             rgb(_error, 0xff0000)
 
-    @commands.user_command(
-        name        = "balance", 
-        description = "Get balance of a user",
-        #guild_ids   = GUILD_IDS
-    )
-    async def _bal_user_command(self, inter: ApplicationCommandInteraction) -> None:
-        _id = inter.target.id
-        em = disnake.Embed(
-            color       = 0x00FF00, 
-            title       = f"{database[_id].name}'s balance",
-            description = f"{database[_id].amount} ⏣"
-        )
-        await inter.send(embed = em)
-
     @commands.slash_command(
         name        = "bal",
         aliases     = ["balanace"],
-        description = f"Get your balance or someone else's",
+        description = f"Get your, or someone else's balance",
         #guild_ids   = GUILD_IDS
     )
     async def _balance(self, inter: ApplicationCommandInteraction, user: disnake.Member = None) -> None:

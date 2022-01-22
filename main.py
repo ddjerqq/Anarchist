@@ -18,23 +18,17 @@ GUILD_IDS = [
     818081019596636201,
     845005933766639658,
     913003554225131530,
-    930562118359588904
+    930562118359588904,
+    840836206483734530
 ]
 
 disnake.channel.VoiceChannel
 
 client = commands.Bot(
-    command_prefix=PREFIX,
-    intents=disnake.Intents.all(),
+    command_prefix = PREFIX,
+    intents        = disnake.Intents.all(),
+    help_command   = None
 )
-
-class MyHelpCommand(commands.MinimalHelpCommand):
-    async def send_pages(self):
-        destination = self.get_destination()
-        e = disnake.Embed(color=0x00FF00, description="")
-        for page in self.paginator.pages:
-            e.description += page
-        await destination.send(embed=e)
 
 def load_extensions():
     for i in os.listdir("cogs"):
@@ -42,7 +36,6 @@ def load_extensions():
             client.load_extension(f"cogs.{i[:-3]}")
 
 def main():
-    client.help_command = MyHelpCommand()
     load_extensions()
     client.run(TOKEN)
 

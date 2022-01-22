@@ -110,14 +110,79 @@ class Information(commands.Cog):
             inline = False
         )
         em.set_footer(
-            text = datetime.fromtimestamp(block['data']['timestamp']).strftime("%c")
+            text = "UTC: " + datetime.fromtimestamp(block['data']['timestamp']).strftime("%c")
         )
+
+        await inter.send(embed = em)
+
+    @commands.slash_command(
+        name        = "help",
+        description = "get help for commands",
+        guild_ids   = GUILD_IDS
+    )
+    async def _help(self, inter: ApplicationCommandInteraction):
+        em = disnake.Embed(
+            title  = "Anarchist help",
+            color  = 0x00ff00
+        )
+        em.add_field(
+            name  = "/bal",
+            value = "Get your balance"
+        )
+        em.add_field(
+            name  = "/bal @user",
+            value = "Get balance of the given user"
+        )
+        em.add_field(
+            name  = "/give @user amount",
+            value = "Give a user an amount of coins"
+        )
+        em.add_field(
+            name  = "/work",
+            value = "Work and earn 50 coins. \n(You can only work once a minute)"
+        )
+        em.add_field(
+            name  = "/rank",
+            value = "Display the top 10 users in the server"
+        )
+        em.add_field(
+            name  = "/leaderboard",
+            value = "Display the top 10 users globally"
+        )
+        em.add_field(
+            name  = "/password password",
+            value = "Set a password to use for confirmations\nPlease use this command in bot dms"
+        )
+        em.add_field(
+            name  = "/change old_password new_password",
+            value = "change your current password"
+        )
+        em.add_field(
+            name  = "/notifications",
+            value = "Toggle notifications"
+        )
+        em.add_field(
+            name  = "/block",
+            value = "Get the most recent block"
+        )
+        em.add_field(
+            name  = "/blockchain",
+            value = "Get the blockchain status"
+        )
+        em.add_field(
+            name  = "/invite",
+            value = "Get a link to invite Anarchist to your server"
+        )
+        em.add_field(
+            name  = "/ping",
+            value = "Measure bot latency"
+        )
+
 
         await inter.send(embed = em)
 
 
 
-    
     @commands.slash_command(
         name        = "invite", 
         description = "gives you the link to invite the bot to your server",
