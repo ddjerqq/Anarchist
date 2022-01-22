@@ -2,6 +2,7 @@ import os
 import csv
 import json
 import time
+from datetime import datetime
 
 from hashlib import sha256
 from models.user import User
@@ -18,6 +19,9 @@ class Database:
 
     _users_file_name   = "data\\anarchist.json"
     _transactions_file = "data\\transactions.json"
+
+    _blockchain_csv    = "data\\blockchain.csv"
+    _users_csv         = "data\\blockchain.csv"
 
     def log(self, message: str) -> None:
         if self.verbose:
@@ -41,6 +45,7 @@ class Database:
     
     def close(self) -> None:
         self._save()
+        self.generate_csv()
         self.warn("closing database")
 
     def give(self, sender_id: int, receiver_id: int, amount: int) -> bool:
@@ -63,8 +68,21 @@ class Database:
             return False
 
     def generate_csv(self) -> None:
-        #TODO
-        raise NotImplementedError
+        with open(self._blockchain_csv, "w", encoding="utf-8", newline="") as file:
+            writer = csv.writer(file)
+
+            writer.writerow(
+                ["index", "time", "sender", "receiver", "amount"]
+                )
+
+            for block in self.blockchain:
+                writer.writerow([
+                    block["index"],
+                    str(datetime.fromtimestamp(block["data"]["timestamp"])),
+                    self[block["data"]["sender_id"]].name,
+                    self[block["data"]["receiver_id"]].name,
+                    block["data"]["amount"]
+                ])
 
     def add_user(self, _id: int, name: str) -> None:
         if _id in self:
@@ -73,7 +91,6 @@ class Database:
             tmp_user = User(_id, name)
             self.users.append(tmp_user)
             self.log(f"added {tmp_user}")
-
 
     def _load_balances(self) -> None:
         if not self.is_blockchain_valid: 

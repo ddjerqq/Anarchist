@@ -59,7 +59,7 @@
         {
             "id": 725773984808960050,
             "name": "ddjerqq",
-            "amount": 2775,
+            "amount": 2072,
             "auth": "0",
             "notifications": true
         },
@@ -745,7 +745,7 @@
         {
             "id": 709091386925776948,
             "name": "Forwaste",
-            "amount": 200,
+            "amount": 253,
             "auth": "0",
             "notifications": true
         },
@@ -1074,7 +1074,7 @@
         {
             "id": 872949454074953779,
             "name": "Eniuu \u263e\u2075\u263d",
-            "amount": 815,
+            "amount": 1015,
             "auth": "0",
             "notifications": false
         },
@@ -1116,7 +1116,7 @@
         {
             "id": 861972430981169212,
             "name": "Mishotxo",
-            "amount": 0,
+            "amount": 200,
             "auth": "0",
             "notifications": false
         },
@@ -1577,7 +1577,7 @@
         },
         {
             "id": 333750115183493141,
-            "name": "HentaiTyler",
+            "name": "Spicy(T)/HentaiTyler",
             "amount": 0,
             "auth": "0",
             "notifications": false
@@ -1619,7 +1619,7 @@
         },
         {
             "id": 719442157450297354,
-            "name": "fw.ken",
+            "name": "\ud835\udcd6\ud835\udcfb\ud835\udcee\ud835\udcee\ud835\udcec\ud835\udcf8",
             "amount": 0,
             "auth": "0",
             "notifications": false
@@ -1767,7 +1767,7 @@
         {
             "id": 508608046818131975,
             "name": "Georgee Brotherhood",
-            "amount": 0,
+            "amount": 200,
             "auth": "0",
             "notifications": false
         },
@@ -1810,6 +1810,13 @@
             "id": 279424543506825226,
             "name": "Cristixnn",
             "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 834101900944474122,
+            "name": "rithmic",
+            "amount": 200,
             "auth": null,
             "notifications": false
         }

@@ -5,3 +5,5 @@ selfbot/petbot.py
 data/anarchist.json
 data/blockchain.json
 selfbot/__main__.py
+testing.py
+useragents.py

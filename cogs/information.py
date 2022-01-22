@@ -38,7 +38,7 @@ class Information(commands.Cog):
         description = "Get the top 10 users in this server",
         #guild_ids   = GUILD_IDS
         )
-    async def _rank(self, inter: ApplicationCommandInteraction) -> None:
+    async def _rank(self, inter: ApplicationCommandInteraction):
         users = []
         async for user in inter.guild.fetch_members(limit=None):
             if not user.bot:
@@ -63,7 +63,7 @@ class Information(commands.Cog):
         description = "Get the top 10 users globally",
         #guild_ids   = GUILD_IDS
         )
-    async def _leaderboard(self, inter: ApplicationCommandInteraction) -> None:
+    async def _leaderboard(self, inter: ApplicationCommandInteraction):
         sorted_users = sorted(database.users, key = lambda x: x.amount, reverse=True)[0:10]
         em = disnake.Embed(
             title=f"Global leaderboard",
@@ -83,7 +83,7 @@ class Information(commands.Cog):
         description = "get the most recent block",
         #guild_ids   = GUILD_IDS
     )
-    async def _block(self, inter: ApplicationCommandInteraction) -> None:
+    async def _block(self, inter: ApplicationCommandInteraction):
         block = database.blockchain[-1]
         em = disnake.Embed(
             title = f"Block #{block['index']}",
@@ -184,7 +184,7 @@ class Information(commands.Cog):
         name = "password",
         description = "set a password to use for authentication"
     )
-    async def _password(self, inter: ApplicationCommandInteraction, password: str = None) -> None:
+    async def _password(self, inter: ApplicationCommandInteraction, password: str = None):
         no_password_em = disnake.Embed(
                 title = "missing required argument password ❌",
                 color = 0xff0000,
@@ -241,7 +241,7 @@ class Information(commands.Cog):
         name = "change",
         description = "change password"
     )
-    async def _change(self, inter: ApplicationCommandInteraction, old_password: str, new_password: str) -> None:        
+    async def _change(self, inter: ApplicationCommandInteraction, old_password: str, new_password: str):        
         fail_em = disnake.Embed(
             title = "passwords do not match ❌",
             color = 0xff0000

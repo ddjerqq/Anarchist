@@ -80,10 +80,10 @@ class EventsAndTasks(commands.Cog):
 
                 tmp_user = database[member.id]
                 if tmp_user.name != member.name:
-                    rgb(f"{database[member.id].name}'s name updated to {member.name}", 0xffff00)
+                    rgb(f"[^] {database[member.id].name}'s name updated to {member.name}", 0xffff00)
                     database[member.id].name = member.name
 
-        rgb(f"added {len(database.users) - old_user_count} new users", 0xffff00)
+        rgb(f"[*] added {len(database.users) - old_user_count} new users", 0xffff00)
         rgb("[*] Bot is online", 0x00ff00)
 
 def setup(client: disnake.Client):

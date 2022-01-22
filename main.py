@@ -27,6 +27,7 @@ client = commands.Bot(
     command_prefix=PREFIX,
     intents=disnake.Intents.all(),
 )
+
 class MyHelpCommand(commands.MinimalHelpCommand):
     async def send_pages(self):
         destination = self.get_destination()
