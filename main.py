@@ -10,7 +10,7 @@ from utils import *
 from supersecrets import TOKEN
 from database import database
 
-# TODO add query commands for mods
+DEBUG = True
 
 PREFIX = "."
 GUILD_IDS = [
@@ -40,11 +40,14 @@ def main():
     client.run(TOKEN)
 
 if __name__ == "__main__":
-    try:
+    if not DEBUG:
+        try:
+            main()
+        except KeyboardInterrupt:
+            warn("keyboard interrupt")
+        except Exception as e:
+            warn(e)
+        finally:
+            database.close()
+    else:
         main()
-    except KeyboardInterrupt:
-        warn("keyboard interrupt")
-    except Exception as e:
-        warn(e)
-    finally:
-        database.close()

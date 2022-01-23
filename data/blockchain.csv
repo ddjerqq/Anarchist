@@ -21,10 +21,10 @@ index,time,sender,receiver,amount
 19,2022-01-19 19:33:17,bank,ddjerqq,50
 20,2022-01-19 19:33:26,ddjerqq,kato,50
 21,2022-01-19 19:33:30,bank,kato,50
-22,2022-01-19 19:39:07,ddjerqq,Luna🌙💤,20
-23,2022-01-19 19:40:05,ddjerqq,Luna🌙💤,10
-24,2022-01-19 19:42:54,ddjerqq,Luna🌙💤,29
-25,2022-01-19 19:43:21,ddjerqq,Luna🌙💤,20
+22,2022-01-19 19:39:07,ddjerqq,Luna✨,20
+23,2022-01-19 19:40:05,ddjerqq,Luna✨,10
+24,2022-01-19 19:42:54,ddjerqq,Luna✨,29
+25,2022-01-19 19:43:21,ddjerqq,Luna✨,20
 26,2022-01-19 22:27:08,bank,ddjerqq,50
 27,2022-01-19 22:27:39,bank,ddjerqq,50
 28,2022-01-19 22:27:50,ddjerqq,Kiryu Kazuma 桐生 一馬,20
@@ -32,7 +32,7 @@ index,time,sender,receiver,amount
 30,2022-01-19 22:35:33,bank,ddjerqq,50
 31,2022-01-19 22:36:20,bank,ddjerqq,50
 32,2022-01-19 22:37:15,bank,ddjerqq,50
-33,2022-01-19 22:37:30,ddjerqq,Luna🌙💤,1
+33,2022-01-19 22:37:30,ddjerqq,Luna✨,1
 34,2022-01-19 22:38:23,bank,ddjerqq,50
 35,2022-01-19 22:38:42,ddjerqq,Kiryu Kazuma 桐生 一馬,20
 36,2022-01-19 22:40:14,ddjerqq,Kiryu Kazuma 桐生 一馬,69
@@ -54,7 +54,7 @@ index,time,sender,receiver,amount
 52,2022-01-20 17:05:28,ddjerqq,Paradise,200
 53,2022-01-20 17:10:16,ddjerqq,Paradise,20
 54,2022-01-20 17:12:56,bank,ddjerqq,50
-55,2022-01-20 17:13:45,ddjerqq,Luna🌙💤,300
+55,2022-01-20 17:13:45,ddjerqq,Luna✨,300
 56,2022-01-20 17:16:26,ddjerqq,Eniuu ☾⁵☽,50
 57,2022-01-20 19:31:01,bank,ddjerqq,50
 58,2022-01-20 19:32:28,bank,ddjerqq,50
@@ -77,7 +77,7 @@ index,time,sender,receiver,amount
 75,2022-01-20 22:56:24,bank,ddjerqq,50
 76,2022-01-20 22:58:53,ddjerqq,Eniuu ☾⁵☽,75
 77,2022-01-21 01:14:27,bank,ddjerqq,50
-78,2022-01-21 01:15:00,ddjerqq,Luna🌙💤,100
+78,2022-01-21 01:15:00,ddjerqq,Luna✨,100
 79,2022-01-21 01:16:13,bank,ddjerqq,50
 80,2022-01-21 02:16:19,bank,ddjerqq,50
 81,2022-01-21 19:08:10,bank,ddjerqq,50
@@ -93,3 +93,23 @@ index,time,sender,receiver,amount
 91,2022-01-22 16:24:53,ddjerqq,Forwaste,200
 92,2022-01-22 17:05:46,bank,Forwaste,50
 93,2022-01-22 17:06:24,ddjerqq,Forwaste,497
+94,2022-01-22 21:19:02,ddjerqq,rithmic,200
+95,2022-01-22 21:19:10,bank,ddjerqq,50
+96,2022-01-22 21:19:44,ddjerqq,rithmic,1200
+97,2022-01-22 21:20:40,bank,rithmic,50
+98,2022-01-22 21:20:47,bank,ddjerqq,50
+99,2022-01-22 21:24:23,bank,ddjerqq,50
+100,2022-01-23 20:47:38,ddjerqq,bank,60
+101,2022-01-23 20:48:46,bank,ddjerqq,60
+102,2022-01-23 20:50:06,ddjerqq,bank,20
+103,2022-01-23 20:50:55,bank,ddjerqq,30
+104,2022-01-23 20:51:50,bank,ddjerqq,50
+105,2022-01-23 20:51:56,bank,Forwaste,1500
+106,2022-01-23 20:52:25,Forwaste,bank,100
+107,2022-01-23 21:01:43,ddjerqq,bank,20
+108,2022-01-23 21:13:25,bank,ddjerqq,50
+109,2022-01-23 21:17:16,ddjerqq,bank,15
+110,2022-01-23 21:19:53,bank,ddjerqq,1750
+111,2022-01-23 21:23:14,bank,ddjerqq,300
+112,2022-01-23 22:01:15,ddjerqq,Luna✨,50
+113,2022-01-23 22:10:01,ddjerqq,Luna✨,50

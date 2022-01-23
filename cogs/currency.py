@@ -7,6 +7,7 @@ from disnake.ext.commands import errors
 from helpers.bot_helper import dm_user
 from __main__ import GUILD_IDS
 from database import database
+from models.buttons import YesNoButton
 from utils import *
 
 
@@ -76,24 +77,50 @@ class Currency(commands.Cog):
                 await inter.send(embed = em)
                 return
 
-            if database.give(inter.author.id, _id, amount):
-                em = disnake.Embed(
-                    color=0x00FF00,
-                    title=f"You successfully gave {database[_id].name} {amount} ⏣"
+            confirmed_em = disnake.Embed(
+                color = 0x00ff00,
+                title = f"Transaction confirmed"
+            )
+            cancelled_em = disnake.Embed(
+                color = 0xff0000,
+                title = f"Transaction cancelled"
+            )
+
+            confirmation_em = disnake.Embed(
+                color = 0xffff00,
+                title = f"Do you **really** want to give {user.name} {amount} coins?"
+            )
+            confirmation_button = YesNoButton(intended_user=inter.author)
+
+            await inter.send(
+                view = confirmation_button, 
+                embed = confirmation_em
                 )
-                notificatoin_embed = disnake.Embed(
-                    color = 0x00ff00,
-                    title = f"{database[inter.author.id].name} gave you {amount} coins"
+            
+            await confirmation_button.wait()
+
+            if confirmation_button.choice:
+                if database.give(inter.author.id, _id, amount):
+                    await inter.edit_original_message(embed = confirmed_em, view = None)
+                    em = disnake.Embed(
+                        color=0x00FF00,
+                        title=f"You successfully gave {database[_id].name} {amount} ⏣"
                     )
-                if database[_id].notifications:
-                    await user.send(embed = notificatoin_embed)
 
+                    notificatoin_embed = disnake.Embed(
+                        color = 0x00ff00,
+                        title = f"{database[inter.author.id].name} gave you {amount} coins"
+                        )
+                    if database[_id].notifications:
+                        await user.send(embed = notificatoin_embed)
+                else:
+                    not_enough_money_em = disnake.Embed(
+                        color=0xFF0000, 
+                        title=f"You don't have enough money LMAOO"
+                    )
+                    await inter.edit_original_message(embed = not_enough_money_em, view = None)
             else:
-                em = disnake.Embed(
-                    color=0xFF0000, title=f"You don't have enough money LMAOO"
-                )
-
-            await inter.send(embed = em)
+                await inter.edit_original_message(embed = cancelled_em, view = None)
 
     @_give.error
     async def _give_error(self, ctx: commands.Context, _error) -> None:

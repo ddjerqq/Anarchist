@@ -6,10 +6,9 @@ from disnake.ext import tasks
 
 from database import database
 from utils import *
-from __main__ import PREFIX
 from __main__ import GUILD_IDS
 
-STATUSES = cycle([f"{PREFIX}help", "worlds first crypto bot", f"{PREFIX}bal"])
+STATUSES = cycle([f"/help", "worlds first crypto bot", "ddjerqq#1048"])
 
 class EventsAndTasks(commands.Cog):
     def __init__(self, client: commands.bot.Bot):
@@ -41,33 +40,33 @@ class EventsAndTasks(commands.Cog):
         if member.id not in database:
             database.add_user(member.id, member.name)
 
-    @commands.Cog.listener()
-    async def on_command_error(self, ctx: commands.Context, error):
-        if isinstance(error, commands.errors.CommandOnCooldown):
-            return
-        if isinstance(error, commands.errors.CommandNotFound):
-            return
+    # @commands.Cog.listener()
+    # async def on_command_error(self, ctx: commands.Context, error):
+    #     if isinstance(error, commands.errors.CommandOnCooldown):
+    #         return
+    #     if isinstance(error, commands.errors.CommandNotFound):
+    #         return
 
-        em = disnake.Embed(color=0xFF0000, title="unhandled error")
-        em.add_field(name="error:", value=error, inline=False)
+    #     em = disnake.Embed(color=0xFF0000, title="unhandled error")
+    #     em.add_field(name="error:", value=error, inline=False)
 
-        await ctx.send(embed=em)
+    #     await ctx.send(embed=em)
 
-        warn(error)
-        print(type(error))
+    #     warn(error)
+    #     print(type(error))
 
-    @commands.Cog.listener()
-    async def on_slash_command_error( self, inter: disnake.ApplicationCommandInteraction, error ) -> None:
-        if isinstance(error, commands.errors.CommandOnCooldown):
-            return
+    # @commands.Cog.listener()
+    # async def on_slash_command_error( self, inter: disnake.ApplicationCommandInteraction, error ) -> None:
+    #     if isinstance(error, commands.errors.CommandOnCooldown):
+    #         return
 
-        em = disnake.Embed(color=0xFF0000, title="unhandled error")
-        em.add_field(name="error:", value=error, inline=False)
+    #     em = disnake.Embed(color=0xFF0000, title="unhandled error")
+    #     em.add_field(name="error:", value=error, inline=False)
 
-        await inter.send(embed=em)
+    #     await inter.send(embed=em)
 
-        warn(error)
-        print(type(error))
+    #     warn(error)
+    #     print(type(error))
 
     @commands.Cog.listener()
     async def on_ready(self):

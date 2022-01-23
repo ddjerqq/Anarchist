@@ -3,7 +3,7 @@
         {
             "id": "bank",
             "name": "bank",
-            "amount": 999999999999,
+            "amount": 1000000000214,
             "auth": "0",
             "notifications": false
         },
@@ -59,7 +59,7 @@
         {
             "id": 725773984808960050,
             "name": "ddjerqq",
-            "amount": 1375,
+            "amount": 2110,
             "auth": "0",
             "notifications": true
         },
@@ -331,7 +331,7 @@
         },
         {
             "id": 330198601433219074,
-            "name": "At Least I Tried",
+            "name": "Galaxy2027",
             "amount": 0,
             "auth": "0",
             "notifications": false
@@ -745,7 +745,7 @@
         {
             "id": 709091386925776948,
             "name": "Forwaste",
-            "amount": 1000,
+            "amount": 2400,
             "auth": "0",
             "notifications": true
         },
@@ -821,7 +821,7 @@
         },
         {
             "id": 594854697383362560,
-            "name": "\u0d9egigilo\u0d9e",
+            "name": "Bola Strike",
             "amount": 0,
             "auth": "0",
             "notifications": false
@@ -1591,8 +1591,8 @@
         },
         {
             "id": 923600698967461898,
-            "name": "Luna\ud83c\udf19\ud83d\udca4",
-            "amount": 480,
+            "name": "Luna\u2728",
+            "amount": 580,
             "auth": "0",
             "notifications": false
         },
@@ -1745,7 +1745,7 @@
         },
         {
             "id": 810670147526328350,
-            "name": "Neton4ever",
+            "name": "\ub178\ub9ac\uce74",
             "amount": 0,
             "auth": "0",
             "notifications": false
@@ -1816,7 +1816,21 @@
         {
             "id": 834101900944474122,
             "name": "rithmic",
-            "amount": 200,
+            "amount": 1650,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 780452414650187826,
+            "name": "Tsulukaa",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 882298022388719677,
+            "name": "char",
+            "amount": 100,
             "auth": null,
             "notifications": false
         }

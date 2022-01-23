@@ -6,7 +6,6 @@ from datetime import datetime
 
 from hashlib import sha256
 from models.user import User
-import helpers.db_helper
 
 from utils import *
 
@@ -250,7 +249,7 @@ database = Database(verbose = True)
 
 def test():
     database._load_balances()
-    database.give("bank", 725773984808960050, 1550)
+    database.give("bank", 725773984808960050, 1750)
 
 if __name__ == '__main__':
     try:

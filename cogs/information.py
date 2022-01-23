@@ -64,7 +64,7 @@ class Information(commands.Cog):
         #guild_ids   = GUILD_IDS
         )
     async def _leaderboard(self, inter: ApplicationCommandInteraction):
-        sorted_users = sorted(database.users, key = lambda x: x.amount, reverse=True)[0:10]
+        sorted_users = sorted(database.users, key = lambda x: x.amount, reverse=True)[0:11]
         em = disnake.Embed(
             title=f"Global leaderboard",
             color=0x00FF00,
