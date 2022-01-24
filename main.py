@@ -10,7 +10,7 @@ from utils import *
 from supersecrets import TOKEN
 from database import database
 
-DEBUG = True
+DEBUG = False
 
 PREFIX = "."
 GUILD_IDS = [

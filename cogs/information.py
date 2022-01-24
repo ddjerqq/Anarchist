@@ -110,7 +110,7 @@ class Information(commands.Cog):
             inline = False
         )
         em.set_footer(
-            text = "UTC: " + datetime.fromtimestamp(block['data']['timestamp']).strftime("%c")
+            text = "Timestamp:  " + datetime.fromtimestamp(block['data']['timestamp']).strftime("%c")
         )
 
         await inter.send(embed = em)

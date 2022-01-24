@@ -248,8 +248,7 @@ class Database:
 database = Database(verbose = True)
 
 def test():
-    database._load_balances()
-    database.give("bank", 725773984808960050, 1750)
+    database[861972430981169212] + 1999
 
 if __name__ == '__main__':
     try:
