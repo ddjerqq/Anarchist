@@ -248,7 +248,7 @@ class Database:
 database = Database(verbose = True)
 
 def test():
-    database[861972430981169212] + 1999
+    pass
 
 if __name__ == '__main__':
     try:

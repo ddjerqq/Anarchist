@@ -27,7 +27,6 @@ class YesNoButton(ui.View):
         self.choice = False
         self.stop()
 
-
 class LowerHigherGuessButton(ui.View):
     """
     lower

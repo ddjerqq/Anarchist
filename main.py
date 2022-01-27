@@ -1,5 +1,6 @@
 # built-ins
 import os
+from itertools import cycle
 
 # 3rd party libraries
 import disnake
@@ -12,17 +13,24 @@ from database import database
 
 DEBUG = False
 
-PREFIX = "."
+PREFIX = "?"
+STATUSES = cycle([
+    f"/help", 
+    "worlds first crypto bot", 
+    "ddjerqq#1048",
+    "/leaderboard",
+    "/work"
+    ])
 GUILD_IDS = [
     416021017522077708,
     818081019596636201,
     845005933766639658,
     913003554225131530,
     930562118359588904,
-    840836206483734530
+    840836206483734530,
+    336642139381301249
 ]
 
-disnake.channel.VoiceChannel
 
 client = commands.Bot(
     command_prefix = PREFIX,

@@ -3,7 +3,7 @@
         {
             "id": "bank",
             "name": "bank",
-            "amount": 1000000001298,
+            "amount": 1000000001948,
             "auth": "0",
             "notifications": false
         },
@@ -59,7 +59,7 @@
         {
             "id": 725773984808960050,
             "name": "ddjerqq",
-            "amount": 727,
+            "amount": 1861,
             "auth": "e9d9651470afe7fb0e17f9784442d63491b79d8c7f0b476227d3d76c7f627700",
             "notifications": true
         },
@@ -730,7 +730,7 @@
         },
         {
             "id": 711973930377805844,
-            "name": "badrijani rick",
+            "name": "Alibadrijani",
             "amount": 0,
             "auth": "0",
             "notifications": false
@@ -745,7 +745,7 @@
         {
             "id": 709091386925776948,
             "name": "Forwaste",
-            "amount": 2400,
+            "amount": 2100,
             "auth": "0",
             "notifications": true
         },
@@ -821,7 +821,7 @@
         },
         {
             "id": 594854697383362560,
-            "name": "Bola Strike",
+            "name": "gigilo",
             "amount": 0,
             "auth": "0",
             "notifications": false
@@ -1375,7 +1375,7 @@
         {
             "id": 674525313522335744,
             "name": "Kiryu Kazuma \u6850\u751f \u4e00\u99ac",
-            "amount": 1649,
+            "amount": 49,
             "auth": "0",
             "notifications": true
         },
@@ -1832,12 +1832,19 @@
             "name": "char",
             "amount": 450,
             "auth": null,
-            "notifications": false
+            "notifications": true
         },
         {
             "id": 444879558550749186,
             "name": "Sain\u271d Kachla",
             "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 883321240788557874,
+            "name": "AlkhilJohn",
+            "amount": 150,
             "auth": null,
             "notifications": false
         }

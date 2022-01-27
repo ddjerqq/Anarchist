@@ -7,7 +7,7 @@ from disnake.ext.commands import errors
 
 from __main__ import PREFIX
 from __main__ import GUILD_IDS
-from models.buttons import YesNoButton, LowerHigherGuessButton
+from models.components import YesNoButton, LowerHigherGuessButton
 from database import database
 from utils import *
 
