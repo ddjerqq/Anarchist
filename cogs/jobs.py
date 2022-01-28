@@ -15,7 +15,7 @@ class Jobs(commands.Cog):
     def __init__(self, client):
         self.client = client
     
-    @commands.cooldown(1, 60, commands.BucketType.user)
+    @commands.cooldown(1, 30, commands.BucketType.user)
     @commands.slash_command(
         name        = "work",
         description = f"work and earn 50 coins, you can use this command every 30 seconds",
@@ -42,36 +42,6 @@ class Jobs(commands.Cog):
             await ctx.send(embed = em)
         else:
             rgb(_error, 0xff0000)
-
-    @commands.slash_command(
-        name        = "test", 
-        description = "test command made for testing",
-        guild_ids   = GUILD_IDS
-        )
-    async def _test(self, inter: ACI):
-        start = disnake.Embed(
-            title = "test command",
-            description = "click below to choose your fate",
-            color = 0x00ff00
-        )
-        button = YesNoButton(intended_user=inter.author)
-        
-        await inter.send(view = button, embed = start)
-
-        await button.wait()
-
-        if button.choice:
-            yes = disnake.Embed(
-                title = "Yes",
-                color = 0x00ff00
-            )
-            await inter.edit_original_message(embed = yes, view = None)
-        else:
-            no = disnake.Embed(
-                title = "No",
-                color = 0xff0000
-            )
-            await inter.edit_original_message(embed = no, view = None)
 
     @commands.slash_command(
         name        = "gamble",

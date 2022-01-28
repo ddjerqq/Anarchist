@@ -3,7 +3,7 @@
         {
             "id": "bank",
             "name": "bank",
-            "amount": 1000000001948,
+            "amount": 1000000002268,
             "auth": "0",
             "notifications": false
         },
@@ -59,7 +59,7 @@
         {
             "id": 725773984808960050,
             "name": "ddjerqq",
-            "amount": 1861,
+            "amount": 1948,
             "auth": "e9d9651470afe7fb0e17f9784442d63491b79d8c7f0b476227d3d76c7f627700",
             "notifications": true
         },
@@ -765,7 +765,7 @@
         },
         {
             "id": 688821248813433080,
-            "name": "\u2670\ud835\udcdc\ud835\udcea\ud835\udcf7\ud835\udcf2\u2670\u26e7\u02e2\u1d56\u2071\u1d9c\u02b8",
+            "name": "! \ud835\udc12\ud835\udc29\ud835\udc22\ud835\udc02\ud835\udc32\u2122\u2670\ud835\udcdc\ud835\udcea\ud835\udcf7\ud835\udcf2\u2670\u26e7",
             "amount": 0,
             "auth": "0",
             "notifications": false
@@ -975,7 +975,7 @@
         },
         {
             "id": 360453550272282625,
-            "name": "definitely not mah nem rem",
+            "name": "mah nem rem",
             "amount": 0,
             "auth": "0",
             "notifications": false
@@ -1507,7 +1507,7 @@
         },
         {
             "id": 812903861488582697,
-            "name": "Crona The Courier",
+            "name": "Die Glocke",
             "amount": 0,
             "auth": "0",
             "notifications": false
@@ -1592,7 +1592,7 @@
         {
             "id": 923600698967461898,
             "name": "Luna\u2728",
-            "amount": 664,
+            "amount": 784,
             "auth": "0",
             "notifications": false
         },
@@ -1836,7 +1836,7 @@
         },
         {
             "id": 444879558550749186,
-            "name": "Sain\u271d Kachla",
+            "name": "Kachla <3",
             "amount": 0,
             "auth": null,
             "notifications": false
@@ -1845,6 +1845,230 @@
             "id": 883321240788557874,
             "name": "AlkhilJohn",
             "amount": 150,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 877719010953793546,
+            "name": "<3maanashi<3",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 908741370393530368,
+            "name": "jojo26",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 905511774680412191,
+            "name": "pretendingurhere",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 900928128912879646,
+            "name": "\u26d3 .\ud835\udc15\ud835\udc15. \ud83d\udd78",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 899557760197349437,
+            "name": "! \ud835\udd50\ud835\udd66\ud835\udd5f\ud835\udd52",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 897946296244133959,
+            "name": "one2hate",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 874390944491921508,
+            "name": "conann",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 860188206964539404,
+            "name": "Mochaa Bunnyy",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 820810957513162782,
+            "name": "Grubiee",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 805230748327870464,
+            "name": "kxmi",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 798199932116664390,
+            "name": "gothboy",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 794759344738271283,
+            "name": "Midnight Rose",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 782100905717399573,
+            "name": "Golstar",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 771484238956593162,
+            "name": "heyNAZY",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 762147755065344051,
+            "name": "DDkris",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 752919494707642390,
+            "name": "cheese",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 752773331836731454,
+            "name": "Kio",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 745347248304685106,
+            "name": "dayana banana",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 737265895872659467,
+            "name": "\u52c7\u6c17",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 707892640083083266,
+            "name": "pxrplewrld!",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 695511668016545832,
+            "name": "\u60aa\u5922 Luley",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 692774571509809223,
+            "name": "mochia<3",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 662717337866207264,
+            "name": "\ud835\udc38\ud835\udc61\u210e\ud835\udc4e\ud835\udc5b <3",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 662095031510761503,
+            "name": "porman",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 589861711830450185,
+            "name": "Zena_OCIO",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 588871162449362965,
+            "name": "hailee <3",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 557723580394242048,
+            "name": "\u263e\u14aa\ud835\udd94\ud835\udd98\u166d\ud835\udd2f\ud835\udd2f",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 552299398290341899,
+            "name": "Regi x Cide",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 441751152019898381,
+            "name": "_skittes",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 405869551817981973,
+            "name": "M1",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 321096433409458177,
+            "name": "A Horrible Canadian",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 204678620399140865,
+            "name": "schmutz.",
+            "amount": 0,
             "auth": null,
             "notifications": false
         }

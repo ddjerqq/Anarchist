@@ -17,6 +17,9 @@ class EventsAndTasks(commands.Cog):
     async def on_ready(self):
         old_user_count = len(database.users)
         for guild in self.client.guilds:
+            rgb(f"[========== ", 0xffff00, newline=False)
+            rgb(guild.name, 0xffffff, newline=False)
+            rgb(f" ==========]", 0xffff00)
             async for member in guild.fetch_members(limit=None):
                 if member.bot: continue
                 if member.id not in database:
@@ -27,7 +30,7 @@ class EventsAndTasks(commands.Cog):
                     rgb(f"[^] {database[member.id].name}'s name updated to {member.name}", 0xffff00)
                     database[member.id].name = member.name
 
-        rgb(f"[*] added {len(database.users) - old_user_count} new users", 0xffff00)
+        rgb(f"[+] added {len(database.users) - old_user_count} new users", 0xffff00)
         rgb("[*] Bot is online", 0x00ff00)
 
     @tasks.loop(seconds=10)
