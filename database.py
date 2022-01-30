@@ -9,8 +9,10 @@ from models.user import User
 
 from utils import *
 
-class DatabaseException(Exception): 
+
+class DatabaseException(Exception):
     pass
+
 
 class Database:
     _difficulty        = 4
@@ -35,7 +37,7 @@ class Database:
 
     def __init__(self, *, verbose: bool = False):
         self.verbose    = verbose
-        self.users     : list[User] = []
+        self.users: list[User] = []
         self.blockchain: list[dict] = []
         self._init_db()
         self._load_balances()
@@ -95,7 +97,7 @@ class Database:
         if not self.is_blockchain_valid: 
             raise DatabaseException("blockchain is not valid")
 
-        #reset users
+        # reset users
         for user in self.users:
             if user.name != "bank":
                 user.amount = 0
@@ -168,7 +170,7 @@ class Database:
     def _block_hash(self, block: dict) -> str:
         return sha256(json.dumps(block).encode()).hexdigest()
     
-    def _mine(self, data: list[dict]) -> None:
+    def _mine(self, data: dict) -> None:
         prev_block = self.blockchain[-1]
         proof      = self._find_proof(prev_block)
         prev_hash  = self._block_hash(prev_block)
@@ -190,8 +192,8 @@ class Database:
 
     def _init_db(self) -> None:
         with open(self._users_file_name, 'r') as user_data_file:
-            for user_dict in json.load( user_data_file )["users"]:
-                self.users.append( User.from_dict(user_dict) )
+            for user_dict in json.load(user_data_file)["users"]:
+                self.users.append(User.from_dict(user_dict))
 
         with open(self._blockchain_file, "r") as blockchain_file:
             self.blockchain = json.load( blockchain_file )["blocks"]

@@ -82,22 +82,25 @@ def rgb(text: str, /, color: str | tuple | int, *, newline: bool = True) -> None
             >>> rgb("ipsum", "#00ff00", newline=False)
     """
     if type(color) == str:
-        color = tuple(int(color.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4))
+        color = tuple(int(color.lstrip("#")[i: i + 2], 16) for i in (0, 2, 4))
     
-    elif type(color) == tuple: pass
+    elif type(color) == tuple:
+        pass
 
     elif type(color) == int:
         blue  = color % 256
-        green = ( (color - blue) // 256 ) % 256
-        red   = ( (color - blue) // 256 ** 2 ) - green // 256
-        color = ( (red, green, blue) )
+        green = ((color - blue) // 256) % 256
+        red   = ((color - blue) // 256 ** 2) - green // 256
+        color = red, green, blue
     
-    else: raise Exception(f"invalid color {color}")
+    else:
+        raise Exception(f"invalid color {color}")
 
-    if sum(color) > 765: return
+    if sum(color) > 765:
+        return
 
     end = "\n" if newline else ""
     _color = f"\033[38;2;{color[0]};{color[1]};{color[2]}m"
     _end_char = "\033[0m"
 
-    print( _color + str(text) + _end_char, end=end )
+    print(_color + str(text) + _end_char, end=end)

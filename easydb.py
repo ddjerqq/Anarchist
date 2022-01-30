@@ -1,253 +1,165 @@
-
 import sqlite3
-import csv
-import json
-from datetime import datetime
-from hashlib import sha256
 
-from models.user import User
+import json
+
 from utils import *
 
 
-class DatabaseException(Exception):
-    pass
+def error(message: str) -> None:
+    rgb("[!] " + str(message), (255, 0, 0))
 
 
-class Database:
+def log(message: str) -> None:
+    rgb("[*] " + str(message).replace("[*]", ""), 0x00ffff)
+
+
+def warn(message: str) -> None:
+    rgb("[-] " + str(message), (255, 255, 0))
+
+
+class EasyDb:
     _difficulty = 4
-    # _blockchain_file = "data\\blockchain.json"
 
-    # _users_file_name = "data\\anarchist.json"
-    # _transactions_file = "data\\transactions.json"
-
-    # _blockchain_csv = "data\\blockchain.csv"
-    # _users_csv = "data\\blockchain.csv"
-
-    def log(self, message: str) -> None:
-        if self.verbose:
-            rgb("[*] " + str(message).replace("[*]", ""), 0x00ffff)
-
-    def warn(self, message: str) -> None:
-        if self.verbose:
-            rgb("[*] " + str(message), (255, 255, 0))
-
-    def error(self, message: str) -> None:
-        rgb("[*] " + str(message), (255, 0, 0))
-
-    def __init__(self, *, verbose: bool = False):
-        self.verbose = verbose
-        self.users: list[User] = []
-        self.blockchain: list[dict] = []
-        self._init_db()
-        self._load_balances()
+    def __init__(self):
+        self.connection = sqlite3.connect("data\\userdb.db")
+        self.cursor     = self.connection.cursor()
 
     # ---------------------------------------------------------------
 
-    def close(self) -> None:
-        self._save()
-        self.warn("closing database")
+    def give(self, sender_id, receiver_id, amount):
+        self.cursor.execute("""
+        SELECT * FROM users
+        WHERE id=?
+        """, (sender_id, ))
+        sender = list(self.cursor.fetchone())
 
-    def give(self, sender_id: int, receiver_id: int, amount: int) -> bool:
-        """
-        same as work
-        >>> give(bank, user, 50)
-        true on success
-        false on fail
-        """
-        if sender_id == "bank":
-            self[receiver_id] + amount
-            self._add_transaction(sender_id, receiver_id, amount)
-            return True
-        if round(amount) < self[sender_id].amount:
-            self[receiver_id] + amount
-            self[sender_id]   - amount
-            self._add_transaction(sender_id, receiver_id, amount)
-            return True
-        else:
+        self.cursor.execute("""
+        SELECT * FROM users
+        WHERE id=?
+        """, (receiver_id, ))
+        receiver = list(self.cursor.fetchone())
+
+        if sender[2] < amount:
             return False
-
-    def add_user(self, _id: int, name: str) -> None:
-        if _id in self:
-            raise DatabaseException(f"user {_id} already in database")
         else:
-            tmp_user = User(_id, name)
-            self.users.append(tmp_user)
-            self.log(f"added {tmp_user}")
+            sender[2]   -= amount
+            receiver[2] += amount
+            self.cursor.execute("""
+            UPDATE users 
+            SET money=?
+            WHERE id=?
+            """, (sender[2], sender_id))
+
+            self.cursor.execute("""
+            UPDATE users 
+            SET money=?
+            WHERE id=? 
+            """, (receiver[2], receiver_id))
+            return True
+
+    def get_user_money(self, _id: int) -> int:
+        self.cursor.execute("""
+        SELECT money FROM users
+        WHERE id=?
+        """, (_id,))
+        return self.cursor.fetchone()
+
+    def add_new_user(self, snowflake: int, username: str):
+        self.cursor.execute("""
+        INSERT INTO users(id, username) VALUES(?, ?);
+        """, (snowflake, username))
+        log(f"added {username} {snowflake}")
+
+    def save(self):
+        self.connection.commit()
+
+    def close(self):
+        self.connection.commit()
+        self.connection.close()
 
     def _load_balances(self) -> None:
-        if not self.is_blockchain_valid:
-            raise DatabaseException("blockchain is not valid")
+        self.cursor.execute("""
+        UPDATE money
+        SET money=0
+        WHERE id<>924293465997705286
+        """)
 
-        # reset users
-        for user in self.users:
-            if user.name != "bank":
-                user.amount = 0
-
-        for block in self.blockchain:
-            sender_id = block["data"]["sender_id"]
-            receiver_id = block["data"]["receiver_id"]
-            amount = block["data"]["amount"]
-
-            if not block["index"]:
-                self["bank"].amount = amount
-                continue
-
-            if not sender_id == "bank":
-                self[sender_id] - amount
-                self[receiver_id] + amount
-            else:
-                self[receiver_id] + amount
-
-        self.log("balances overwritten")
-
-    @property
-    def is_blockchain_valid(self) -> bool:
-        current_block = self.blockchain[0]
-        block_index = 1
-
-        while block_index < len(self.blockchain):
-            next_block = self.blockchain[block_index]
-            cur_hash_value = self._block_hash(current_block)
-
-            if next_block["prev_hash"] != cur_hash_value:
-                # TODO handle this
-                print(next_block["prev_hash"])
-                print(cur_hash_value)
-                self.error("previous hash does not match next hash")
-                return False
-            if cur_hash_value[:self._difficulty] != "0" * self._difficulty:
-                # TODO HANDLE THIS
-                print(cur_hash_value)
-                self.error("hash is not valid")
-                return False
-
-            current_block = next_block
-            block_index += 1
-
-        return True
-
-    def _create_block(self, data: list[dict], proof: int, prev_hash: str) -> dict:
-        block = {
-            "index": len(self.blockchain),
-            "data": data,
-            "proof": proof,
-            "prev_hash": prev_hash
-        }
-        return block
-
-    def _find_proof(self, block: dict) -> int:
-        """heavy operation"""
-        new_proof = 1
-        while True:
-            block["proof"] = new_proof
-            hash_value = self._block_hash(block)
-            if hash_value[:self._difficulty] == "0" * self._difficulty:
-                # print(hash_value) #DEBUG
-                return new_proof
-            else:
-                new_proof += 1
-
-    def _block_hash(self, block: dict) -> str:
-        return sha256(json.dumps(block).encode()).hexdigest()
-
-    def _mine(self, data: list[dict]) -> None:
-        # TODO REWRITE THIS SO IT WRITES IN DB
-        prev_block = self.blockchain[-1]
-        proof = self._find_proof(prev_block)
-        prev_hash = self._block_hash(prev_block)
-        block = self._create_block(data, proof, prev_hash)
-        self.blockchain.append(block)
-
-    def _add_transaction(self, sender_id: int | str, receiver_id: int | str, amount: int) -> None:
-        if not self.is_blockchain_valid:
-            raise DatabaseException("blockchain is not valid")
-        transaction = {
-            "timestamp": round(time.time()),
-            "sender_id": sender_id,
-            "receiver_id": receiver_id,
-            "amount": round(amount)
-        }
-        self._mine(transaction)
-
-        self.log(f"#{len(self.blockchain)} {self[sender_id].name} -> {self[receiver_id].name} : {round(amount)}")
-
-    def _init_db(self) -> None:
-        pass
-        # TODO Rewrite this
-        # with open(self._users_file_name, 'r') as user_data_file:
-        #     for user_dict in json.load(user_data_file)["users"]:
-        #         self.users.append(User.from_dict(user_dict))
+        # for block in self.blockchain:
+        #     sender_id = block["data"]["sender_id"]
+        #     receiver_id = block["data"]["receiver_id"]
+        #     amount = block["data"]["amount"]
         #
-        # with open(self._blockchain_file, "r") as blockchain_file:
-        #     self.blockchain = json.load(blockchain_file)["blocks"]
+        #     if not block["index"]:
+        #         self["bank"].amount = amount
+        #         continue
         #
-        # self.log(f"loaded {len(self.users)} users")
-
-    def _save(self) -> None:
-        pass
-        # TODO rewrite this to sql
-        # with open(self._users_file_name, "w") as data_file:
-        #     json.dump(
-        #         {"users": [user.dict for user in self.users]},
-        #         data_file,
-        #         indent=4
-        #     )
+        #     if not sender_id == "bank":
+        #         self[sender_id] - amount
+        #         self[receiver_id] + amount
+        #     else:
+        #         self[receiver_id] + amount
         #
-        # with open(self._blockchain_file, "w") as blockchain_file:
-        #     json.dump(
-        #         {"blocks": self.blockchain},
-        #         blockchain_file,
-        #         indent=4
-        #     )
-        #
-        # self.log("database saved")
+        # self.log("balances overwritten")
 
     # ----------------------------------------------------------------
     def __contains__(self, _id: int) -> bool:
-        # TODO rewrite this
-        for user in self.users:
-            if _id == user.id:
-                return True
-            else:
-                continue
+        self.cursor.execute("""
+        SELECT username FROM users
+        WHERE id=?
+        """, (_id,))
+
+        if self.cursor.fetchone():
+            return True
         else:
             return False
 
-    def __getitem__(self, _id: int) -> User:
-        # TODO rewrite this
-        if _id in self:
-            for user in self.users:
-                if user.id == _id:
-                    return user
-        else:
-            raise KeyError(f"Could not find user by id: {_id}")
+    def __getitem__(self, _id: int) -> tuple:
+        self.cursor.execute("""
+        SELECT * FROM users
+        WHERE id=?
+        """, (_id,))
+        return self.cursor.fetchone()
 
     def __enter__(self):
-        return self
+        return self.cursor
 
-    def __exit__(self, exc_type, exc_value, exc_tb) -> None:
-        if exc_type is not None:
-            self.error(exc_type)
-        if exc_value is not None:
-            self.error(exc_value)
-        if exc_tb is not None:
-            self.error(exc_tb)
-        self.close()
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if exc_type:
+            print(exc_type, exc_val, exc_tb, sep="\n")
+            self.close()
+        else:
+            self.save()
 
 
-database = Database(verbose=True)
+database = EasyDb()
 
 
-def test():
-    pass
-
+def migrate():
+    with database as c:
+        with open("data\\blockchain.json") as file:
+            data = json.load(file)["blocks"]
+            for b in data:
+                c.execute("""
+                INSERT INTO blocks
+                VALUES(?,?,?,?,?,?,?)
+                """, (
+                        b["index"],
+                        b["data"]["timestamp"],
+                        b["data"]["sender_id"],
+                        b["data"]["receiver_id"],
+                        b["data"]["amount"],
+                        b["proof"],
+                        b["prev_hash"]
+                    )
+                )
 
 if __name__ == '__main__':
     try:
-        test()
+        migrate()
     except KeyboardInterrupt:
         warn("keyboard interrupt")
     except Exception as e:
-        warn(e)
+        warn(str(type(e)))
+        warn(str(e))
     finally:
         database.close()
