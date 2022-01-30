@@ -66,7 +66,7 @@ class Information(commands.Cog):
         #guild_ids   = GUILD_IDS
     )
     async def _block(self, inter: ACI, *, block_id: int = None):
-        if block_id:
+        if block_id and block_id < len(database.blockchain):
             block = database.blockchain[block_id]
         else:
             block = database.blockchain[-1]
@@ -74,7 +74,6 @@ class Information(commands.Cog):
         await inter.send(embed = em)
 
     #TODO GET BLOCK BY ID FOR OPEN FREEDOM LAWS
-
     @commands.slash_command(
         name        = "help",
         description = "get help for commands",

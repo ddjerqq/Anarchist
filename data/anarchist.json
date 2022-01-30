@@ -3,7 +3,7 @@
         {
             "id": "bank",
             "name": "bank",
-            "amount": 1000000002268,
+            "amount": 1000000002468,
             "auth": "0",
             "notifications": false
         },
@@ -59,7 +59,7 @@
         {
             "id": 725773984808960050,
             "name": "ddjerqq",
-            "amount": 1948,
+            "amount": 1668,
             "auth": "e9d9651470afe7fb0e17f9784442d63491b79d8c7f0b476227d3d76c7f627700",
             "notifications": true
         },
@@ -731,7 +731,7 @@
         {
             "id": 711973930377805844,
             "name": "Alibadrijani",
-            "amount": 0,
+            "amount": 150,
             "auth": "0",
             "notifications": false
         },
@@ -1375,7 +1375,7 @@
         {
             "id": 674525313522335744,
             "name": "Kiryu Kazuma \u6850\u751f \u4e00\u99ac",
-            "amount": 49,
+            "amount": 199,
             "auth": "0",
             "notifications": true
         },
@@ -1871,7 +1871,7 @@
         },
         {
             "id": 900928128912879646,
-            "name": "\u26d3 .\ud835\udc15\ud835\udc15. \ud83d\udd78",
+            "name": "\u2671\u26a0 \u20b5\u2c67\u20b3\u00d8\u20b4 \u26a0\u2671",
             "amount": 0,
             "auth": null,
             "notifications": false
@@ -2068,6 +2068,20 @@
         {
             "id": 204678620399140865,
             "name": "schmutz.",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 679769367030136871,
+            "name": "Egrill Luver Jay",
+            "amount": 0,
+            "auth": null,
+            "notifications": false
+        },
+        {
+            "id": 931795276648288347,
+            "name": "speedrun.ban",
             "amount": 0,
             "auth": null,
             "notifications": false

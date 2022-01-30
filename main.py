@@ -38,12 +38,13 @@ ANARCHIST = """
 ╚═╝  ╚═╝ ╚═╝  ╚═══╝ ╚═╝  ╚═╝ ╚═╝  ╚═╝  ╚═════╝ ╚═╝  ╚═╝ ╚═╝ ╚══════╝    ╚═╝   
 """
 
-
+# noinspection PyTypeChecker
 client = commands.Bot(
-    command_prefix = PREFIX,
-    intents        = disnake.Intents.all(),
-    help_command   = None
+    command_prefix=PREFIX,
+    intents=disnake.Intents.all(),
+    help_command=None
 )
+
 
 def anarchist():
     for char in ANARCHIST:
@@ -52,15 +53,18 @@ def anarchist():
         else:
             rgb(char, 0xffffff, newline=False)
 
+
 def load_extensions():
     for i in os.listdir("cogs"):
         if not i.startswith("_"):
             client.load_extension(f"cogs.{i[:-3]}")
 
+
 def main():
     anarchist()
     load_extensions()
     client.run(TOKEN)
+
 
 if __name__ == "__main__":
     if not DEBUG:
