@@ -17,7 +17,7 @@ class Currency(commands.Cog):
     @commands.slash_command(
         name        = "bal",
         description = f"Get your, or someone else's balance",
-        #guild_ids   = GUILD_IDS
+        # guild_ids   = GUILD_IDS
     )
     async def _bal(self, inter: ApplicationCommandInteraction, user: disnake.Member = None):
         if not user:
@@ -47,7 +47,7 @@ class Currency(commands.Cog):
     @commands.slash_command(
         name        = "give",
         description = f"Give a user some coins, minimum transaction is 30 ⏣",
-        #guild_ids   = GUILD_IDS
+        # guild_ids   = GUILD_IDS
     )
     async def _give(self, inter: ApplicationCommandInteraction, user: disnake.Member, amount: int) -> None:
         em_minimum_transaction = disnake.Embed(
@@ -117,6 +117,7 @@ class Currency(commands.Cog):
             await ctx.send(embed=em_member_404)
         else:
             rgb(_error, 0xff0000)
+
 
 def setup(client):
     client.add_cog(Currency(client))

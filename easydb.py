@@ -153,6 +153,7 @@ def migrate():
                     )
                 )
 
+
 if __name__ == '__main__':
     try:
         migrate()
@@ -163,3 +164,4 @@ if __name__ == '__main__':
         warn(str(e))
     finally:
         database.close()
+
