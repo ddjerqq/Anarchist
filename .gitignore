@@ -9,6 +9,7 @@ testing.py
 useragents.py
 selfbot/selfbot.py
 ansishadow.flf
+database.py
 .idea/vcs.xml
 .idea/modules.xml
 .idea/misc.xml

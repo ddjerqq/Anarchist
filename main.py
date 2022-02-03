@@ -1,5 +1,3 @@
-# built-ins
-import os
 from itertools import cycle
 
 # 3rd party libraries
@@ -9,7 +7,7 @@ from disnake.ext import commands
 # local imports
 from utils import *
 from supersecrets import TOKEN
-from database import database
+from easydb import database
 
 DEBUG = False
 PREFIX = "?"
@@ -26,6 +24,7 @@ GUILD_IDS = [
     913003554225131530,
     930562118359588904,
     840836206483734530,
+    935160443943677992
     # 336642139381301249
 ]
 

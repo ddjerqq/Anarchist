@@ -2,9 +2,12 @@ import disnake
 from disnake.ext import commands
 from disnake.ext import tasks
 
-from database import database
+from disnake import ApplicationCommandInteraction as Aci
+
+from easydb import database
 from utils import *
-from __main__ import GUILD_IDS, STATUSES
+from __main__ import STATUSES
+# from __main__ import GUILD_IDS
 
 
 class EventsAndTasks(commands.Cog):
@@ -15,22 +18,39 @@ class EventsAndTasks(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        old_user_count = len(database.users)
+        new_user_count = 0
         for guild in self.client.guilds:
-            rgb(f"[========== ", 0xffff00, newline=False)
-            rgb(guild.name, 0xffffff, newline=False)
-            rgb(f" ==========]", 0xffff00)
+            rgb("[",   0xffffff, newline=False)
+            rgb("===", 0xff0000, newline=False)
+            rgb("] ",  0xffffff, newline = False)
+
+            rgb(guild.name, 0xffffff)
+            # noinspection PyTypeChecker
             async for member in guild.fetch_members(limit=None):
-                if member.bot: continue
+                if member.bot:
+                    continue
                 if member.id not in database:
                     database.add_user(member.id, member.name)
+                    new_user_count += 1
 
-                tmp_user = database[member.id]
-                if tmp_user.name != member.name:
-                    rgb(f"[^] {database[member.id].name}'s name updated to {member.name}", 0xffff00)
-                    database[member.id].name = member.name
+                with database as c:
+                    c.execute("""
+                    SELECT username FROM users
+                    WHERE id=?
+                    """, (member.id,))
+                    tmp_name = c.fetchone()[0]
+                    if tmp_name != member.name:
+                        c.execute("""
+                        UPDATE users
+                        SET username=?
+                        WHERE id=?
+                        """, (member.name, member.id))
+                        rgb(f"[^] {tmp_name}'s name changed to {member.name}", 0xffff00)
+                    else:
+                        continue
 
-        rgb(f"[+] added {len(database.users) - old_user_count} new users", 0xffff00)
+        rgb(f"[+] added {new_user_count} new users", 0xffff00)
+        del new_user_count
         rgb("[*] Bot is online", 0x00ff00)
 
     @tasks.loop(seconds=10)
@@ -46,9 +66,9 @@ class EventsAndTasks(commands.Cog):
     async def before_status_cycle(self):
         await self.client.wait_until_ready()
 
-    @tasks.loop(seconds=300)
+    @tasks.loop(seconds=30)
     async def save_database(self):
-        database._save()
+        database.update()
 
     @commands.Cog.listener()
     async def on_member_join(self, member: disnake.Member):
@@ -73,25 +93,27 @@ class EventsAndTasks(commands.Cog):
         print(type(error))
 
     @commands.Cog.listener()
-    async def on_slash_command_error( self, inter: disnake.ApplicationCommandInteraction, error ):
+    async def on_slash_command_error(self, inter: Aci, error):
         if isinstance(error, commands.errors.CommandOnCooldown):
             return
 
-        em = disnake.Embed(color=0xFF0000, title="unhandled error")
-        em.add_field(name="error:", value=error, inline=False)
-
+        em = disnake.Embed(
+            color=0xFF0000,
+            title="unhandled error",
+            description=str(error)
+        )
         await inter.send(embed=em)
 
         warn(error)
         print(type(error))
 
     @commands.Cog.listener()
-    async def on_user_command_error(self, inter: disnake.ApplicationCommandInteraction, error):
+    async def on_user_command_error(self, inter: Aci, error):
         if isinstance(error, commands.errors.CommandInvokeError):
             em = disnake.Embed(
                 color=0xFF0000, 
                 title="Error",
-                description="Bot do not have balances, dummy")
+                description="Bots do not have balances, dummy")
             await inter.send(embed=em)
         else:
             em = disnake.Embed(
@@ -102,5 +124,6 @@ class EventsAndTasks(commands.Cog):
         warn(error)
         print(type(error))
 
-def setup(client: disnake.Client):
+
+def setup(client):
     client.add_cog(EventsAndTasks(client))
