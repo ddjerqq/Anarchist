@@ -62,3 +62,26 @@ class LowerHigherGuessButton(ui.View):
                 return
         self.choice = "higher"
         self.stop()
+
+
+class BlackJackButton(ui.View):
+    def __init__(self, *, timeout: float = 180, intended_user: disnake.user.User = None):
+        super().__init__(timeout = timeout)
+        self.intended_user = intended_user
+        self.choice = None
+
+    @ui.button(label="hit", style=ButtonStyle.green)
+    async def _hit(self, button: Button, inter: MessageInteraction):
+        if self.intended_user:
+            if inter.author != self.intended_user:
+                return
+        self.choice = "hit"
+        self.stop()
+
+    @ui.button(label="stand", style=ButtonStyle.gray)
+    async def _stand(self, button: Button, inter: MessageInteraction):
+        if self.intended_user:
+            if inter.author != self.intended_user:
+                return
+        self.choice = "stand"
+        self.stop()

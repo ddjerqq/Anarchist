@@ -70,7 +70,6 @@ class EasyDb:
         UPDATE users
         SET money=0
         """)
-        log("balances cleared")
 
         # load users
         self.cursor.execute("""

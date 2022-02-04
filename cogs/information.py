@@ -29,15 +29,15 @@ class Information(commands.Cog):
             SELECT username, money FROM users
             WHERE id<>924293465997705286
             ORDER BY money DESC
-            LIMIT 16
+            LIMIT 15
             """)
             top15 = c.fetchall()
 
         for index, user in enumerate(top15):
             em.add_field(
-                name   = f"#{index} {user[0]}",
+                name   = f"#{index+1} {user[0]}",
                 value  = f"{user[1]} coins",
-                inline = False,
+                inline = False
             )
         await inter.send(embed=em)
     
@@ -47,12 +47,14 @@ class Information(commands.Cog):
         # guild_ids   = GUILD_IDS
     )
     async def _block(self, inter: Aci, *, block_id: int = None):
-        if block_id is not None:
-            block = Block.from_index(block_id, database)
-            if block is None:
-                block = Block.last_block(database)
-        else:
-            with database as c:
+        with database as c:
+            if block_id is not None:
+                c.execute("""
+                SELECT * FROM blockchain
+                WHERE id=?
+                """, (block_id,))
+                block = Block.from_db(c.fetchone())
+            else:
                 c.execute("""
                 SELECT * FROM blockchain
                 WHERE id=(SELECT MAX(id) FROM blockchain)
@@ -66,17 +68,14 @@ class Information(commands.Cog):
         em.add_field(
             name = "Sender",
             value = f"Name: {database[block.sender_id].username} \n`ID: {block.sender_id}`",
-            inline = True
         )
         em.add_field(
             name = "Receiver",
             value = f"Name: {database[block.receiver_id].username} \n`ID: {block.sender_id}`",
-            inline = True
         )
         em.add_field(
             name = "Amount",
             value = f"{block.amount} coins",
-            inline = True
         )
         em.add_field(
             name = "Previous hash",

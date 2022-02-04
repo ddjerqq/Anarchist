@@ -16,6 +16,7 @@ class EventsAndTasks(commands.Cog):
         self.save_database.start()
         self.status_cycle.start()
 
+
     @commands.Cog.listener()
     async def on_ready(self):
         new_user_count = 0
